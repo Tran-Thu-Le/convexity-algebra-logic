@@ -1,0 +1,443 @@
+\documentclass[11pt]{article}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{hyperref}
+\geometry{margin=2.5cm}
+
+\newtheoremstyle{plainlabel}{}{}{\itshape}{}{\bfseries}{.}{ }{}
+\theoremstyle{plainlabel}
+\newtheorem*{phatbieu}{Phát biểu}
+\newtheorem*{chungminh}{Chứng minh}
+\newtheorem*{remarkbox}{Remark (tầng dưới)}
+
+\title{Từ Convex Geometry đến Linear Logic:\\
+Kiến trúc Preepi và Đại số MALL trên Regepi\\
+\large Tài liệu tổng hợp: Propositions, Lemmas, Theorems}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+%============================================================
+\section{Giới thiệu}
+%============================================================
+
+Chương trình nghiên cứu này xuất phát từ một quan sát cấu trúc: \textbf{convex analysis} và \textbf{linear logic} thể hiện những mẫu hình đối ngẫu và toán tử đại số giống nhau đến mức khó là ngẫu nhiên.
+
+\begin{itemize}
+\item Trong convex analysis: liên hợp Fenchel $f\mapsto f^*$ là một đối hợp nghịch đảo thứ tự trên các hàm lồi đóng chính thường; epigraph kết hợp qua cộng điểm đóng và qua tích chập infimal đóng, hai phép này đối ngẫu nhau qua liên hợp.
+\item Trong linear logic: phủ định tuyến tính là một đối hợp nghịch đảo thứ tự trên công thức; hai connective nhân $\otimes$ và $⅋$ đối ngẫu nhau qua phủ định đó.
+\end{itemize}
+
+\textbf{Mục tiêu} của tài liệu này là dựng một đối tượng hình học trung gian — \emph{preepi}, một tập con tùy ý của không gian mở rộng $X_e$ — sao cho:
+\begin{enumerate}
+\item Các \emph{regepi} (preepi chính quy) tái tạo đúng lớp hàm lồi đóng chính thường của convex analysis;
+\item Đại số nội tại của regepi (sinh từ các toán tử nguyên thủy qua một phép chính quy hóa duy nhất) tái tạo đúng bốn tiên đề phân phối của MALL (multiplicative-additive linear logic) — \textbf{không phải bằng giả định}, mà như một \textbf{hệ quả được ép buộc} bởi chính đại số.
+\end{enumerate}
+
+Kiến trúc tổng thể theo kiểu Grothendieck, bốn tầng, mỗi tầng chỉ phụ thuộc tầng ngay dưới qua một phép tác động duy nhất:
+
+\begin{center}
+\begin{tabular}{cl}
+Level 0 & Không gian vector hữu hạn chiều \\
+$\downarrow$ & \\
+Level 1 & Hình học nguyên thủy: $\subseteq,\cap,\cup,+_{\mathrm{fib}},+_{\mathrm{sp}},{}^*,U,\mathcal F,C,T$ \\
+$\downarrow (\cdot)^{**}$ & \emph{(regularization)} \\
+Level 2 & Đại số chính: $\le,\wedge,\vee,\triangle,\bigtriangledown,{}^*$ \\
+$\downarrow$ & \\
+Level 3 & Linear Logic: with, plus, tensor, par (biểu diễn MALL) \\
+\end{tabular}
+\end{center}
+
+Điểm mấu chốt của kiến trúc: \textbf{Level 3 chỉ là một cách đọc ở cuối chuỗi}, không chi phối định nghĩa hay tên gọi của Level 1, 2. Việc ``ai là tensor, ai là par'' được xác định \emph{sau}, như hệ quả của các định lý phân phối ở Level 2 — không phải giả định đưa vào từ đầu.
+
+Tài liệu này trình bày toàn bộ chuỗi chứng minh theo ba tầng phụ trợ: \textbf{Propositions} (Section~\ref{sec:props}, thuần Level~0/1, không cần cấu trúc regepi), \textbf{API Lemmas} (Section~\ref{sec:lemmas}, cầu nối Level~1$\to$2), và \textbf{Theorems} (Section~\ref{sec:theorems}, thuần Level~2, các tiên đề tương ứng MALL).
+
+%============================================================
+\section{Khái niệm ở các tầng}
+%============================================================
+
+\subsection{Tầng Hình học (Level 0--1)}
+
+Cố định $X:=\mathbb R^n$, $\overline{\mathbb R}:=[-\infty,+\infty]$, $X_e:=X\times\overline{\mathbb R}$, với \textbf{quy ước Rockafellar}: $(+\infty)+(-\infty):=+\infty$.
+
+\textbf{Preepi}: một tập con $E\subseteq X_e$ \emph{tùy ý}, không đòi hỏi lồi hay đóng. Với $x\in X$, thớ $E_x:=\{r\in\overline{\mathbb R}:(x,r)\in E\}$.
+
+\textbf{Bốn closure nguyên thủy} (Claim 2 của tài liệu gốc):
+\[
+U(E):=\{(x,r'):\exists r\le r',(x,r)\in E\}\ \text{(upward)}, \qquad
+\mathcal F(E):=\{(x,r):r\in\mathrm{cl}(E_x)\}\ \text{(fiber)},
+\]
+\[
+C(E):=\mathrm{conv}(E)\ \text{(convex)}, \qquad T(E):=\mathrm{cl}(E)\ \text{(topological)}.
+\]
+
+\textbf{Regepi}: $E$ với $U(E)=\mathcal F(E)=C(E)=T(E)=E$; $\mathbb X:=\{E:E\text{ là regepi}\}$. Mỗi $E\in\mathbb X$ có dạng $E_x=[e(x),+\infty]$ với $e:X\to\overline{\mathbb R}$.
+
+\textbf{Bốn toán tử nguyên thủy}:
+\[
+\cap,\ \cup \ \text{(tập hợp chuẩn)}, \qquad
+E+_{\mathrm{fib}}F:=\{(x,r+s):(x,r)\in E,(x,s)\in F\}\ \text{(fiber sum)},
+\]
+\[
+E+_{\mathrm{sp}}F:=\{(x_1+x_2,r_1+r_2):(x_1,r_1)\in E,(x_2,r_2)\in F\}\ \text{(spatial sum)}.
+\]
+
+\textbf{Fenchel polarity}: $E^*:=\{(y,s)\in X_e:\langle x,y\rangle\le r+s\ \forall(x,r)\in E\}$, định nghĩa cho mọi preepi.
+
+\subsection{Tầng Đại số (Level 2, cầu nối)}
+
+\textbf{Bipolar closure} $R(E):=E^{**}=(E^*)^*$ — phép duy nhất đưa Level~1 sang Level~2.
+
+\textbf{Bốn main operator}:
+\[
+E\wedge F:=E\cap F\ (\text{meet}), \qquad E\vee F:=(E\cup F)^{**}\ (\text{join}),
+\]
+\[
+E\triangle F:=(E+_{\mathrm{fib}}F)^{**}\ (\textbf{Fibor}), \qquad E\bigtriangledown F:=(E+_{\mathrm{sp}}F)^{**}\ (\textbf{Spator}).
+\]
+
+Polar ở Level~2 là cùng phép $(\cdot)^*$, thu hẹp trên $\mathbb X$ — nơi nó là đối hợp đầy đủ: $E^{**}=E$.
+
+Đơn vị: $1_\wedge:=X\times\overline{\mathbb R}$, $1_\vee:=X\times\{+\infty\}$, $1_\triangle:=X\times[0,+\infty]$, $1_{\bigtriangledown}:=(\{0\}\times[0,+\infty])\cup((X\setminus\{0\})\times\{+\infty\})$.
+
+\subsection{Tầng Logic — MALL (Level 3)}
+
+Multiplicative-Additive Linear Logic (MALL) là mảnh của linear logic Girard giữ lại bốn connective nhị nguyên $\otimes,⅋,\&,\oplus$, đơn vị của chúng, và phủ định tuyến tính, bỏ các modality mũ $!,?$.
+
+\textbf{Đối chiếu ký hiệu Girard $\leftrightarrow$ Paoli $\leftrightarrow$ preepi}:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Girard & Paoli (tài liệu dùng) & preepi \\
+\midrule
+tensor, $\otimes$ & tensor, $\otimes$ & $\bigtriangledown$ (Spator) \\
+par, $⅋$ & par, $\oplus$ & $\triangle$ (Fibor) \\
+with, $\&$ & with, $\wedge$ & $\wedge$ (meet) \\
+plus, $\oplus$ & plus, $\vee$ & $\vee$ (join) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Bốn luật phân phối chuẩn của MALL} (Girard):
+\[
+A\otimes(B\oplus C)\equiv(A\otimes B)\oplus(A\otimes C), \qquad
+(A\oplus B)\otimes C\equiv(A\otimes C)\oplus(B\otimes C),
+\]
+\[
+A⅋(B\,\&\,C)\equiv(A⅋B)\,\&\,(A⅋C), \qquad
+(A\,\&\,B)⅋C\equiv(A⅋C)\,\&\,(B⅋C).
+\]
+
+Dịch sang preepi (tensor$\to\bigtriangledown$, par$\to\triangle$, with$\to\wedge$, plus$\to\vee$): bốn luật này chính là \textbf{T7--T10} ở Section~\ref{sec:theorems}, và \textbf{gán tensor$\leftrightarrow\bigtriangledown$, par$\leftrightarrow\triangle$ được ép buộc bởi kết quả đại số}, không phải giả định ban đầu — xem thảo luận cuối Section~\ref{sec:theorems}.
+
+%============================================================
+\section{Bảng tổng hợp sáu khối}
+%============================================================
+
+Sáu khối tối thiểu cần cho một mô hình MALL: ba khối ``vật liệu'' (Join\&Meet, Fibor\&Spator, Polar) và ba khối ``quan hệ'' nối từng cặp.
+
+\begin{longtable}{p{2.6cm}p{5.3cm}p{2.6cm}p{4.5cm}}
+\toprule
+\textbf{Khối} & \textbf{Theorem / Tiên đề} & \textbf{Lemma} & \textbf{Proposition + Trạng thái} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Khối} & \textbf{Theorem / Tiên đề} & \textbf{Lemma} & \textbf{Proposition + Trạng thái} \\
+\midrule
+\endhead
+
+\textbf{B1. Join \& Meet} & T1: idempotent $\wedge,\vee$ & L.C ($\vee$ phần) & Prop 1,2,3 -- \checkmark hoàn tất (kèm nguyên thủy $\cap$) \\
+ & T2: giao hoán $\wedge,\vee$ & L.C & Prop 1,2,3 -- \checkmark \\
+ & T3: kết hợp $\wedge,\vee$ & L.C, L.D, L.A & Prop 1,2,3 -- \checkmark \\
+ & T4: hấp thụ & L.A (qua Prop 1) & Prop 1 -- \checkmark \\
+ & T5: tương thích thứ tự & L.C, T4 & Prop 1 -- \checkmark \\
+\midrule
+\textbf{B2. Fibor \& Spator} & T0: đơn điệu $\triangle,\bigtriangledown$ & -- (nguyên thủy) & Prop 3 -- \checkmark \\
+ & T2: giao hoán $\triangle,\bigtriangledown$ & L.G & Prop 6 -- \checkmark \\
+ & T11 (M1): kết hợp $\triangle$ & L.H, L.I & Prop 7, Prop 9+10 -- \checkmark/\textbf{\S} \\
+ & T12 (M2): đơn vị $\triangle$ & -- (nguyên thủy) & -- \checkmark \\
+ & T13 (M3): kết hợp+đơn vị $\bigtriangledown$ & P.U, T11, T12, L.UD & kế thừa T11 -- \checkmark/\textbf{\S} \\
+\midrule
+\textbf{B3. Polar} & T6: đối hợp phản biến trên $\mathbb X$ & L.A, L.E & Prop 1,2 -- \checkmark \\
+\midrule
+\textbf{B4. Polar $\leftrightarrow$ Join/Meet} & L.B: $(E\cup F)^*=E^*\cap F^*$ & (chính là lemma) & trực tiếp định nghĩa -- \checkmark \\
+ & L.C: $E\vee F=(E^*\wedge F^*)^*$ & L.A, L.B & Prop 1,2 -- \checkmark \\
+ & L.UD phần 1: $1_\wedge^*=1_\vee$ & (chính là lemma) & trực tiếp định nghĩa -- \checkmark \\
+\midrule
+\textbf{B5. Polar $\leftrightarrow$ Fibor/Spator} & L.F: $(E+_{\mathrm{sp}}F)^*=E^*+_{\mathrm{fib}}F^*$ & (chính là lemma) & Prop 4, Prop 5 -- \checkmark \\
+ & P.U: $E\bigtriangledown F=(E^*\triangle F^*)^*$ & L.A, L.F & Prop 1,2,4,5 -- \checkmark \\
+ & L.UD phần 2: $1_\triangle^*=1_{\bigtriangledown}$ & (chính là lemma) & trực tiếp định nghĩa -- \checkmark \\
+\midrule
+\textbf{B6. Fibor/Spator $\leftrightarrow$ Join/Meet} & T7 (D1): $\triangle$ qua $\wedge$ & L.MP, L.D, L.I & Prop 8, Prop 1,3, Prop 9+10 -- \checkmark/\textbf{\S} \\
+ & T8 (D2): $\bigtriangledown$ qua $\vee$ & L.C, P.U, T7 & kế thừa T7 -- \checkmark \\
+ & T9 (D3): $\triangle$ qua $\vee$ \textbf{thất bại} & T0, T4/T5 (chiều $\subseteq$) & hàm số cụ thể (phản ví dụ) -- \checkmark \\
+ & T10 (D4): $\bigtriangledown$ qua $\wedge$ \textbf{thất bại} & L.C, P.U (đối ngẫu T9) & hàm số cụ thể (phản ví dụ) -- \checkmark \\
+\bottomrule
+\caption{Sáu khối, theorem/lemma/proposition tương ứng. Ký hiệu \textbf{\S} đánh dấu các mục kế thừa điều kiện "proper" từ Prop 10 (xem Remark của L.I, T11).}
+\end{longtable}
+
+%============================================================
+\section{Chứng minh các Propositions}
+\label{sec:props}
+%============================================================
+
+Các Proposition dưới đây chỉ dùng $\subseteq,{}^*,{}^{**},U,\mathcal F,C,T,\cap,\cup,+_{\mathrm{fib}},+_{\mathrm{sp}}$, cộng các sự kiện Level~0 (số học $\overline{\mathbb R}$ dưới quy ước Rockafellar, song tuyến của $\langle\cdot,\cdot\rangle$).
+
+\subsubsection*{Prop 1 --- Mở rộng của polar}
+\begin{phatbieu} Với mọi preepi $E$: $E\subseteq E^{**}$. \end{phatbieu}
+\begin{chungminh} Lấy $(x,r)\in E$. Với mọi $(y,s)\in E^*$, theo định nghĩa $E^*$ (áp cho chính $(x,r)\in E$): $\langle x,y\rangle\le r+s$. Vậy $(x,r)\in E^{**}$. \end{chungminh}
+
+\subsubsection*{Prop 2 --- Phản biến của polar}
+\begin{phatbieu} $A\subseteq B\implies B^*\subseteq A^*$. \end{phatbieu}
+\begin{chungminh} $(y,s)\in B^*$ nghĩa là bất đẳng thức định nghĩa đúng với mọi $(x,r)\in B$, do đó đúng với mọi $(x,r)\in A\subseteq B$, tức $(y,s)\in A^*$. \end{chungminh}
+
+\subsubsection*{Prop 3 --- Đơn điệu của bipolar}
+\begin{phatbieu} $A\subseteq B\implies A^{**}\subseteq B^{**}$. \end{phatbieu}
+\begin{chungminh} Áp Prop~2 hai lần: $A\subseteq B\Rightarrow B^*\subseteq A^*\Rightarrow A^{**}\subseteq B^{**}$. \end{chungminh}
+
+\subsubsection*{Prop 4 --- Song tuyến của cặp ghép (Level 0)}
+\begin{phatbieu} $\langle x_1+x_2,y\rangle=\langle x_1,y\rangle+\langle x_2,y\rangle$ với mọi $x_1,x_2,y\in X$. \end{phatbieu}
+\begin{chungminh} Tiên đề tích trong Euclid trên $X=\mathbb R^n$; input Level~0, không phải hệ quả cấu trúc preepi. \end{chungminh}
+
+\subsubsection*{Prop 5 --- Sup cộng tính trên biến độc lập}
+\begin{phatbieu} $\displaystyle\sup_{a,b}(f(a)+g(b))=\sup_a f(a)+\sup_b g(b)$. \end{phatbieu}
+\begin{chungminh} Sự kiện chuẩn của $\sup$ trên tích hai tập, dùng quy ước Rockafellar khi các sup bằng $\pm\infty$. \end{chungminh}
+
+\subsubsection*{Prop 6 --- Giao hoán của phép cộng (Level 0)}
+\begin{phatbieu} $x_1+x_2=x_2+x_1$ trên $X$; $r+s=s+r$ trên $\overline{\mathbb R}$ (kể cả dưới quy ước Rockafellar). \end{phatbieu}
+\begin{chungminh} Trực tiếp từ định nghĩa đối xứng của quy ước $(+\infty)+(-\infty)=(-\infty)+(+\infty):=+\infty$. \end{chungminh}
+
+\subsubsection*{Prop 7 --- Kết hợp tính của phép cộng mở rộng (= L.H)}
+\begin{phatbieu} $(r+s)+t=r+(s+t)$ với mọi $r,s,t\in\overline{\mathbb R}$. \end{phatbieu}
+\begin{chungminh} Viết công thức tường minh ba biến: tổng $=+\infty$ nếu có ít nhất một số hạng $+\infty$; $=-\infty$ nếu không có $+\infty$ nhưng có $-\infty$; $=$ tổng thường nếu cả ba hữu hạn. Công thức này không phụ thuộc cách nhóm ngoặc. \end{chungminh}
+
+\subsubsection*{Prop 8 --- Phân phối max--plus (= L.MP)}
+\begin{phatbieu} $t+\max(a,b)=\max(t+a,t+b)$ với mọi $t,a,b\in\overline{\mathbb R}$. \end{phatbieu}
+\begin{chungminh} $t$ hữu hạn: luật cộng thường. $t=+\infty$: cả ba đại lượng $=+\infty$. $t=-\infty$: nếu $\max(a,b)=+\infty$ cả hai vế $=+\infty$; ngược lại cả hai vế $=-\infty$. \end{chungminh}
+
+\subsubsection*{Prop 9 --- Đóng dưới $U$ tương thích với fiber sum (thuần primitive)}
+\begin{phatbieu} Nếu $U(A)=A,U(B)=B$ thì $U(A+_{\mathrm{fib}}B)=A+_{\mathrm{fib}}B$. \end{phatbieu}
+\begin{chungminh} Chiều $\supseteq$: tự động ($U$ luôn mở rộng). Chiều $\subseteq$: lấy $(x,r')\in U(A+_{\mathrm{fib}}B)$, tồn tại $r\le r'$, $(x,r)\in A+_{\mathrm{fib}}B$, viết $r=a+b$. Đặt $a':=a+(r'-r)\ge a$, $b':=b$. Vì $U(A)=A$: $(x,a)\in A,a'\ge a\Rightarrow(x,a')\in A$. Và $a'+b'=r'$. Vậy $(x,r')\in A+_{\mathrm{fib}}B$. \end{chungminh}
+
+\subsubsection*{Prop 10 --- Đóng dưới $\mathcal F,C,T$ tương thích với fiber sum (\textbf{có điều kiện})}
+\begin{phatbieu} Nếu $A,B\in\mathbb X$ với hàm đại diện $a,b$ \emph{proper} (không nhận $-\infty$), lồi, lsc, thì $\mathcal F(A+_{\mathrm{fib}}B)=C(A+_{\mathrm{fib}}B)=T(A+_{\mathrm{fib}}B)=A+_{\mathrm{fib}}B$. \end{phatbieu}
+\begin{chungminh} $h:=a+b$ lồi (tổng hàm lồi). Lsc: với $x_n\to x$, vì $a,b$ proper nên không gặp dạng $\infty-\infty$, do đó $\liminf(a(x_n)+b(x_n))\ge\liminf a(x_n)+\liminf b(x_n)\ge a(x)+b(x)$ luôn đúng. \end{chungminh}
+\begin{remarkbox}
+Đây \textbf{không phải} một proposition thuần primitive: nó dùng biểu diễn hàm số $a,b$ (tương ứng $\mathbb X\leftrightarrow\Gamma_0(X)$), một sự kiện mà tài liệu gốc (Claim~3) ghi nhận là \emph{``left open''}. Giả thiết \emph{proper} là cần thiết: một phản ví dụ (chuỗi $r_n\to+\infty,s_n\to-\infty$ với $r_n+s_n$ hội tụ về một giá trị hữu hạn) cho thấy bất đẳng thức $\liminf$ superadditive có thể thất bại khi cho phép $-\infty$. Đây là lỗ hổng thật, hẹp và cụ thể, chưa đóng.
+\end{remarkbox}
+
+%============================================================
+\section{Chứng minh các API Lemmas}
+\label{sec:lemmas}
+%============================================================
+
+\subsubsection*{L.A --- Tam polar bất động}
+\begin{phatbieu} $E^{***}=E^*$ với mọi preepi $E$. \end{phatbieu}
+\begin{chungminh} Prop~1 cho $E$: $E\subseteq E^{**}$. Áp Prop~2: $(E^{**})^*\subseteq E^*$, tức $E^{***}\subseteq E^*$. Ngược lại, Prop~1 áp cho $E^*$: $E^*\subseteq(E^*)^{**}=E^{***}$. Vậy $E^{***}=E^*$. \end{chungminh}
+\emph{Hệ quả:} $E^*\in\mathrm{Fix}((\cdot)^{**})$ với mọi preepi $E$.
+
+\subsubsection*{L.B --- Polar của hợp}
+\begin{phatbieu} $(E\cup F)^*=E^*\cap F^*$. \end{phatbieu}
+\begin{chungminh} $(y,s)\in(E\cup F)^*\iff$ đúng với mọi $(x,r)\in E$ \emph{và} mọi $(x,r)\in F\iff(y,s)\in E^*\cap F^*$ (quantifier tách qua $\vee$). \end{chungminh}
+
+\subsubsection*{L.C --- Join là đối ngẫu bipolar của meet}
+\begin{phatbieu} $E\vee F=(E^*\wedge F^*)^*$. \end{phatbieu}
+\begin{chungminh} $E\vee F:=(E\cup F)^{**}=((E\cup F)^*)^*\overset{\text{L.B}}{=}(E^*\cap F^*)^*=(E^*\wedge F^*)^*$. \end{chungminh}
+
+\subsubsection*{L.D --- Đóng dưới giao của điểm bất động}
+\begin{phatbieu} Nếu $A^{**}=A,B^{**}=B$ thì $(A\cap B)^{**}=A\cap B$. \end{phatbieu}
+\begin{chungminh} $\supseteq$: Prop~1. $\subseteq$: $A\cap B\subseteq A\overset{\text{Prop 3}}{\Rightarrow}(A\cap B)^{**}\subseteq A^{**}=A$; tương tự $\subseteq B$. \end{chungminh}
+
+\subsubsection*{L.E --- Đơn ánh của polar trên $\mathbb X$}
+\begin{phatbieu} $A,B\in\mathbb X, A^*=B^*\implies A=B$. \end{phatbieu}
+\begin{chungminh} $A=A^{**}=(A^*)^*=(B^*)^*=B^{**}=B$. \end{chungminh}
+
+\subsubsection*{L.F --- Polar của spatial sum}
+\begin{phatbieu} $(E+_{\mathrm{sp}}F)^*=E^*+_{\mathrm{fib}}F^*$. \end{phatbieu}
+\begin{chungminh}
+$\supseteq$: nếu $(y,s_1)\in E^*,(y,s_2)\in F^*$, cộng hai bất đẳng thức định nghĩa, dùng Prop~4: $\langle x_1+x_2,y\rangle\le r_1+r_2+(s_1+s_2)$, nên $(y,s_1+s_2)\in(E+_{\mathrm{sp}}F)^*$.
+
+$\subseteq$: viết $e^*(y):=\sup_{(x,r)\in E}(\langle x,y\rangle-r)$, tương tự $f^*(y)$. Nếu $(y,s)\in(E+_{\mathrm{sp}}F)^*$: dùng Prop~4 để tách $\langle x_1+x_2,y\rangle-r_1-r_2=(\langle x_1,y\rangle-r_1)+(\langle x_2,y\rangle-r_2)\le s$; lấy sup độc lập (Prop~5): $e^*(y)+f^*(y)\le s$, tức $(y,s)\in E^*+_{\mathrm{fib}}F^*$.
+\end{chungminh}
+
+\subsubsection*{L.G --- Giao hoán}
+\begin{phatbieu} $E+_{\mathrm{fib}}F=F+_{\mathrm{fib}}E$, $E+_{\mathrm{sp}}F=F+_{\mathrm{sp}}E$. \end{phatbieu}
+\begin{chungminh} Trực tiếp từ Prop~6 áp cho định nghĩa từng phép cộng. \end{chungminh}
+
+\subsubsection*{L.H --- Kết hợp của phép cộng mở rộng}
+Chính là \textbf{Prop~7}, dùng lại nguyên vẹn.
+
+\subsubsection*{L.MP --- Bổ đề max-plus}
+Chính là \textbf{Prop~8}, dùng lại nguyên vẹn.
+
+\subsubsection*{L.I --- Fiber sum của hai regepi tự động là regepi}
+\begin{phatbieu} $A,B\in\mathbb X\implies A+_{\mathrm{fib}}B\in\mathbb X$. \end{phatbieu}
+\begin{chungminh} Thành phần $U$: chính \textbf{Prop~9}, hoàn tất vô điều kiện. Thành phần $\mathcal F,C,T$: chính \textbf{Prop~10}, đúng với điều kiện $a,b$ proper. \end{chungminh}
+\begin{remarkbox}
+Kế thừa nguyên vẹn caveat của Prop~10: L.I hoàn tất cho lớp con proper của $\mathbb X$; trường hợp improper (như $1_\wedge$) chưa được xác nhận hay bác bỏ.
+\end{remarkbox}
+
+\subsubsection*{L.UD --- Đơn vị đối ngẫu}
+\begin{phatbieu} $1_\wedge^*=1_\vee$; $\ 1_\triangle^*=1_{\bigtriangledown}$. \end{phatbieu}
+\begin{chungminh}
+Phần 1: $(y,s)\in1_\wedge^*\iff\langle x,y\rangle\le r+s\ \forall x,\forall r\in\overline{\mathbb R}$; lấy $r=-\infty$ buộc $s=+\infty$ (nếu $s<+\infty$, vế phải $=-\infty$, bất đẳng thức vô lý vì $\langle x,y\rangle$ hữu hạn); ngược lại $s=+\infty$ luôn thỏa. Vậy $1_\wedge^*=X\times\{+\infty\}=1_\vee$.
+
+Phần 2: $(y,s)\in1_\triangle^*\iff\langle x,y\rangle\le r+s\ \forall x,\forall r\in[0,+\infty]$; ràng buộc chặt nhất tại $r=0$: $\langle x,y\rangle\le s\ \forall x$. Nếu $y\neq0$, vế trái không chặn trên, buộc $s=+\infty$; nếu $y=0$, cần $s\ge0$. Vậy $1_\triangle^*=1_{\bigtriangledown}$.
+\end{chungminh}
+\emph{Hệ quả (L.A):} $1_{\bigtriangledown}^*=(1_\triangle^*)^*=1_\triangle^{**}=1_\triangle$ (vì $1_\triangle\in\mathbb X$, hàm hằng $0$).
+
+\subsubsection*{P.U --- Mệnh đề hợp nhất: Spator là đối ngẫu bipolar của Fibor}
+\begin{phatbieu} $E\bigtriangledown F=(E^*\triangle F^*)^*$. \end{phatbieu}
+\begin{chungminh}
+Áp L.F: $(E+_{\mathrm{sp}}F)^*=E^*+_{\mathrm{fib}}F^*$. Vậy
+\[
+E\bigtriangledown F=(E+_{\mathrm{sp}}F)^{**}=((E+_{\mathrm{sp}}F)^*)^*=(E^*+_{\mathrm{fib}}F^*)^*\overset{\text{L.A}}{=}((E^*+_{\mathrm{fib}}F^*)^{**})^*=(E^*\triangle F^*)^*.
+\]
+\end{chungminh}
+\emph{Hệ quả:} $\{\wedge,\vee,\triangle,\bigtriangledown\}$ chỉ có hai bậc tự do ở Level~1 ($\cap$ hay $\cup$; $+_{\mathrm{fib}}$ hay $+_{\mathrm{sp}}$) — $\vee,\bigtriangledown$ là đối ngẫu bipolar tự động.
+
+%============================================================
+\section{Chứng minh các Theorems tầng đại số}
+\label{sec:theorems}
+%============================================================
+
+Chỉ dùng $\wedge,\vee,\triangle,\bigtriangledown,(\cdot)^{**}$ và API Lemmas L.A--L.UD, P.U. Remark ghi nhận mọi chỗ cần đi xuống tầng dưới.
+
+\subsubsection*{T0 --- Đơn điệu của $\triangle,\bigtriangledown$}
+\begin{phatbieu} $F\subseteq F'\implies E\triangle F\subseteq E\triangle F'$ và $E\bigtriangledown F\subseteq E\bigtriangledown F'$. \end{phatbieu}
+\begin{chungminh} $F\subseteq F'\Rightarrow E+_{\mathrm{fib}}F\subseteq E+_{\mathrm{fib}}F'$ (trực tiếp); áp $(\cdot)^{**}$ đơn điệu (Prop~3). Tương tự $+_{\mathrm{sp}}$. \end{chungminh}
+\begin{remarkbox} Dùng trực tiếp định nghĩa nguyên thủy $+_{\mathrm{fib}},+_{\mathrm{sp}}$ và Prop~3 (không phải một API lemma độc lập). \end{remarkbox}
+
+\subsubsection*{T1 --- Idempotence của $\wedge,\vee$}
+\begin{phatbieu} $E\wedge E=E$, $E\vee E=E$. \end{phatbieu}
+\begin{chungminh} $E\wedge E=E\cap E=E$. $E\vee E\overset{\text{L.C}}{=}(E^*\cap E^*)^*=(E^*)^{*}=E^{**}=E$. \end{chungminh}
+\begin{remarkbox} Dùng idempotent nguyên thủy của $\cap$. \end{remarkbox}
+
+\subsubsection*{T2 --- Giao hoán của $\wedge,\vee,\triangle,\bigtriangledown$}
+\begin{chungminh} $\triangle,\bigtriangledown$: chính L.G. $\wedge$: giao hoán nguyên thủy của $\cap$. $\vee$: $E\vee F\overset{\text{L.C}}=(E^*\wedge F^*)^*=(F^*\wedge E^*)^*\overset{\text{L.C}}=F\vee E$. \end{chungminh}
+\begin{remarkbox} Phần $\wedge$ dùng giao hoán nguyên thủy của $\cap$. \end{remarkbox}
+
+\subsubsection*{T3 --- Kết hợp tính của $\wedge,\vee$}
+\begin{chungminh} $\wedge$: kết hợp nguyên thủy của $\cap$. $\vee$: trước hết $(E\vee F)^*=E^*\wedge F^*$ (áp $*$ lên L.C, dùng L.D vì $E^*,F^*\in\mathbb X$); rồi $(E\vee F)\vee G\overset{\text{L.C}}=((E^*\wedge F^*)\wedge G^*)^*=(E^*\wedge F^*\wedge G^*)^*=E\vee(F\vee G)$. \end{chungminh}
+\begin{remarkbox} Kết hợp nguyên thủy của $\cap$ dùng ở cả hai phần. \end{remarkbox}
+
+\subsubsection*{T4 --- Hấp thụ}
+\begin{phatbieu} $E\wedge(E\vee F)=E$, $E\vee(E\wedge F)=E$. \end{phatbieu}
+\begin{chungminh} $E\subseteq E\cup F\subseteq(E\cup F)^{**}=E\vee F$ (Prop~1) $\Rightarrow E\wedge(E\vee F)=E$. Với phần 2: $E\wedge F\subseteq E\Rightarrow$(T0)$\ E\vee(E\wedge F)\subseteq E\vee E\overset{\text{T1}}=E$; và $E\subseteq E\vee(E\wedge F)$ (lại Prop~1). \end{chungminh}
+\begin{remarkbox} Dùng Prop~1 trực tiếp (thành phần bên trong L.A, không phải bản thân L.A). \end{remarkbox}
+
+\subsubsection*{T5 --- Tương thích thứ tự với $\wedge,\vee$}
+\begin{phatbieu} $E\subseteq F\iff E\wedge F=E\iff E\vee F=F$ (trên $\mathbb X$). \end{phatbieu}
+\begin{chungminh} Phần $\wedge$: sơ cấp ($E\cap F=E\iff E\subseteq F$). Phần $\vee$: $F\subseteq E\vee F$ (Prop~1); nếu $E\subseteq F$, T0 cho $E\vee F\subseteq F\vee F\overset{\text{T1}}=F$, nên $E\vee F=F$; ngược lại nếu $E\vee F=F$: $E\subseteq E\cup F\subseteq(E\cup F)^{**}=F$ (Prop~1). \end{chungminh}
+\begin{remarkbox} Phần $\vee$ dùng Prop~1 và T0. \end{remarkbox}
+
+\subsubsection*{T6 --- Polar là song ánh nghịch đảo thứ tự trên $\mathbb X$}
+\begin{chungminh} $(\cdot)^*:\mathbb X\to\mathbb X$ là đối hợp (L.A hệ quả + định nghĩa $\mathbb X$), đơn ánh (L.E), phản biến (Prop~2). \end{chungminh}
+\begin{remarkbox} Phản biến dùng Prop~2 trực tiếp. \end{remarkbox}
+
+\subsubsection*{T7 (= D1) --- Fibor phân phối qua Meet}
+\begin{phatbieu} $E\triangle(F\wedge G)=(E\triangle F)\wedge(E\triangle G)$, $\forall E,F,G\in\mathbb X$. \end{phatbieu}
+\begin{chungminh}
+Viết qua hàm $e,f,g$. Theo L.MP: $e(x)+\max(f(x),g(x))=\max(e(x)+f(x),e(x)+g(x))$ với mọi $x$, cho đẳng thức tập hợp $E+_{\mathrm{fib}}(F\wedge G)=(E+_{\mathrm{fib}}F)\cap(E+_{\mathrm{fib}}G)$. Đặt $A:=E+_{\mathrm{fib}}F,B:=E+_{\mathrm{fib}}G\in\mathbb X$ (L.I). Áp L.D:
+\[
+E\triangle(F\wedge G)=(A\cap B)^{**}\overset{\text{L.D}}{=}A\cap B=A^{**}\cap B^{**}=(E\triangle F)\wedge(E\triangle G).
+\]
+\end{chungminh}
+\begin{remarkbox} Bước dịch qua thớ hàm số $e,f,g$ dùng biểu diễn nguyên thủy trực tiếp. L.I được dùng nguyên vẹn kèm điều kiện proper. \end{remarkbox}
+
+\subsubsection*{T8 (= D2) --- Spator phân phối qua Join}
+\begin{phatbieu} $E\bigtriangledown(F\vee G)=(E\bigtriangledown F)\vee(E\bigtriangledown G)$, $\forall E,F,G\in\mathbb X$. \end{phatbieu}
+\begin{chungminh}
+Đặt $e:=E^*,f:=F^*,g:=G^*\in\mathbb X$. Theo L.C, L.D: $(F\vee G)^*=f\wedge g$. Theo P.U:
+\[
+E\bigtriangledown(F\vee G)=(e\triangle(f\wedge g))^*\overset{\text{T7}}{=}((e\triangle f)\wedge(e\triangle g))^*.
+\]
+Mặt khác $(E\bigtriangledown F)^*=e\triangle f,(E\bigtriangledown G)^*=e\triangle g$ (P.U), nên theo L.C: $(E\bigtriangledown F)\vee(E\bigtriangledown G)=((e\triangle f)\wedge(e\triangle g))^*$. Trùng nhau.
+\end{chungminh}
+\begin{remarkbox} Hoàn toàn API-tier, chỉ kế thừa gián tiếp caveat của T7 (qua L.I). \end{remarkbox}
+
+\subsubsection*{T9 (= D3) --- Fibor KHÔNG phân phối qua Join}
+\begin{phatbieu} $(E\triangle F)\vee(E\triangle G)\subseteq E\triangle(F\vee G)$, chặt nói chung. \end{phatbieu}
+\begin{chungminh}
+$\subseteq$: $F,G\subseteq F\vee G\Rightarrow E\triangle F,E\triangle G\subseteq E\triangle(F\vee G)$ (T0); lấy $\vee$ hai vế, vế phải bất động.
+
+Phản ví dụ: $e(x)=|x-2|,f(x)=|x|,g(x)=|x-4|$. Tại $z=2$: vế trái (qua $\wedge$-đại diện $\mathrm{conv}(\min(f,g))$) cho giá trị $0$; vế phải (qua $\mathrm{conv}(e+\min(f,g))$) cho giá trị $2$. $0\neq2$.
+\end{chungminh}
+\begin{remarkbox} Chiều $\subseteq$: API-tier. Phản ví dụ bắt buộc đi xuống hàm số cụ thể (piecewise-linear) — không thể phủ định một đẳng thức phổ quát chỉ bằng đại số trừu tượng. \end{remarkbox}
+
+\subsubsection*{T10 (= D4) --- Spator KHÔNG phân phối qua Meet}
+\begin{phatbieu} $E\bigtriangledown(F\wedge G)\subseteq(E\bigtriangledown F)\wedge(E\bigtriangledown G)$, chặt nói chung. \end{phatbieu}
+\begin{chungminh} Đối ngẫu hình thức của T9 qua L.C + P.U. Phản ví dụ độc lập (cùng $e,f,g$): giá trị $6\neq4$ tại $z=0$. \end{chungminh}
+\begin{remarkbox} Như T9: chiều bao hàm API-tier, phản ví dụ cần hàm số cụ thể. \end{remarkbox}
+
+\subsubsection*{T11 (= M1) --- Kết hợp tính của Fibor}
+\begin{phatbieu} $(E\triangle F)\triangle G=E\triangle(F\triangle G)$, $\forall E,F,G\in\mathbb X$. \end{phatbieu}
+\begin{chungminh}
+Đặt $A:=E+_{\mathrm{fib}}F\in\mathbb X$ (L.I). $(E\triangle F)\triangle G=A^{**}\triangle G=A\triangle G=(A+_{\mathrm{fib}}G)^{**}\overset{\text{L.H}}{=}(E+_{\mathrm{fib}}F+_{\mathrm{fib}}G)^{**}$. Đặt $B:=F+_{\mathrm{fib}}G\in\mathbb X$, tương tự $E\triangle(F\triangle G)=(E+_{\mathrm{fib}}F+_{\mathrm{fib}}G)^{**}$. Trùng nhau.
+\end{chungminh}
+\begin{remarkbox} Bước ``$A^{**}\triangle G=A\triangle G$'' truy cập định nghĩa nguyên thủy của $\triangle$ qua $+_{\mathrm{fib}}$ (không tránh được). L.I mang điều kiện proper. \end{remarkbox}
+
+\subsubsection*{T12 (= M2) --- Đơn vị của Fibor}
+\begin{phatbieu} $E\triangle1_\triangle=1_\triangle\triangle E=E$, $\forall E\in\mathbb X$. \end{phatbieu}
+\begin{chungminh} $(E+_{\mathrm{fib}}1_\triangle)_x=\{r+s:r\ge e(x),s\ge0\}=[e(x),+\infty]=E_x$ — đẳng thức tập hợp trực tiếp. Vì $E$ closed: $E\triangle1_\triangle=(E+_{\mathrm{fib}}1_\triangle)^{**}=E^{**}=E$. T2 cho vế kia. \end{chungminh}
+\begin{remarkbox} Tính toán trực tiếp trên thớ nguyên thủy của $+_{\mathrm{fib}}$, không qua API lemma nào. \end{remarkbox}
+
+\subsubsection*{T13 (= M3) --- Kết hợp tính và đơn vị của Spator}
+\begin{phatbieu} $(E\bigtriangledown F)\bigtriangledown G=E\bigtriangledown(F\bigtriangledown G)$ (mọi preepi); $E\bigtriangledown1_{\bigtriangledown}=E$ ($\forall E\in\mathbb X$). \end{phatbieu}
+\begin{chungminh}
+Kết hợp: $(E\bigtriangledown F)^*=E^*\triangle F^*$ (P.U). $(E\bigtriangledown F)\bigtriangledown G\overset{\text{P.U}}=((E^*\triangle F^*)\triangle G^*)^*\overset{\text{T11}}=(E^*\triangle(F^*\triangle G^*))^*=E\bigtriangledown(F\bigtriangledown G)$.
+
+Đơn vị: $E\bigtriangledown1_{\bigtriangledown}\overset{\text{P.U}}=(E^*\triangle1_{\bigtriangledown}^*)^*\overset{\text{L.UD}}=(E^*\triangle1_\triangle)^*\overset{\text{T12}}=(E^*)^*=E^{**}=E$.
+\end{chungminh}
+\begin{remarkbox} Hoàn toàn API-tier; chỉ kế thừa gián tiếp điều kiện proper qua T11/L.I (vì $E^*,F^*,G^*$ vẫn cần thuộc lớp proper để T11 áp dụng). \end{remarkbox}
+
+\subsubsection*{T14 --- Hệ quả phân phối kèm đơn vị}
+\begin{phatbieu} $E\triangle(F\wedge1_\triangle)=(E\triangle F)\wedge E$; $\ E\bigtriangledown(F\vee1_{\bigtriangledown})=(E\bigtriangledown F)\vee E$. \end{phatbieu}
+\begin{chungminh} Áp T7 với $G:=1_\triangle$, dùng T12. Áp T8 với $G:=1_{\bigtriangledown}$, dùng T13. \end{chungminh}
+\begin{remarkbox} Hoàn toàn API-tier. \end{remarkbox}
+
+\subsubsection*{T15 (= N1) --- Điều kiện dấu cho Fibor (đối xứng)}
+\begin{phatbieu} $F\subseteq1_\triangle\Rightarrow E\triangle F\subseteq E$; $\ 1_\triangle\subseteq F\Rightarrow E\subseteq E\triangle F$. \end{phatbieu}
+\begin{chungminh} $F\subseteq1_\triangle\iff g\ge0$ khắp $X$; $e(x)+g(x)\ge e(x)\ \forall x$ (kiểm trên $\overline{\mathbb R}$); $\mathrm{epi}(e+g)\subseteq\mathrm{epi}(e)$. Đối xứng cho chiều kia. \end{chungminh}
+\begin{remarkbox} Toàn bộ chứng minh ở tầng hàm số $e,g$ cụ thể, không thuần $\wedge,\vee,\triangle$ trừu tượng. \end{remarkbox}
+
+\subsubsection*{T16 (= N2) --- Điều kiện dấu cho Spator (bất đối xứng)}
+\begin{phatbieu} $g(0)\le0\Rightarrow E\subseteq E\bigtriangledown F$; $\ F\subseteq1_{\bigtriangledown}\Rightarrow E\bigtriangledown F\subseteq E$. \end{phatbieu}
+\begin{chungminh} $(e\,\square\,g)(x)\le e(x)+g(0)\le e(x)$ (lấy $y=x$ trong infimal convolution); $\mathrm{cl}(\cdot)$ đơn điệu và $\mathrm{cl}(h)\le h$. Chiều kia: $g\ge\delta_{\{0\}}\Rightarrow e\,\square\,g\ge e\,\square\,\delta_{\{0\}}=e$; áp $\mathrm{cl}$ đơn điệu. \end{chungminh}
+\begin{remarkbox} Cùng loại T15: chứng minh ở tầng hàm số ($\inf$-convolution cụ thể). \end{remarkbox}
+
+\subsubsection*{Gán Level 3 (MALL)}
+
+Đối chiếu T7--T10 với bốn luật MALL (Section~2.3): với with$\leftrightarrow\wedge$, plus$\leftrightarrow\vee$ cố định (không mơ hồ), MALL đòi hỏi tensor phân phối qua plus và par phân phối qua with. Vì T8 (Spator qua Join) và T7 (Fibor qua Meet) là hai luật \emph{đúng}, còn T9, T10 (chiều chéo) \emph{thất bại}, gán duy nhất tương thích là:
+\[
+\boxed{\text{tensor}\leftrightarrow\bigtriangledown\ (\text{Spator}), \qquad \text{par}\leftrightarrow\triangle\ (\text{Fibor}).}
+\]
+
+%============================================================
+\section{Tổng kết}
+%============================================================
+
+\begin{itemize}
+\item \textbf{Kiến trúc bốn tầng} (Vector space $\to$ Primitive Geometry $\to$ Main Algebra $\to$ Linear Logic) tự chứa: mỗi tầng chỉ phụ thuộc tầng dưới qua đúng một phép ($(\cdot)^{**}$).
+
+\item \textbf{Sự hợp nhất} (P.U): bốn ký hiệu tưởng như độc lập $\{\wedge,\vee,\triangle,\bigtriangledown\}$ thực chất chỉ có \textbf{hai bậc tự do} nguyên thủy ($\cap$/$\cup$, $+_{\mathrm{fib}}$/$+_{\mathrm{sp}}$) — $\vee,\bigtriangledown$ là đối ngẫu bipolar tự động.
+
+\item \textbf{Bốn luật MALL} (T7--T10) được thỏa mãn \emph{đúng nửa}, và nửa đúng đó \emph{ép buộc} một gán logic duy nhất: tensor$\leftrightarrow\bigtriangledown$ (Minkowski/spatial sum), par$\leftrightarrow\triangle$ (fiber sum) — \textbf{ngược} với trực giác ban đầu của tài liệu gốc (vốn ưu tiên $+_{\mathrm{fib}}$ cho tensor).
+
+\item \textbf{Khối monoid} (T11=M1, T13=M3): cả hai đều kết hợp tính và có đơn vị, nhưng \textbf{có điều kiện} — chỉ chứng minh được cho lớp con \emph{proper} của $\mathbb X$ (không nhận $-\infty$). Đây là lỗ hổng thật, hẹp, được flag rõ tại Prop~10 và lan truyền qua L.I $\to$ T11/T7 $\to$ T13/T8.
+
+\item \textbf{Cấu trúc chi phí}: các định lý cốt lõi trả giá tầng dưới đúng \emph{một lần} tại nguồn (T7, T11, T12 — chạm hàm số/định nghĩa nguyên thủy), sau đó mọi hệ quả đối ngẫu (T8, T13, T14) suy ra \emph{hoàn toàn sạch} chỉ bằng L.C/P.U — đúng đặc tính kiến trúc Grothendieck mong muốn.
+
+\item \textbf{Câu hỏi mở cụ thể còn lại}: (a) liệu Prop~10 (đóng $\mathcal F,C,T$ dưới $+_{\mathrm{fib}}$) có mở rộng được cho preepi improper hay không; (b) liệu có chứng minh \emph{trực tiếp} (không qua polar) cho kết hợp tính của Spator; (c) các tiên đề closed-monoidal sâu hơn của MALL (residual $\multimap$, exponential $!,?$) — chưa được động tới trong tài liệu này.
+\end{itemize}
+
+\end{document}

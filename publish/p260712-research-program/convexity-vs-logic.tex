@@ -1,0 +1,351 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+\title{Preepi, Closed Convex Functions, and Linear Logic:\\
+\large A Research Program}
+\author{Thu-Le Tran\\
+Can Tho University\\
+\texttt{ttle@ctu.edu.vn}}
+\date{}
+
+\newtheorem{claim}{Claim}
+\newtheorem{question}{Open Question}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Rp}{\mathbb R_{+\infty}}
+\newcommand{\epi}{\operatorname{epi}}
+\newcommand{\dom}{\operatorname{dom}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\fibsum}{+_{\mathrm{fib}}}
+\newcommand{\Msum}{+_{\mathrm M}}
+\newcommand{\Fact}{\mathsf{Fact}}
+\newcommand{\parr}{\mathbin{\text{\rotatebox[origin=c]{180}{\&}}}}
+\newcommand{\ri}{\operatorname{ri}}
+\providecommand{\llbracket}{[\![}
+\providecommand{\rrbracket}{]\!]}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We propose \emph{preepi} — arbitrary subsets of $X\times\R_{+\infty}$,
+$\R_{+\infty}:=\R\cup\{+\infty\}$ — as a common geometric object linking
+three worlds: closed convex functions on $X=\R^n$, a lattice-and-monoid
+algebra closed under a Fenchel-type polarity, and the connectives of
+multiplicative-additive linear logic (MALL), the fragment of linear logic
+without exponentials. \textbf{Every statement in this document, including
+every definition, is a claim: a proposal for how these objects should be
+modeled and related, not an established result.} Definitions are
+themselves modeling choices and are labeled as such; no distinction in
+confidence is intended between a claim that happens to look like a
+definition and a claim that happens to look like a theorem. We give the
+proposed correspondence table, the proposed definitions, and a roadmap of
+three milestones, deliberately separated by how much is claimed at each:
+intrinsic properties of preepi, the connection to convex optimization, and
+the connection to logic — the last of which is stated only as open
+questions.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+Multiplicative-additive linear logic (MALL) is the fragment of Girard's
+linear logic obtained by dropping the exponential modalities $!,?$ (and any
+first- or second-order quantifiers): it retains exactly the four binary
+connectives $\otimes,\parr,\&,\oplus_{\mathrm{MALL}}$, their units, and
+linear negation $(\cdot)^\bot$. Full linear logic recovers resource
+duplication and discarding via $!,?$ on top of this fragment; the present
+program restricts itself to MALL throughout, since preepi are one-shot
+geometric objects with no evident candidate structure for $!,?$ (see
+Milestone III, Section~\ref{sec:milestones}).
+
+The classical bridge between convex analysis and phase semantics for linear
+logic runs, informally, as follows: a closed proper convex function
+$f:X\to\Rp$ has an epigraph that behaves like a fact of a Girard quantale
+under Fenchel conjugation, and the resulting algebra of facts is a
+candidate poset-level model of MALL. This program proposes to make that
+bridge precise by working entirely at the level of \emph{preepi} — raw
+subsets of the extended space $X\times\Rp$ — treating the closed convex
+function and the epigraph as two faces of a single object, and treating the
+Fenchel polar as the negation of a phase-semantic pole.
+
+We propose the following correspondence as the organizing table of the
+program. Columns left to right: the MALL connective, the proposed preepi
+operation, and the function-level operation it is meant to mirror.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+MALL & Preepi operation & Function-level mirror \\
+\midrule
+pole / pairing & $\beta(x,y):=\langle x,y\rangle$ & --- \\
+$(\cdot)^\bot$ & $E\mapsto E^*$ (Fenchel polar) & $f\mapsto f^*$ \\
+fact ($A=A^{\bot\bot}$) & $E=E^{**}$, i.e.\ $E\in\bar X$ & $f=f^{**}$ \\
+$\vdash$ / provability order & $E\subseteq F$ & $f\ge g$ (\emph{note the reversal below}) \\
+$\&$ (with) & $E\wedge F:=E\cap F$ & $\max(f,g)$ \\
+$\oplus_{\mathrm{MALL}}$ (plus) & $E\vee F:=(E\cup F)^{**}$ & $(\min(f,g))^{**}$ \\
+$\otimes$ (tensor) & $E\oplus F:=(E\fibsum F)^{**}$ & $f+g$ \\
+$\parr$ (par) & $E\boxdot F:=(E^*\fibsum F^*)^*$ & $\cl(f\,\square\,g)$ \\
+unit of $\otimes$ & $1_\oplus:=X\times[0,+\infty]$ & $\cl(0)$ \\
+unit of $\parr$ & $1_\boxdot:=(\{0\}\times[0,+\infty])\cup((X\setminus\{0\})\times\{+\infty\})$ & $\cl(\delta_{\{0\}})$ \\
+unit of $\&$ & $1_\wedge:=X\times\Rp$ & $f\equiv-\infty$ (excluded, see \S2) \\
+unit of $\oplus_{\mathrm{MALL}}$ & $1_\vee:=X\times\{+\infty\}$ & $f\equiv+\infty$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\emph{On the $\otimes/\parr$ assignment.} The table assigns
+$\otimes\leftrightarrow\oplus$ (fiber sum, mirroring $f+g$) and
+$\parr\leftrightarrow\boxdot$ (mirroring closed infimal convolution), on the
+resource-combination intuition that $\otimes$ should mirror the more
+primitive, unconditionally-defined operation. This assignment is
+\textbf{not} forced by the definitions alone: Girard's phase semantics
+defines $\otimes$ directly from the single ambient monoid of the ground
+space, and on $\tilde X$ the only operation satisfying that role
+unconditionally is $\Msum$ (Minkowski sum), which would instead favor the
+opposite assignment $\otimes\leftrightarrow\boxdot$, $\parr\leftrightarrow\oplus$.
+Whether the assignment in the table survives, is reversed, or requires a
+genuinely different ambient structure (e.g.\ a quantaloid rather than a
+single quantale) is left open; see Milestone III,
+Question~\ref{q:swap}. Any later revision of this table must re-check the
+order-direction row above as well, since swapping $\otimes\leftrightarrow\parr$
+also swaps which unit pairs with which connective.
+
+\emph{On the order row.} $E\subseteq F$ is proposed as the preepi mirror of
+provability, but at the function level the corresponding relation is
+\textbf{reversed}: $f\ge g$ pointwise corresponds to $\epi(g)\subseteq\epi(f)$,
+not $\epi(f)\subseteq\epi(g)$ — a larger function has a \emph{smaller}
+epigraph. Every claim in Section~\ref{sec:components} that mixes the
+preepi order with the function order must be checked against this reversal
+individually; it is not safe to assume a naive order-preserving translation
+between the two columns.
+
+\section{The components}\label{sec:components}
+
+Every item below is a \textbf{Claim}: a proposal for how the corresponding
+object should be modeled. Motivation from the function-level picture is
+given alongside each one.
+
+\subsection{Preepi}
+
+\begin{claim}[Ground space]
+Fix
+\[
+X:=\R^n,\qquad \Rp:=\R\cup\{+\infty\},\qquad \tilde X:=X\times\Rp.
+\]
+A \textbf{preepi} is an arbitrary subset $E\subseteq\tilde X$; no separate
+symbol is introduced for the family of preepis.
+\end{claim}
+
+\emph{Motivation.} A point $(x,r)\in\tilde X$ records a location together
+with a height. The value $+\infty$ is retained, and $-\infty$ excluded, so
+that a preepi can model a \emph{total} function $f:X\to\Rp$ — the standard
+codomain of convex analysis — directly, without needing to encode
+$f(x)=+\infty$ indirectly through an empty fiber.
+
+\subsection{Four closure operators}
+
+\begin{claim}[Closures]\label{cl:closures}
+For $E\subseteq\tilde X$ and $x\in X$, write $E_x:=\{r\in\Rp:(x,r)\in E\}$.
+Define
+\begin{align*}
+U(E) &:= \{(x,r'):\exists r\le r',\ (x,r)\in E\} &&\text{(upward closure)}\\
+F(E) &:= \{(x,r): r\in\cl(E_x)\} &&\text{(fiber closure)}\\
+C(E) &:= \conv(E) &&\text{(convex closure)}\\
+T(E) &:= \cl(E) &&\text{(topological closure)}
+\end{align*}
+where $\cl$ and $\conv$ are taken with respect to the order topology on
+$\Rp$ (in which $r_k\to+\infty$ converges) and the convex-combination rule
+that declares a segment to run through $+\infty$ as soon as one endpoint
+does.
+\end{claim}
+
+\emph{Motivation.} Each operator repairs exactly one property separating a
+general preepi from the extended epigraph of a proper, convex,
+lower-semicontinuous function: upwardness in each fiber, fiber closedness,
+global convexity, global closedness.
+
+\subsection{Regepi}
+
+\begin{claim}[Regepi]\label{cl:regepi}
+A preepi $E$ is a \textbf{regepi} if
+\[
+U(E)=F(E)=C(E)=T(E)=E.
+\]
+Write $\bar X:=\{E\subseteq\tilde X:\ E\text{ is a regepi}\}$.
+\end{claim}
+
+\emph{Motivation.} A regepi is proposed as exactly the class of preepis
+arising as extended epigraphs of proper, convex, lower-semicontinuous
+functions $X\to\Rp$.
+
+\subsection{Fenchel polar and the order}
+
+\begin{claim}[Polar and order]\label{cl:polar}
+For $E\subseteq\tilde X$,
+\[
+E^*:=\{(y,s)\in\tilde X:\ \langle x,y\rangle\le r+s\ \ \forall(x,r)\in E\},
+\]
+with a fixed Euclidean inner product on $X$ and $r+(+\infty):=+\infty$.
+The order on preepis is inclusion, $E\subseteq F$.
+\end{claim}
+
+\emph{Motivation.} This is the geometric form of the Fenchel conjugate
+$f^*(y):=\sup_x\{\langle x,y\rangle-f(x)\}$: proposed so that
+$E=\epi(f)\ \Rightarrow\ E^*=\epi(f^*)$. Because $s=+\infty$ trivially
+satisfies the defining inequality, $E^*\ne\varnothing$ for every preepi
+$E$ — a structural feature not available on $X\times\R$. As noted in
+Section~\ref{sec:components} above (order row), $E\subseteq F$ mirrors
+$f\ge g$, not $f\le g$, when $E=\epi(f)$, $F=\epi(g)$; this reversal must
+be tracked, not assumed away, in any later claim comparing the two orders.
+
+\subsection{Four operators}\label{sec:operators}
+
+\begin{claim}[Primitive operations]\label{cl:primitive}
+For $E,F\subseteq\tilde X$,
+\[
+E\fibsum F:=\{(x,r+s):(x,r)\in E,(x,s)\in F\},\qquad
+E\Msum F:=\{(x_1+x_2,r_1+r_2):(x_1,r_1)\in E,(x_2,r_2)\in F\}.
+\]
+\end{claim}
+
+\emph{Motivation.} $\fibsum$ mirrors pointwise addition of functions,
+$\epi(f)\fibsum\epi(g)\leftrightarrow\epi(f+g)$, with no closure needed at
+the function level. $\Msum$ mirrors the numerator of infimal convolution,
+$\epi(f)\Msum\epi(g)\leftrightarrow\epi(f\,\square\,g)$ before closure.
+
+\begin{claim}[Induced operations]\label{cl:induced}
+For $E,F\in\bar X$,
+\[
+E\wedge F:=E\cap F,\qquad
+E\vee F:=(E\cup F)^{**},\qquad
+E\oplus F:=(E\fibsum F)^{**},\qquad
+E\boxdot F:=(E^*\fibsum F^*)^*.
+\]
+\end{claim}
+
+\emph{Motivation.} $\wedge,\vee$ mirror $\max(f,g)$ and the bipolar closure
+of $\min(f,g)$. $\oplus$ mirrors closed pointwise addition, $f+g$.
+$\boxdot$ is proposed \emph{not} as $(E\Msum F)^{**}$ but directly as
+$(E^*\fibsum F^*)^*$, mirroring the identity
+$(f\,\square\,g)^*=f^*+g^*$ — which holds unconditionally at the function
+level, unlike its converse — so that $\boxdot$ is automatically valued in
+$\bar X$ without a separate nucleus-compatibility argument. The candidate
+identity $E\boxdot F=(E\Msum F)^{**}$ is not claimed here; see
+Milestone II, Question~\ref{q:representation}.
+
+\subsection{Four units}
+
+\begin{claim}[Units]\label{cl:units}
+\[
+1_\wedge:=X\times\Rp,\qquad
+1_\vee:=X\times\{+\infty\},\qquad
+1_\oplus:=X\times[0,+\infty],\qquad
+1_\boxdot:=(\{0\}\times[0,+\infty])\cup\big((X\setminus\{0\})\times\{+\infty\}\big).
+\]
+\end{claim}
+
+\emph{Motivation.} $1_\wedge,1_\vee$ mirror the constant functions
+$-\infty$ (excluded from $\Rp$, hence $1_\wedge$ has no function-level
+mirror under the properness convention) and $+\infty$. $1_\oplus$ mirrors
+the zero function, the unit of pointwise addition. $1_\boxdot$ mirrors the
+indicator $\delta_{\{0\}}$, the unit of infimal convolution, occupying
+$X\times\{+\infty\}$ away from the origin — a shape forced by every
+regepi's fiber being allowed to reach $+\infty$. \emph{Note:} these four
+objects and their pairwise duality ($1_\wedge^*=1_\vee$,
+$1_\oplus^*=1_\boxdot$) are claimed independently of which MALL connective
+each is assigned to; if the $\otimes/\parr$ assignment in
+Section~\ref{sec:components} is later reversed (Question~\ref{q:swap}),
+the units themselves are unaffected — only their logical labels swap.
+
+\section{Roadmap}\label{sec:milestones}
+
+The three milestones are separated by \emph{what is being claimed about},
+not by difficulty: Milestone I never mentions convexity or logic; Milestone
+II interprets the algebra of Milestone I as convex analysis; Milestone III
+interprets it as MALL. This separation lets Milestones I--II stand or fall
+independently of whether the logic interpretation in Milestone III
+survives.
+
+\subsection*{Milestone I --- Intrinsic Definitions and Properties on Preepi}
+
+Establishes the algebra of Claims~\ref{cl:closures}--\ref{cl:units} as a
+self-contained mathematical structure on $\tilde X$, stated and proved
+without reference to convex functions or to linear logic: extensivity
+($E\subseteq E^{**}$), antitonicity, idempotence of $**$, regularizing
+property ($E^*\in\bar X$ for every $E$), closure invariance
+($E^*=U(E)^*=F(E)^*=C(E)^*=T(E)^*$), the bipolar theorem on $\bar X$ and its
+general formula on arbitrary preepi; $(\bar X,\subseteq)$ a complete
+lattice; $\oplus,\boxdot$ commutative monoids with the stated units,
+monotone and distributive over arbitrary joins/meets as appropriate;
+$(\cdot)^*$ an order-reversing involution on $\bar X$; De Morgan laws for
+all four operators; duality of the four units. This is proposed as a
+$*$-autonomous poset / Girard quantale purely as a poset-algebraic fact,
+with no claim yet made about what it represents.
+
+\subsection*{Milestone II --- Connection to Convex Optimization}
+
+Interprets Milestone I as the theory of proper, convex, lower-semicontinuous
+functions: $\bar X\leftrightarrow\Gamma_0(X)$ via $\epi$; the bipolar
+theorem as Fenchel--Moreau, $f=f^{**}\iff f\in\Gamma_0(X)$; $\wedge,\vee$ as
+$\max$ and closed $\min$; $\oplus,\boxdot$ as closed pointwise sum and
+closed infimal convolution, in whichever direction Question~\ref{q:swap}
+eventually resolves; the four units as $-\infty,+\infty,0,\delta_{\{0\}}$.
+
+\begin{question}[Representation of $\boxdot$]\label{q:representation}
+Does $E\boxdot F=(E\Msum F)^{**}$ on $\bar X$, i.e.\ does the polar-first
+definition of Claim~\ref{cl:induced} agree with the naive
+double-polar-of-Minkowski-sum definition used in earlier drafts? At the
+function level this is the classical qualification question for exactness
+of infimal convolution, e.g.\ under $\ri(\dom f)\cap\ri(\dom g)\ne\varnothing$.
+\end{question}
+
+\subsection*{Milestone III --- Connection to Logic}
+
+This milestone claims nothing about preepi or convex functions; it records
+the questions needed to justify reading Milestone I as a model of MALL.
+
+\begin{question}[The $\otimes/\parr$ assignment]\label{q:swap}
+Which of $\oplus,\boxdot$ should be identified with $\otimes$, and which
+with $\parr$? Section~\ref{sec:components} adopts
+$\otimes\leftrightarrow\oplus$, $\parr\leftrightarrow\boxdot$ on a
+resource-intuition basis, but Girard's phase semantics defines $\otimes$
+from a single ambient monoid, which on $\tilde X$ is $\Msum$ — favoring
+the reverse assignment unless a genuinely different ambient structure
+(e.g.\ a quantaloid indexed by $x\in X$, in the sense already attempted
+and found non-associative in earlier drafts of this program) is used
+instead.
+\end{question}
+
+\begin{question}[Phase semantics, made explicit]
+Does the pairing $\beta$ and the polar of Claim~\ref{cl:polar} instantiate,
+in the technical sense of Girard, a monoid acting on $\tilde X$ together
+with a pole $\bot$, so that $E^*=\{a:\forall e\in E,\ e\cdot a\in\bot\}$
+literally, and $\bar X=\Fact_\bot(\tilde X)$ in the standard phase-semantic
+sense — rather than merely an algebra that happens to resemble one?
+\end{question}
+
+\begin{question}[Soundness]
+Once Question~\ref{q:swap} is resolved, does the resulting correspondence
+table validate each MALL inference rule: if the premises' semantic values
+lie in the claimed facts, does the conclusion's value as well? Is the
+semantic assignment $\llbracket\cdot\rrbracket$ well defined by structural
+induction on formulas?
+\end{question}
+
+\begin{question}[Scope]
+The program restricts itself to the poset/phase-semantic level of MALL:
+no exponentials ($!,?$), no category of proofs, no cut elimination. Is this
+restriction adequate for the intended application to convex analysis, or
+does a categorical extension become necessary at some point?
+\end{question}
+
+\end{document}
