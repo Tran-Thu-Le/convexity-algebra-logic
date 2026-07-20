@@ -1,1 +1,0 @@
-# convexity_algebra_logic
