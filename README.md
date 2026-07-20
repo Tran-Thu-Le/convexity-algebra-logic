@@ -12,10 +12,14 @@ This research program investigates the structural relationship between **convex 
 |---|---|---|---|
 | Regepis [NEW] | Convex Functions | Polarized Semiring [NEW] | MALL |
 | $E^\ast$ (Fenchel polar) | $f^\ast$ (conjugate) | $a^\ast$ (involution) | $A^\perp$ (negation) |
-| $(E\cap F)^{\ast\ast}$ (closed meet) | $\max(f,g)$ (pointwise max) | $\mathrm{meet}$ | $A$ with $B$ |
-| $(E\cup F)^{\ast\ast}$ (closed join) | $\mathrm{conv}(\min(f,g))$ (convex min) | $\mathrm{join}=\mathrm{meet}^\ast$ | $A\oplus B$ (plus) |
-| $(E+_{fib}F)^{\ast\ast}$ (closed fiber sum) | $f+g$ (sum) | $+$ | $A\otimes B$ (times) |
-| $(E+_{sp}F)^{\ast\ast}$ (closed spatial sum) | $\mathrm{cl}(f \,\square\, g)$ (inf-convolution) | $+^\ast$ | $A$ par $B$ |
+| Meet $E\wedge F$ | $\max(f,g)$  | $a\oplus b$ | $A\oplus B$ (plus) |
+| Join $E\vee F$ | $\mathrm{conv}(\min(f,g))$  | $a\text{ with } b$ | $A\text{ with } B$ (with) |
+| Fibor $E\triangle F$ | $f+g$  | $a\otimes b$ | $A\otimes B$ (tensor) |
+| Spator $E\bigtriangledown F$ | $\mathrm{cl}(f \,\square\, g)$  | $a\ \text{ par }\ b$ | $A$ par $B$ |
+| $e_\wedge$ | $f\equiv-\infty$ | $e_\oplus$ | $\mathbf 0$ (unit of plus) |
+| $e_\vee$ | $f\equiv+\infty$ | $e_\&$ | $\mathbf T$ (unit of with) |
+| $e_\triangle$ | $f\equiv 0$ | $e_\otimes$ | $\mathbf 1$ (unit of tensor) |
+| $e_{\bigtriangledown}$ | $\delta_{\{0\}}$ | $e_{\text{ par }}$ | $\bot$ (unit of par) |
 
 Two columns are old, well-understood territory: **Analysis** (proper closed convex functions, Fenchel conjugation, pointwise sums, infimal convolution) and **Logic** (MALL — the multiplicative-additive fragment of linear logic, with its negation and four connectives). The other two columns are where this program's contribution sits:
 
