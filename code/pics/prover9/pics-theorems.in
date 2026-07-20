@@ -1,0 +1,904 @@
+% ======================================================================
+% Prover9 input -- proofs of Theorems 1-20 of
+% "Polar Idempotent Commutative Semiring (PICS)"
+%
+% This file is a concatenation of 20 INDEPENDENT, self-contained Prover9
+% problems (one per theorem). Each block repeats the full axiom set
+% (M0-M3, S1-S3, SM1-SM2, P, PM + definitions of join, mult, e_join, e_mult)
+% followed by that theorem's goal. Prover9 accumulates formulas(goals)
+% globally across a file rather than scoping them per block, and refuses
+% to run when multiple accumulated goals mix positive/non-positive forms
+% (several theorems here are implications/iffs) -- so blocks must be run
+% ONE AT A TIME, not as a single invocation of this whole file.
+%
+% To reproduce pics-theorems.out exactly, split on the '% ==== Theorem'
+% marker lines and run prover9 on each block separately, e.g.:
+%
+%   csplit -z -f block_ -b '%02d.in' pics-theorems.in '/^% ==== Theorem/' '{*}'
+%   for f in block_*.in; do prover9 -f "$f"; done >> pics-theorems.out
+%
+% Symbol key:
+%   meet(x,y) = x ^ y      sum(x,y) = x + y      star(x) = x*
+%   em = e_^   es = e_+    join(x,y) = x v y     mult(x,y) = x x y
+%   ej = e_v   ex = e_x
+% ======================================================================
+
+% ==== Theorem 1: (a v b)* = a* ^ b* ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+star(join(x,y)) = meet(star(x),star(y)).
+end_of_list.
+
+% ==== Theorem 2: (a x b)* = a* + b* ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+star(mult(x,y)) = sum(star(x),star(y)).
+end_of_list.
+
+% ==== Theorem 3: (a ^ b)* = a* v b* ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+star(meet(x,y)) = join(star(x),star(y)).
+end_of_list.
+
+% ==== Theorem 4: (a + b)* = a* x b* ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+star(sum(x,y)) = mult(star(x),star(y)).
+end_of_list.
+
+% ==== Theorem 5: e_v* = e_^  and  e_x* = e_+ ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+star(ej) = em & star(ex) = es.
+end_of_list.
+
+% ==== Theorem 6: join(X,e_v) is an idempotent commutative monoid ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+join(x,x) = x & join(join(x,y),z) = join(x,join(y,z)) & join(x,y) = join(y,x) & join(x,ej) = x.
+end_of_list.
+
+% ==== Theorem 7: mult(X,e_x) is a commutative monoid ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+mult(mult(x,y),z) = mult(x,mult(y,z)) & mult(x,y) = mult(y,x) & mult(x,ex) = x.
+end_of_list.
+
+% ==== Theorem 8: distributivity of x over v ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+mult(x,join(y,z)) = join(mult(x,y),mult(x,z)) & mult(join(x,y),z) = join(mult(x,z),mult(y,z)).
+end_of_list.
+
+% ==== Theorem 9: a x e_v = e_v (absorbing element) ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+mult(x,ej) = ej.
+end_of_list.
+
+% ==== Theorem 10: polar compatibility: (a v b)* = a*^b*, (a x b)* = a*+b* ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+star(join(x,y)) = meet(star(x),star(y)) & star(mult(x,y)) = sum(star(x),star(y)).
+end_of_list.
+
+% ==== Theorem 11: <= is a partial order (reflexive is M0; antisymmetric; transitive) ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(x,x) = x & ((meet(x,y) = x & meet(y,x) = y) -> x = y) & ((meet(x,y) = x & meet(y,z) = y) -> meet(x,z) = x).
+end_of_list.
+
+% ==== Theorem 12: e_^ is the greatest element: a <= e_^ ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(x,em) = x.
+end_of_list.
+
+% ==== Theorem 13: e_v is the least element: e_v <= a ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(ej,x) = ej.
+end_of_list.
+
+% ==== Theorem 14: monotonicity of meet ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(x,y) = x -> meet(meet(x,z),meet(y,z)) = meet(x,z).
+end_of_list.
+
+% ==== Theorem 15: monotonicity of sum ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(x,y) = x -> meet(sum(x,z),sum(y,z)) = sum(x,z).
+end_of_list.
+
+% ==== Theorem 16: order reversal: a<=b iff b*<=a* ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+end_of_list.
+
+% ==== Theorem 17: <=v is a partial order (reflexive is Thm6; antisymmetric; transitive) ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+join(x,x) = x & ((join(x,y) = y & join(y,x) = x) -> x = y) & ((join(x,y) = y & join(y,z) = z) -> join(x,z) = z).
+end_of_list.
+
+% ==== Theorem 18: a v b is the supremum of a,b w.r.t. <= ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(x,join(x,y)) = x & meet(y,join(x,y)) = y & ((meet(x,z) = x & meet(y,z) = y) -> meet(join(x,y),z) = join(x,y)).
+end_of_list.
+
+% ==== Theorem 19: the two induced orders coincide: <= = <=v ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(x,y) = x <-> join(x,y) = y.
+end_of_list.
+
+% ==== Theorem 20: absorption laws ====
+% ===== PICS: Polar Idempotent Commutative Semiring =====
+% meet(x,y)  = a ^ b
+% sum(x,y)   = a + b
+% star(x)    = a*
+% em         = e_meet   (identity/top for meet)
+% es         = e_sum    (identity for sum)
+% join(x,y)  = a v b     (derived)
+% mult(x,y)  = a x b     (derived)
+% ej, ex     = e_join, e_mult (derived)
+
+formulas(assumptions).
+
+% --- Meet (M0-M3) ---
+meet(x,x) = x.
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+meet(x,y) = meet(y,x).
+meet(x,em) = x.
+
+% --- Sum (S1-S3) ---
+sum(sum(x,y),z) = sum(x,sum(y,z)).
+sum(x,y) = sum(y,x).
+sum(x,es) = x.
+
+% --- Semiring (SM1-SM2) ---
+sum(x,meet(y,z)) = meet(sum(x,y),sum(x,z)).
+sum(x,em) = em.
+
+% --- Polar (P, PM) ---
+star(star(x)) = x.
+meet(x,y) = x <-> meet(star(y),star(x)) = star(y).
+
+% --- Derived operation definitions ---
+join(x,y) = star(meet(star(x),star(y))).
+mult(x,y) = star(sum(star(x),star(y))).
+ej = star(em).
+ex = star(es).
+
+end_of_list.
+
+formulas(goals).
+meet(x,join(x,y)) = x & join(x,meet(x,y)) = x.
+end_of_list.
