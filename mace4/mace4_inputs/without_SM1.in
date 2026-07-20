@@ -1,0 +1,47 @@
+assign(start_size,2).
+assign(end_size,8).
+
+op(400,infix,"^").
+op(500,infix,"+").
+
+
+formulas(assumptions).
+
+% M0
+x ^ x = x.
+
+% M1
+x ^ (y ^ z) = (x ^ y) ^ z.
+
+% M2
+x ^ y = y ^ x.
+
+% M3
+x ^ em = x.
+
+% S1
+x + (y + z) = (x + y) + z.
+
+% S2
+x + y = y + x.
+
+% S3
+x + ez = x.
+
+% SM2
+x + em = em.
+
+% P
+star(star(x)) = x.
+
+% PM
+(x ^ y = x) <-> (star(y) ^ star(x) = star(y)).
+
+end_of_list.
+
+formulas(goals).
+
+% Test independence of SM1
+x + (y ^ z) = (x + y) ^ (x + z).
+
+end_of_list.
