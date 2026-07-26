@@ -1,0 +1,58 @@
+%% ==== Block 2.5: Reflected modules -- goal RS2a ====
+%% Bai bao / paper: prop:reflected-modules (doc3-structures.tex)
+%% Goal: plus associative
+%% Gia thiet / hypotheses: Nhu Block 1, cong them J0 (chi can cho muc idempotence). As Block 1 plus J0 (needed only for the idempotence goal).
+%% Ky hieu / notation: v = join, * = tensor, star() = polarity,
+%%   ev = e_join, eo = e_tensor; meet/plus/ew/ep are DEFINED below.
+
+assign(max_seconds, 60).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % J0: join idempotence
+  x v x = x.
+
+  % J1: join associativity
+  (x v y) v z = x v (y v z).
+
+  % J2: join commutativity
+  x v y = y v x.
+
+  % J3: join unit
+  x v ev = x.
+
+  % T1: tensor associativity
+  (x * y) * z = x * (y * z).
+
+  % T2: tensor commutativity
+  x * y = y * x.
+
+  % T3: tensor unit
+  x * eo = x.
+
+  % P: involution
+  star(star(x)) = x.
+
+  % D-meet: a /\ b := (a^* v b^*)^*
+  meet(x,y) = star(star(x) v star(y)).
+
+  % D-plus: a (+) b := (a^* * b^*)^*
+  plus(x,y) = star(star(x) * star(y)).
+
+  % D-ew: e_/\ := (e_v)^*
+  ew = star(ev).
+
+  % D-ep: e_(+) := (e_*)^*
+  ep = star(eo).
+
+end_of_list.
+
+formulas(goals).
+
+  % RS2a: plus associative
+  plus(plus(x,y),z) = plus(x,plus(y,z)).
+
+end_of_list.

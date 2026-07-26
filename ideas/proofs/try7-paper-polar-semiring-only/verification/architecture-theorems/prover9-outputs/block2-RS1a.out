@@ -1,0 +1,153 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2017-11A (CIIRC), November 2017.
+Process 1683 was started by root on vm,
+Fri Jul 24 16:20:22 2026
+The command was "/home/claude/Prover9/bin/prover9 -f prover9-paper-theorems/prover9-inputs/block2-RS1a.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file prover9-paper-theorems/prover9-inputs/block2-RS1a.in
+
+assign(max_seconds,60).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+x v x = x.
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+star(star(x)) = x.
+meet(x,y) = star(star(x) v star(y)).
+plus(x,y) = star(star(x) * star(y)).
+ew = star(ev).
+ep = star(eo).
+end_of_list.
+
+formulas(goals).
+meet(meet(x,y),z) = meet(x,meet(y,z)).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 meet(meet(x,y),z) = meet(x,meet(y,z)) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+x v x = x.  [assumption].
+(x v y) v z = x v (y v z).  [assumption].
+x v y = y v x.  [assumption].
+x v ev = x.  [assumption].
+(x * y) * z = x * (y * z).  [assumption].
+x * y = y * x.  [assumption].
+x * eo = x.  [assumption].
+star(star(x)) = x.  [assumption].
+meet(x,y) = star(star(x) v star(y)).  [assumption].
+plus(x,y) = star(star(x) * star(y)).  [assumption].
+ew = star(ev).  [assumption].
+ep = star(eo).  [assumption].
+meet(meet(c1,c2),c3) != meet(c1,meet(c2,c3)).  [deny(1)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ eo, ev, ep, ew, c1, c2, c3, v, *, meet, plus, star ]).
+After inverse_order:  (no changes).
+Unfolding symbols: meet/2 plus/2.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+
+Auto_process settings:  (no changes).
+
+kept:      2 x v x = x.  [assumption].
+kept:      3 (x v y) v z = x v (y v z).  [assumption].
+
+% Operation v is commutative; C redundancy checks enabled.
+kept:      4 x v y = y v x.  [assumption].
+kept:      5 x v ev = x.  [assumption].
+kept:      6 (x * y) * z = x * (y * z).  [assumption].
+
+% Operation * is commutative; C redundancy checks enabled.
+kept:      7 x * y = y * x.  [assumption].
+kept:      8 x * eo = x.  [assumption].
+kept:      9 star(star(x)) = x.  [assumption].
+kept:      10 meet(x,y) = star(star(x) v star(y)).  [assumption].
+kept:      11 plus(x,y) = star(star(x) * star(y)).  [assumption].
+           12 ew = star(ev).  [assumption].
+kept:      13 star(ev) = ew.  [copy(12),flip(a)].
+           14 ep = star(eo).  [assumption].
+kept:      15 star(eo) = ep.  [copy(14),flip(a)].
+           16 meet(meet(c1,c2),c3) != meet(c1,meet(c2,c3)).  [deny(1)].
+-------- Proof 1 -------- 
+
+============================== PROOF =================================
+
+% Proof 1 at 0.00 (+ 0.00) seconds.
+% Length of proof is 6.
+% Level of proof is 2.
+% Maximum clause weight is 11.000.
+% Given clauses 0 (0.000 givens/level).
+
+1 meet(meet(x,y),z) = meet(x,meet(y,z)) # label(non_clause) # label(goal).  [goal].
+3 (x v y) v z = x v (y v z).  [assumption].
+9 star(star(x)) = x.  [assumption].
+10 meet(x,y) = star(star(x) v star(y)).  [assumption].
+16 meet(meet(c1,c2),c3) != meet(c1,meet(c2,c3)).  [deny(1)].
+17 $F.  [copy(16),rewrite([10(3),10(8),9(7),3(8),10(13),10(17),9(18)]),xx(a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=0. Generated=13. Kept=12. proofs=1.
+Usable=0. Sos=0. Demods=12. Limbo=12, Disabled=13. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=0. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=12 (2 lex), Back_demodulated=0. Back_unit_deleted=0.
+Demod_attempts=119. Demod_rewrites=7.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=0.
+Megabytes=0.04.
+User_CPU=0.00, System_CPU=0.00, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+------ process 1683 exit (max_proofs) ------
+
+Process 1683 exit (max_proofs) Fri Jul 24 16:20:22 2026

@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Prover9/Mace4 scratch
+*.aux
+
+# Editor/OS
+.DS_Store
+*.swp
+*~

@@ -1,0 +1,1480 @@
+%% ==== Block lemA-1: Lemma (1):  a <= b  <->  eo <= res(a,b) ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: BGA1-BGA3 (+ dinh nghia star); KHONG dung BGA5. BGA1-BGA3 plus the definition of star; BGA5 unused.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+end_of_list.
+
+formulas(goals).
+
+  % Lemma (1):  a <= b  <->  eo <= res(a,b)
+  (x v y = y) <-> (eo v res(x,y) = res(x,y)).
+
+end_of_list.
+
+
+%% ==== Block lemA-2: Lemma (2):  b (x) res(b,c) <= c ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: BGA1-BGA3 (+ dinh nghia star); KHONG dung BGA5. BGA1-BGA3 plus the definition of star; BGA5 unused.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+end_of_list.
+
+formulas(goals).
+
+  % Lemma (2):  b (x) res(b,c) <= c
+  (y * res(y,z)) v z = z.
+
+end_of_list.
+
+
+%% ==== Block lemA-3: Lemma (3):  a <= b  ==>  a (x) c <= b (x) c ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: BGA1-BGA3 (+ dinh nghia star); KHONG dung BGA5. BGA1-BGA3 plus the definition of star; BGA5 unused.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+end_of_list.
+
+formulas(goals).
+
+  % Lemma (3):  a <= b  ==>  a (x) c <= b (x) c
+  (x v y = y) -> ((x * z) v (y * z) = (y * z)).
+
+end_of_list.
+
+
+%% ==== Block lemA-4: Lemma (4):  a <= b  ==>  res(b,z) <= res(a,z) ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: BGA1-BGA3 (+ dinh nghia star); KHONG dung BGA5. BGA1-BGA3 plus the definition of star; BGA5 unused.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+end_of_list.
+
+formulas(goals).
+
+  % Lemma (4):  a <= b  ==>  res(b,z) <= res(a,z)
+  (x v y = y) -> (res(y,z) v res(x,z) = res(x,z)).
+
+end_of_list.
+
+
+%% ==== Block lemA-5: Lemma (4) with z := ep:  star is antitone ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: BGA1-BGA3 (+ dinh nghia star); KHONG dung BGA5. BGA1-BGA3 plus the definition of star; BGA5 unused.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+end_of_list.
+
+formulas(goals).
+
+  % Lemma (4) with z := ep:  star is antitone
+  (x v y = y) -> (star(y) v star(x) = star(x)).
+
+end_of_list.
+
+
+%% ==== Block psax-J0: J0: join idempotence ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: immediate
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % J0: join idempotence
+  x v x = x.
+
+end_of_list.
+
+
+%% ==== Block psax-J1: J1: join associativity ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: immediate
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % J1: join associativity
+  (x v y) v z = x v (y v z).
+
+end_of_list.
+
+
+%% ==== Block psax-J2: J2: join commutativity ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: immediate
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % J2: join commutativity
+  x v y = y v x.
+
+end_of_list.
+
+
+%% ==== Block psax-J3: J3: join unit ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: needs proof
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % J3: join unit
+  x v ev = x.
+
+end_of_list.
+
+
+%% ==== Block psax-T1: T1: tensor associativity ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: immediate
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % T1: tensor associativity
+  (x * y) * z = x * (y * z).
+
+end_of_list.
+
+
+%% ==== Block psax-T2: T2: tensor commutativity ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: immediate
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % T2: tensor commutativity
+  x * y = y * x.
+
+end_of_list.
+
+
+%% ==== Block psax-T3: T3: tensor unit ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: immediate
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % T3: tensor unit
+  x * eo = x.
+
+end_of_list.
+
+
+%% ==== Block psax-TJ1: TJ1: tensor distributes over join ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: needs proof
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % TJ1: tensor distributes over join
+  x * (y v z) = (x * y) v (x * z).
+
+end_of_list.
+
+
+%% ==== Block psax-TJ2: TJ2: ev absorbing for tensor ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: needs proof
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % TJ2: ev absorbing for tensor
+  x * ev = ev.
+
+end_of_list.
+
+
+%% ==== Block psax-P: P: involution ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: immediate
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % P: involution
+  star(star(x)) = x.
+
+end_of_list.
+
+
+%% ==== Block psax-PJ: PJ: polarity / order-compatibility ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Bang tab:eleven xep dong nay la: needs proof
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % PJ: polarity / order-compatibility
+  (x v y = y) <-> (star(y) v star(x) = star(x)).
+
+end_of_list.
+
+
+%% ==== Block extra-meet: the derived meet coincides with the lattice meet: star(star(x) v star(y)) = mt(x,y) ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % the derived meet coincides with the lattice meet: star(star(x) v star(y)) = mt(x,y)
+  star(star(x) v star(y)) = mt(x,y).
+
+end_of_list.
+
+
+%% ==== Block extra-ev-least: ev is the least element:  ev <= x ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % ev is the least element:  ev <= x
+  ev v x = x.
+
+end_of_list.
+
+
+%% ==== Block extra-order: the two lattice orders agree:  x v y = y  <->  mt(x,y) = x ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: day du tien de BGA (BGA1-BGA5). all BGA axioms.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+  % BGA5: ew is the greatest element
+  x v ew = ew.
+
+  % D-ev: least element ev := star(ew)
+  ev = star(ew).
+
+end_of_list.
+
+formulas(goals).
+
+  % the two lattice orders agree:  x v y = y  <->  mt(x,y) = x
+  (x v y = y) <-> (mt(x,y) = x).
+
+end_of_list.

@@ -1,0 +1,1039 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2017-11A (CIIRC), November 2017.
+Process 1751 was started by root on vm,
+Fri Jul 24 16:20:23 2026
+The command was "/home/claude/Prover9/bin/prover9 -f prover9-paper-theorems/prover9-inputs/block4-OS7.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file prover9-paper-theorems/prover9-inputs/block4-OS7.in
+
+assign(max_seconds,60).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+x v x = x.
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+x * y v z = (x * y) v (x * z).
+x * ev = ev.
+star(star(x)) = x.
+x v y = y <-> star(y) v star(x) = star(x).
+meet(x,y) = star(star(x) v star(y)).
+plus(x,y) = star(star(x) * star(y)).
+ew = star(ev).
+ep = star(eo).
+end_of_list.
+
+formulas(goals).
+x v y = y -> plus(x,z) v plus(y,z) = plus(y,z).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 x v y = y <-> star(y) v star(x) = star(x) # label(non_clause).  [assumption].
+2 x v y = y -> plus(x,z) v plus(y,z) = plus(y,z) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+x v x = x.  [assumption].
+(x v y) v z = x v (y v z).  [assumption].
+x v y = y v x.  [assumption].
+x v ev = x.  [assumption].
+(x * y) * z = x * (y * z).  [assumption].
+x * y = y * x.  [assumption].
+x * eo = x.  [assumption].
+x * y v z = (x * y) v (x * z).  [assumption].
+x * ev = ev.  [assumption].
+star(star(x)) = x.  [assumption].
+x v y != y | star(x) = star(y) v star(x).  [clausify(1)].
+x v y = y | star(x) != star(y) v star(x).  [clausify(1)].
+meet(x,y) = star(star(x) v star(y)).  [assumption].
+plus(x,y) = star(star(x) * star(y)).  [assumption].
+ew = star(ev).  [assumption].
+ep = star(eo).  [assumption].
+c1 v c2 = c2.  [deny(2)].
+plus(c2,c3) != plus(c1,c3) v plus(c2,c3).  [deny(2)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ ev, eo, ep, ew, c1, c2, c3, v, *, meet, plus, star ]).
+After inverse_order:  (no changes).
+Unfolding symbols: meet/2 plus/2.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(hyper_resolution).  % (nonunit Horn with equality)
+    % set(hyper_resolution) -> set(pos_hyper_resolution).
+  % set(neg_ur_resolution).  % (nonunit Horn with equality)
+  % assign(para_lit_limit, 2).  % (nonunit Horn with equality)
+
+Auto_process settings:  (no changes).
+
+kept:      3 x v x = x.  [assumption].
+kept:      4 (x v y) v z = x v (y v z).  [assumption].
+
+% Operation v is commutative; C redundancy checks enabled.
+kept:      5 x v y = y v x.  [assumption].
+kept:      6 x v ev = x.  [assumption].
+kept:      7 (x * y) * z = x * (y * z).  [assumption].
+
+% Operation * is commutative; C redundancy checks enabled.
+kept:      8 x * y = y * x.  [assumption].
+kept:      9 x * eo = x.  [assumption].
+kept:      10 x * y v z = (x * y) v (x * z).  [assumption].
+kept:      11 x * ev = ev.  [assumption].
+kept:      12 star(star(x)) = x.  [assumption].
+           13 x v y != y | star(x) = star(y) v star(x).  [clausify(1)].
+kept:      14 x v y != y | star(y) v star(x) = star(x).  [copy(13),flip(b)].
+           15 x v y = y | star(x) != star(y) v star(x).  [clausify(1)].
+kept:      16 x v y = y | star(y) v star(x) != star(x).  [copy(15),flip(b)].
+kept:      17 meet(x,y) = star(star(x) v star(y)).  [assumption].
+kept:      18 plus(x,y) = star(star(x) * star(y)).  [assumption].
+           19 ew = star(ev).  [assumption].
+kept:      20 star(ev) = ew.  [copy(19),flip(a)].
+           21 ep = star(eo).  [assumption].
+kept:      22 star(eo) = ep.  [copy(21),flip(a)].
+kept:      23 c1 v c2 = c2.  [deny(2)].
+           24 plus(c2,c3) != plus(c1,c3) v plus(c2,c3).  [deny(2)].
+kept:      25 star(star(c1) * star(c3)) v star(star(c2) * star(c3)) != star(star(c2) * star(c3)).  [copy(24),rewrite([18(3),18(9),18(15)]),flip(a)].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+3 x v x = x.  [assumption].
+4 (x v y) v z = x v (y v z).  [assumption].
+5 x v y = y v x.  [assumption].
+6 x v ev = x.  [assumption].
+7 (x * y) * z = x * (y * z).  [assumption].
+8 x * y = y * x.  [assumption].
+9 x * eo = x.  [assumption].
+10 x * y v z = (x * y) v (x * z).  [assumption].
+11 x * ev = ev.  [assumption].
+12 star(star(x)) = x.  [assumption].
+14 x v y != y | star(y) v star(x) = star(x).  [copy(13),flip(b)].
+16 x v y = y | star(y) v star(x) != star(x).  [copy(15),flip(b)].
+17 meet(x,y) = star(star(x) v star(y)).  [assumption].
+18 plus(x,y) = star(star(x) * star(y)).  [assumption].
+20 star(ev) = ew.  [copy(19),flip(a)].
+22 star(eo) = ep.  [copy(21),flip(a)].
+23 c1 v c2 = c2.  [deny(2)].
+25 star(star(c1) * star(c3)) v star(star(c2) * star(c3)) != star(star(c2) * star(c3)).  [copy(24),rewrite([18(3),18(9),18(15)]),flip(a)].
+end_of_list.
+
+formulas(demodulators).
+3 x v x = x.  [assumption].
+4 (x v y) v z = x v (y v z).  [assumption].
+5 x v y = y v x.  [assumption].
+        % (lex-dep)
+6 x v ev = x.  [assumption].
+7 (x * y) * z = x * (y * z).  [assumption].
+8 x * y = y * x.  [assumption].
+        % (lex-dep)
+9 x * eo = x.  [assumption].
+10 x * y v z = (x * y) v (x * z).  [assumption].
+11 x * ev = ev.  [assumption].
+12 star(star(x)) = x.  [assumption].
+17 meet(x,y) = star(star(x) v star(y)).  [assumption].
+18 plus(x,y) = star(star(x) * star(y)).  [assumption].
+20 star(ev) = ew.  [copy(19),flip(a)].
+22 star(eo) = ep.  [copy(21),flip(a)].
+23 c1 v c2 = c2.  [deny(2)].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.00 seconds.
+
+given #1 (I,wt=5): 3 x v x = x.  [assumption].
+
+given #2 (I,wt=11): 4 (x v y) v z = x v (y v z).  [assumption].
+
+given #3 (I,wt=7): 5 x v y = y v x.  [assumption].
+
+% Operation v is associative-commutative; CAC redundancy checks enabled.
+
+given #4 (I,wt=5): 6 x v ev = x.  [assumption].
+
+given #5 (I,wt=11): 7 (x * y) * z = x * (y * z).  [assumption].
+
+given #6 (I,wt=7): 8 x * y = y * x.  [assumption].
+
+% Operation * is associative-commutative; CAC redundancy checks enabled.
+
+given #7 (I,wt=5): 9 x * eo = x.  [assumption].
+
+given #8 (I,wt=13): 10 x * y v z = (x * y) v (x * z).  [assumption].
+
+given #9 (I,wt=5): 11 x * ev = ev.  [assumption].
+
+given #10 (I,wt=5): 12 star(star(x)) = x.  [assumption].
+
+given #11 (I,wt=13): 14 x v y != y | star(y) v star(x) = star(x).  [copy(13),flip(b)].
+
+given #12 (I,wt=13): 16 x v y = y | star(y) v star(x) != star(x).  [copy(15),flip(b)].
+
+given #13 (I,wt=10): 17 meet(x,y) = star(star(x) v star(y)).  [assumption].
+
+given #14 (I,wt=10): 18 plus(x,y) = star(star(x) * star(y)).  [assumption].
+
+given #15 (I,wt=4): 20 star(ev) = ew.  [copy(19),flip(a)].
+
+given #16 (I,wt=4): 22 star(eo) = ep.  [copy(21),flip(a)].
+
+given #17 (I,wt=5): 23 c1 v c2 = c2.  [deny(2)].
+
+given #18 (I,wt=20): 25 star(star(c1) * star(c3)) v star(star(c2) * star(c3)) != star(star(c2) * star(c3)).  [copy(24),rewrite([18(3),18(9),18(15)]),flip(a)].
+
+given #19 (A,wt=9): 27 x v (x v y) = x v y.  [para(3(a,1),4(a,1,1)),flip(a)].
+
+given #20 (F,wt=17): 57 (star(c1) * star(c3)) v (star(c2) * star(c3)) != star(c1) * star(c3).  [ur(16,a,25,a),rewrite([12(7),12(12),5(11),12(18)])].
+
+given #21 (T,wt=4): 48 star(ew) = ev.  [para(20(a,1),12(a,1,1))].
+
+given #22 (T,wt=4): 50 star(ep) = eo.  [para(22(a,1),12(a,1,1))].
+
+given #23 (T,wt=5): 32 ev v x = x.  [para(6(a,1),5(a,1)),flip(a)].
+
+given #24 (T,wt=5): 36 eo * x = x.  [para(9(a,1),8(a,1)),flip(a)].
+
+given #25 (A,wt=9): 28 x v (y v x) = y v x.  [para(3(a,1),4(a,2,2)),rewrite([5(2)])].
+
+given #26 (T,wt=5): 41 ev * x = ev.  [para(11(a,1),8(a,1)),flip(a)].
+
+given #27 (T,wt=5): 61 x v ew = ew.  [para(48(a,1),16(b,1,1)),rewrite([32(7)]),xx(b)].
+
+given #28 (T,wt=5): 73 ew v x = ew.  [para(61(a,1),5(a,1)),flip(a)].
+
+given #29 (T,wt=7): 66 ev = x | star(x) != ew.  [back_rewrite(49),rewrite([65(5)]),flip(b)].
+
+given #30 (A,wt=11): 29 x v (y v z) = y v (x v z).  [para(5(a,1),4(a,1,1)),rewrite([4(2)])].
+
+given #31 (T,wt=6): 78 eo = ev | ew != ep.  [para(22(a,1),66(b,1)),flip(a),flip(b)].
+
+given #32 (T,wt=6): 79 ep = ev | ew != eo.  [para(50(a,1),66(b,1)),flip(a),flip(b)].
+
+given #33 (T,wt=7): 67 ev != x | star(x) = ew.  [back_rewrite(44),rewrite([65(5)]),flip(b)].
+
+given #34 (T,wt=7): 75 ew = x | star(x) != ev.  [back_rewrite(62),rewrite([73(2)])].
+
+given #35 (A,wt=11): 33 x * (y * z) = y * (x * z).  [para(8(a,1),7(a,1,1)),rewrite([7(2)])].
+
+given #36 (T,wt=6): 82 ew = eo | ep != ev.  [para(22(a,1),75(b,1))].
+
+given #37 (T,wt=6): 83 ew = ep | eo != ev.  [para(50(a,1),75(b,1))].
+
+given #38 (T,wt=7): 77 ew != x | star(x) = ev.  [para(73(a,1),14(a,1)),rewrite([48(5),5(5),32(5),48(5)])].
+
+given #39 (T,wt=8): 53 star(c1) v star(c2) = star(c1).  [hyper(14,a,23,a),rewrite([5(5)])].
+
+given #40 (A,wt=17): 37 (x * y) v (x * z) * u = x * (y v z * u).  [para(10(a,1),7(a,1,1))].
+
+given #41 (T,wt=8): 86 star(c2) != star(c1) | c2 = c1.  [para(53(a,1),14(a,1)),rewrite([12(8),12(9),5(8),23(8),12(9)]),flip(a)].
+
+given #42 (T,wt=9): 54 c1 v (c2 v x) = c2 v x.  [para(23(a,1),4(a,1,1)),flip(a)].
+
+given #43 (T,wt=9): 55 c2 v (x v c1) = x v c2.  [para(23(a,1),4(a,2,2)),rewrite([5(4)])].
+
+given #44 (T,wt=9): 81 c1 v (x v c2) = x v c2.  [para(23(a,1),29(a,1,2)),flip(a)].
+
+given #45 (A,wt=13): 38 (x * y) v (x * z) = y v z * x.  [para(10(a,1),8(a,1))].
+
+given #46 (T,wt=9): 103 c2 v (x v c1) = c2 v x.  [para(55(a,2),5(a,1))].
+
+given #47 (T,wt=10): 58 star(x) v star(x v y) = star(x).  [hyper(14,a,27,a),rewrite([5(4)])].
+
+given #48 (T,wt=8): 141 ep v star(eo v x) = ep.  [para(22(a,1),58(a,1,1)),rewrite([22(7)])].
+
+given #49 (T,wt=8): 142 eo v star(ep v x) = eo.  [para(50(a,1),58(a,1,1)),rewrite([50(7)])].
+
+given #50 (A,wt=19): 42 x v (y v z) != z | star(z) v star(x v y) = star(x v y).  [para(4(a,1),14(a,1))].
+
+given #51 (T,wt=8): 147 ep v star(x v eo) = ep.  [para(5(a,1),141(a,1,2,1))].
+
+given #52 (T,wt=8): 153 eo v star(x v ep) = eo.  [para(5(a,1),142(a,1,2,1))].
+
+given #53 (T,wt=9): 139 x v star(star(x) v y) = x.  [para(12(a,1),58(a,1,1)),rewrite([12(6)])].
+
+given #54 (T,wt=9): 195 x v star(y v star(x)) = x.  [para(5(a,1),139(a,1,2,1))].
+
+given #55 (A,wt=13): 43 x v y != x | star(x) v star(y) = star(y).  [para(5(a,1),14(a,1))].
+
+given #56 (T,wt=8): 211 c2 != c1 | star(c2) = star(c1).  [para(23(a,1),43(a,1)),rewrite([53(8)]),flip(b)].
+
+given #57 (T,wt=10): 68 star(x) v star(y v x) = star(x).  [hyper(14,a,28,a),rewrite([5(4)])].
+
+given #58 (T,wt=10): 96 star(c1) v star(c2 v x) = star(c1).  [hyper(14,a,54,a),rewrite([5(6)])].
+
+given #59 (T,wt=10): 106 star(c1) v star(x v c2) = star(c1).  [hyper(14,a,81,a),rewrite([5(6)])].
+
+given #60 (A,wt=13): 45 x v y = y | star(x) v star(y) != star(x).  [para(5(a,1),16(b,1))].
+
+given #61 (T,wt=10): 151 ep v star(x v (eo v y)) = ep.  [para(29(a,1),141(a,1,2,1))].
+
+given #62 (T,wt=10): 154 x v (x * star(ep v y)) = x.  [para(142(a,1),10(a,1,2)),rewrite([9(2),9(2)]),flip(a)].
+
+given #63 (T,wt=10): 157 eo v star(x v (ep v y)) = eo.  [para(29(a,1),142(a,1,2,1))].
+
+given #64 (T,wt=10): 180 ep v star(x v (y v eo)) = ep.  [para(4(a,1),147(a,1,2,1))].
+
+given #65 (A,wt=14): 46 x v star(y) = star(y) | y v star(x) != star(x).  [para(12(a,1),16(b,1,1))].
+
+given #66 (T,wt=10): 187 eo v star(x v (y v ep)) = eo.  [para(4(a,1),153(a,1,2,1))].
+
+given #67 (T,wt=10): 188 x v (x * star(y v ep)) = x.  [para(153(a,1),10(a,1,2)),rewrite([9(2),9(2)]),flip(a)].
+
+given #68 (T,wt=10): 249 x v (star(ep v y) * x) = x.  [para(8(a,1),154(a,1,2))].
+
+given #69 (T,wt=10): 280 x v (star(y v ep) * x) = x.  [para(8(a,1),188(a,1,2))].
+
+given #70 (A,wt=12): 47 star(x) v y = y | star(y) v x != x.  [para(12(a,1),16(b,1,2)),rewrite([12(7)])].
+
+given #71 (T,wt=11): 52 eo v x = x | ep v star(x) != ep.  [para(22(a,1),16(b,1,2)),rewrite([5(6),22(8)])].
+
+given #72 (T,wt=11): 56 (x * c1) v (x * c2) = x * c2.  [para(23(a,1),10(a,1,2)),flip(a)].
+
+given #73 (T,wt=11): 64 ep v x = x | eo v star(x) != eo.  [para(50(a,1),16(b,1,2)),rewrite([5(6),50(8)])].
+
+given #74 (T,wt=11): 74 (x * y) v (x * ew) = x * ew.  [para(61(a,1),10(a,1,2)),flip(a)].
+
+given #75 (A,wt=12): 51 x v eo = eo | ep v star(x) != star(x).  [para(22(a,1),16(b,1,1))].
+
+given #76 (T,wt=9): 330 x v (x * ew) = x * ew.  [para(9(a,1),74(a,1,1))].
+
+given #77 (T,wt=5): 349 ew * ew = ew.  [para(330(a,1),73(a,1))].
+
+given #78 (T,wt=8): 354 eo v star(ep * ew) = eo.  [para(330(a,1),142(a,1,2,1))].
+
+given #79 (T,wt=9): 341 x v star(ew * star(x)) = x.  [hyper(47,b,330,a),rewrite([8(3),5(5)])].
+
+given #80 (A,wt=13): 60 x v (y v (x v z)) = y v (x v z).  [para(27(a,1),4(a,2,2)),rewrite([29(3),4(2)])].
+
+given #81 (T,wt=9): 353 c1 v (ew * c2) = ew * c2.  [para(330(a,1),54(a,2)),rewrite([8(5),352(6),27(7),8(8)])].
+
+given #82 (T,wt=9): 362 ew * (ew * x) = ew * x.  [para(349(a,1),7(a,1,1)),flip(a)].
+
+given #83 (T,wt=9): 363 ew * (x * ew) = x * ew.  [para(349(a,1),7(a,2,2)),rewrite([8(4)])].
+
+given #84 (T,wt=9): 368 x v (ew * x) = ew * x.  [hyper(45,b,341,a),rewrite([12(3),12(6)])].
+
+given #85 (A,wt=12): 63 x v ep = ep | eo v star(x) != star(x).  [para(50(a,1),16(b,1,1))].
+
+given #86 (T,wt=10): 342 star(x) v star(x * ew) = star(x).  [hyper(14,a,330,a),rewrite([5(5)])].
+
+given #87 (T,wt=10): 357 star(c1) v star(ew * c2) = star(c1).  [para(330(a,1),96(a,1,2,1)),rewrite([8(5)])].
+
+given #88 (T,wt=10): 358 x v (x * star(ep * ew)) = x.  [para(330(a,1),154(a,1,2,2,1))].
+
+given #89 (T,wt=10): 359 eo v star(x v (ep * ew)) = eo.  [para(330(a,1),157(a,1,2,1,2))].
+
+given #90 (A,wt=13): 70 x v (y v (z v x)) = y v (z v x).  [para(4(a,1),28(a,1,2)),rewrite([4(5)])].
+
+given #91 (T,wt=10): 360 x v (star(ep * ew) * x) = x.  [para(330(a,1),249(a,1,2,1,1))].
+
+given #92 (T,wt=10): 372 star(x) v star(ew * x) = star(x).  [para(12(a,1),341(a,1,2,1,2))].
+
+given #93 (T,wt=10): 424 eo v star((ep * ew) v x) = eo.  [para(5(a,1),359(a,1,2,1))].
+
+given #94 (T,wt=11): 76 (x * ew) v (x * y) = x * ew.  [para(73(a,1),10(a,1,2)),flip(a)].
+
+given #95 (A,wt=19): 80 x v (y v z) != x v z | star(x v z) v star(y) = star(y).  [para(29(a,1),14(a,1))].
+
+given #96 (T,wt=11): 117 x v (x * y) = eo v y * x.  [para(9(a,1),38(a,1,1))].
+
+given #97 (T,wt=11): 118 x v (x * y) = y v eo * x.  [para(9(a,1),38(a,1,2)),rewrite([5(2)])].
+
+given #98 (T,wt=11): 149 star(eo v x) != ep | eo v x = eo.  [para(141(a,1),14(a,1)),rewrite([12(9),50(9),5(9),27(9),50(9)]),flip(a)].
+
+given #99 (T,wt=11): 155 star(ep v x) != eo | ep v x = ep.  [para(142(a,1),14(a,1)),rewrite([12(9),22(9),5(9),27(9),22(9)]),flip(a)].
+
+given #100 (A,wt=12): 84 star(c1) v (star(c2) v x) = star(c1) v x.  [para(53(a,1),4(a,1,1)),flip(a)].
+
+given #101 (T,wt=9): 577 c2 v star(star(c1) v x) = c2.  [hyper(80,a,84,a),rewrite([12(7),5(6),12(9)])].
+
+given #102 (T,wt=9): 593 c2 v star(x v star(c1)) = c2.  [para(5(a,1),577(a,1,2,1))].
+
+given #103 (T,wt=9): 599 c2 v star(ew * star(c1)) = c2.  [para(330(a,1),577(a,1,2,1)),rewrite([8(5)])].
+
+given #104 (T,wt=11): 162 x v y != ev | star(x v y) = ew.  [para(6(a,1),42(a,1,2)),rewrite([20(5),73(7)]),flip(b)].
+
+given #105 (A,wt=14): 85 (x * star(c1)) v (x * star(c2)) = x * star(c1).  [para(53(a,1),10(a,1,2)),flip(a)].
+
+given #106 (T,wt=7): 621 c2 != ev | star(c2) = ew.  [para(23(a,1),162(a,1)),rewrite([23(6)])].
+
+given #107 (T,wt=7): 623 star(c1) != ev | c1 = ew.  [para(53(a,1),162(a,1)),rewrite([53(9),12(7)])].
+
+given #108 (T,wt=11): 182 star(x v eo) != ep | x v eo = eo.  [para(147(a,1),14(a,1)),rewrite([12(9),50(9),5(9),28(9),50(9)]),flip(a)].
+
+given #109 (T,wt=11): 189 star(x v ep) != eo | x v ep = ep.  [para(153(a,1),14(a,1)),rewrite([12(9),22(9),5(9),28(9),22(9)]),flip(a)].
+
+given #110 (A,wt=12): 87 star(c1) v (x v star(c2)) = x v star(c1).  [para(53(a,1),29(a,1,2)),flip(a)].
+
+given #111 (T,wt=11): 199 x v star(y v (star(x) v z)) = x.  [para(29(a,1),139(a,1,2,1))].
+
+given #112 (T,wt=11): 203 x v star(y v (z v star(x))) = x.  [para(4(a,1),195(a,1,2,1))].
+
+given #113 (T,wt=11): 300 eo v star(x) = eo | ep v x != x.  [para(22(a,1),47(b,1,1)),rewrite([5(3)])].
+
+given #114 (T,wt=11): 301 ep v star(x) = ep | eo v x != x.  [para(50(a,1),47(b,1,1)),rewrite([5(3)])].
+
+given #115 (A,wt=23): 88 (x * y) v ((x * z) v (x * u)) * w = x * (y v (z v u) * w).  [para(4(a,1),37(a,2,2,1)),rewrite([10(2),4(5)])].
+
+given #116 (T,wt=11): 313 (c1 * x) v (x * c2) = x * c2.  [para(8(a,1),56(a,1,1))].
+
+given #117 (T,wt=11): 314 (x * c1) v (c2 * x) = x * c2.  [para(8(a,1),56(a,1,2))].
+
+given #118 (T,wt=10): 752 c2 v (c1 * star(ep v x)) = c2.  [para(314(a,2),249(a,1,2)),rewrite([8(6),251(13),5(7)])].
+
+given #119 (T,wt=10): 753 c2 v (c1 * star(x v ep)) = c2.  [para(314(a,2),280(a,1,2)),rewrite([8(6),282(13),5(7)])].
+
+given #120 (A,wt=19): 89 (x * (y * z)) v (x * (y * u)) = y * (z v u * x).  [para(37(a,1),8(a,1)),rewrite([10(7)]),flip(a)].
+
+given #121 (T,wt=10): 755 c2 v (c1 * star(ep * ew)) = c2.  [para(314(a,2),360(a,1,2)),rewrite([8(7),417(15),5(8)])].
+
+given #122 (T,wt=11): 328 (x * y) v (y * ew) = y * ew.  [para(8(a,1),74(a,1,1))].
+
+given #123 (T,wt=11): 329 (x * y) v (ew * x) = x * ew.  [para(8(a,1),74(a,1,2))].
+
+given #124 (T,wt=11): 365 star(ep * ew) != eo | ep * ew = ep.  [para(354(a,1),14(a,1)),rewrite([12(11),22(11),5(11),330(11),22(11)]),flip(a)].
+
+given #125 (A,wt=17): 90 (x * y) v (y * z) * u = y * (x v z * u).  [para(8(a,1),37(a,1,1,1))].
+
+given #126 (T,wt=11): 485 (x * ew) v (y * x) = x * ew.  [para(8(a,1),76(a,1,2))].
+
+given #127 (T,wt=11): 496 x v y != ew | star(x v y) = ev.  [para(73(a,1),80(a,1,2)),rewrite([61(2),48(7),5(7),32(7),48(7)]),flip(a)].
+
+given #128 (T,wt=7): 973 c2 != ew | star(c2) = ev.  [para(23(a,1),496(a,1)),rewrite([23(6)])].
+
+given #129 (T,wt=7): 975 star(c1) != ew | c1 = ev.  [para(53(a,1),496(a,1)),rewrite([53(9),12(7)])].
+
+given #130 (A,wt=17): 91 (x * y) v (z * x) * u = x * (y v z * u).  [para(8(a,1),37(a,1,1,2))].
+
+given #131 (T,wt=11): 544 eo v x * y = y v (x * y).  [para(8(a,1),117(a,1,2)),flip(a)].
+
+given #132 (T,wt=11): 572 x v eo * y = y v (x * y).  [para(8(a,1),118(a,1,2)),flip(a)].
+
+given #133 (T,wt=11): 573 star(x v eo) != ep | eo v x = eo.  [para(5(a,1),149(a,1,1))].
+
+given #134 (T,wt=11): 575 star(x v ep) != eo | ep v x = ep.  [para(5(a,1),155(a,1,1))].
+
+given #135 (A,wt=19): 92 (x * (y * z)) v (x * (y * u)) = x * (z v u * y).  [para(8(a,1),37(a,2,2)),rewrite([37(4),10(5),10(7)]),flip(a)].
+
+given #136 (T,wt=11): 597 c2 v star(x v (star(c1) v y)) = c2.  [para(29(a,1),577(a,1,2,1))].
+
+given #137 (T,wt=11): 601 c2 v star(x v (y v star(c1))) = c2.  [para(70(a,1),577(a,1,2,1))].
+
+given #138 (T,wt=11): 620 x v y != ev | star(y v x) = ew.  [para(5(a,1),162(a,1))].
+
+given #139 (T,wt=11): 625 x * c2 != ev | star(x * c2) = ew.  [para(56(a,1),162(a,1)),rewrite([56(9)])].
+
+given #140 (A,wt=21): 94 (x * (y * z)) v (y * u) * w = y * ((x * z) v u * w).  [para(33(a,1),37(a,1,1,1))].
+
+given #141 (T,wt=11): 626 x * ew != ev | star(x * ew) = ew.  [para(74(a,1),162(a,1)),rewrite([74(8)])].
+
+given #142 (T,wt=11): 627 ew * x != ev | star(ew * x) = ew.  [para(368(a,1),162(a,1)),rewrite([368(7)])].
+
+given #143 (T,wt=11): 642 star(eo v x) != ep | x v eo = eo.  [para(5(a,1),182(a,1,1))].
+
+given #144 (T,wt=11): 644 star(ep v x) != eo | x v ep = ep.  [para(5(a,1),189(a,1,1))].
+
+given #145 (A,wt=21): 95 (x * y) v (z * (x * u)) * w = x * (y v (z * u) * w).  [para(33(a,1),37(a,1,1,2))].
+
+given #146 (T,wt=11): 659 x v star(y v (ew * star(x))) = x.  [para(330(a,1),199(a,1,2,1,2)),rewrite([8(3)])].
+
+given #147 (T,wt=11): 687 eo v star(x) = eo | x v ep != x.  [para(5(a,1),300(b,1))].
+
+given #148 (T,wt=11): 692 ep v star(x) = ep | x v eo != x.  [para(5(a,1),301(b,1))].
+
+given #149 (T,wt=11): 729 (x * c2) v (c1 * x) = x * c2.  [para(313(a,1),5(a,1)),flip(a)].
+
+given #150 (A,wt=13): 99 c1 v (x v (c2 v y)) = x v (c2 v y).  [para(54(a,1),29(a,1,2)),flip(a)].
+
+given #151 (T,wt=11): 730 (c1 * x) v (c2 * x) = x * c2.  [para(8(a,1),313(a,1,2))].
+
+given #152 (T,wt=11): 740 (c2 * x) v (x * c1) = x * c2.  [para(314(a,1),5(a,1)),flip(a)].
+
+given #153 (T,wt=11): 742 (x * c1) v (c2 * x) = c2 * x.  [para(314(a,2),8(a,1))].
+
+given #154 (T,wt=11): 745 (c2 * x) v (x * c2) = c2 * x.  [para(314(a,1),28(a,1,2)),rewrite([742(10)])].
+
+given #155 (A,wt=13): 102 c2 v (x v (y v c1)) = c2 v (x v y).  [para(4(a,1),55(a,1,2)),rewrite([5(8)])].
+
+given #156 (T,wt=11): 758 x * c2 != ev | star(c2 * x) = ew.  [para(314(a,1),162(a,1)),rewrite([742(9)])].
+
+given #157 (T,wt=11): 896 (x * y) v (ew * y) = y * ew.  [para(8(a,1),328(a,1,2))].
+
+given #158 (T,wt=11): 912 (x * y) v (ew * x) = ew * x.  [para(329(a,2),8(a,1))].
+
+given #159 (T,wt=11): 918 (ew * x) v (x * y) = ew * x.  [para(329(a,2),38(a,1,1)),rewrite([912(4),73(6)])].
+
+given #160 (A,wt=17): 105 x v c2 != x v c1 | star(c2) v star(x v c1) = star(c2).  [para(55(a,1),14(a,1)),rewrite([5(11)])].
+
+given #161 (T,wt=11): 924 x * ew != ev | star(ew * x) = ew.  [para(329(a,1),162(a,1)),rewrite([912(8)])].
+
+given #162 (T,wt=11): 972 x v y != ew | star(y v x) = ev.  [para(5(a,1),496(a,1))].
+
+given #163 (T,wt=11): 977 x * c2 != ew | star(x * c2) = ev.  [para(56(a,1),496(a,1)),rewrite([56(9)])].
+
+given #164 (T,wt=11): 978 x * ew != ew | star(x * ew) = ev.  [para(74(a,1),496(a,1)),rewrite([74(8)])].
+
+given #165 (A,wt=13): 109 c1 v (x v (y v c2)) = x v (y v c2).  [para(81(a,1),29(a,1,2)),flip(a)].
+
+given #166 (T,wt=11): 979 ew * x != ew | star(ew * x) = ev.  [para(368(a,1),496(a,1)),rewrite([368(7)])].
+
+given #167 (T,wt=11): 1142 c2 v star(x v (ew * star(c1))) = c2.  [para(330(a,1),597(a,1,2,1,2)),rewrite([8(5)])].
+
+given #168 (T,wt=11): 1163 c2 * x != ev | star(x * c2) = ew.  [para(8(a,1),625(a,1))].
+
+given #169 (T,wt=11): 1205 ew * x != ev | star(x * ew) = ew.  [para(8(a,1),626(a,1))].
+
+given #170 (A,wt=17): 110 (x v y * z) v u = (z * x) v ((z * y) v u).  [para(38(a,1),4(a,1,1))].
+
+given #171 (T,wt=11): 1247 x v star((ew * star(x)) v y) = x.  [para(5(a,1),659(a,1,2,1))].
+
+given #172 (T,wt=11): 1291 (c1 * x) v (c2 * x) = c2 * x.  [para(730(a,2),8(a,1))].
+
+given #173 (T,wt=11): 1302 x * c2 != ew | star(c2 * x) = ev.  [para(730(a,1),496(a,1)),rewrite([1291(9)])].
+
+given #174 (T,wt=11): 1309 (c2 * x) v (x * c1) = c2 * x.  [para(740(a,2),8(a,1))].
+
+given #175 (A,wt=17): 111 x v ((y * z) v (y * u)) = x v (z v u * y).  [para(38(a,1),4(a,2,2)),rewrite([4(4)])].
+
+given #176 (T,wt=11): 1335 c2 * x != ev | star(c2 * x) = ew.  [para(742(a,1),162(a,1)),rewrite([742(9)])].
+
+given #177 (T,wt=11): 1337 c2 * x != ew | star(c2 * x) = ev.  [para(742(a,1),496(a,1)),rewrite([742(9)])].
+
+given #178 (T,wt=11): 1342 (x * c2) v (c2 * x) = c2 * x.  [para(745(a,1),5(a,1)),flip(a)].
+
+given #179 (T,wt=11): 1378 (x * y) v (ew * y) = ew * y.  [para(896(a,2),8(a,1))].
+
+given #180 (A,wt=19): 112 (x * y) v ((x * z) v (x * u)) = y v (z v u) * x.  [para(4(a,1),38(a,2,1)),rewrite([10(2),4(5)])].
+
+given #181 (T,wt=11): 1393 x * ew != ew | star(ew * x) = ev.  [para(896(a,1),496(a,1)),rewrite([1378(8)])].
+
+given #182 (T,wt=11): 1414 (ew * x) v (y * x) = ew * x.  [para(8(a,1),918(a,1,2))].
+
+given #183 (T,wt=11): 1434 c2 * x != ew | star(x * c2) = ev.  [para(8(a,1),977(a,1))].
+
+given #184 (T,wt=11): 1443 ew * x != ew | star(x * ew) = ev.  [para(8(a,1),978(a,1))].
+
+given #185 (A,wt=13): 113 (x * y) v (x * z) = z v y * x.  [para(38(a,1),5(a,1)),flip(a)].
+
+given #186 (T,wt=11): 1464 c2 v star((ew * star(c1)) v x) = c2.  [para(5(a,1),1142(a,1,2,1))].
+
+given #187 (T,wt=12): 140 star(x v y) != star(x) | x v y = x.  [para(58(a,1),14(a,1)),rewrite([12(7),12(7),5(6),27(6),12(7)]),flip(a)].
+
+given #188 (T,wt=12): 144 star(x) v star(y v (x v z)) = star(x).  [para(29(a,1),58(a,1,2,1))].
+
+given #189 (T,wt=12): 146 ep v (star(eo v x) v y) = ep v y.  [para(141(a,1),4(a,1,1)),flip(a)].
+
+given #190 (A,wt=19): 114 (x * (y * z)) v (x * (y * u)) = z v u * (x * y).  [para(38(a,2),7(a,2)),rewrite([7(3),7(5),7(7)]),flip(a)].
+
+given #191 (F,wt=19): 2030 star((star(c1) * star(c3)) v (star(c2) * star(c3))) != star(star(c1) * star(c3)).  [ur(140,b,57,a)].
+
+given #192 (T,wt=12): 150 ep v (x v star(eo v y)) = x v ep.  [para(141(a,1),29(a,1,2)),flip(a)].
+
+given #193 (T,wt=12): 152 eo v (star(ep v x) v y) = eo v y.  [para(142(a,1),4(a,1,1)),flip(a)].
+
+given #194 (T,wt=12): 156 eo v (x v star(ep v y)) = x v eo.  [para(142(a,1),29(a,1,2)),flip(a)].
+
+given #195 (T,wt=12): 158 x v y != y | star(x v y) = star(y).  [para(3(a,1),42(a,1,2)),rewrite([68(6)]),flip(b)].
+
+given #196 (A,wt=13): 115 (x * y) v (y * z) = x v z * y.  [para(8(a,1),38(a,1,1))].
+
+given #197 (T,wt=11): 2349 (x * y) v (y * x) = x * y.  [para(3(a,1),115(a,2,1))].
+
+given #198 (T,wt=11): 2812 x * y != ev | star(x * y) = ew.  [para(2349(a,1),162(a,1)),rewrite([2349(6)])].
+
+given #199 (T,wt=11): 2813 x * y != ew | star(x * y) = ev.  [para(2349(a,1),496(a,1)),rewrite([2349(6)])].
+
+given #200 (T,wt=11): 2814 x * y != ev | star(y * x) = ew.  [para(2349(a,1),620(a,1)),rewrite([2349(6)])].
+
+given #201 (A,wt=13): 133 c2 v (x v (c1 v y)) = c2 v (x v y).  [para(103(a,1),4(a,1,1)),rewrite([4(3),4(7)]),flip(a)].
+
+given #202 (T,wt=11): 2815 x * y != ew | star(y * x) = ev.  [para(2349(a,1),972(a,1)),rewrite([2349(6)])].
+
+given #203 (T,wt=12): 166 x v y != y | star(y v x) = star(y).  [para(28(a,1),42(a,1)),rewrite([58(6)]),flip(b)].
+
+given #204 (T,wt=12): 175 c2 v x != c1 | star(c2 v x) = star(c1).  [para(103(a,1),42(a,1)),rewrite([96(10)]),flip(b)].
+
+given #205 (T,wt=7): 2835 c1 != ew | star(c1) = ev.  [para(61(a,1),175(a,1)),rewrite([5(6),73(6),48(5)]),flip(a),flip(b)].
+
+given #206 (A,wt=19): 134 (x * c2) v ((x * y) v (x * c1)) = (x * c2) v (x * y).  [para(103(a,1),10(a,1,2)),rewrite([10(3),10(9)]),flip(a)].
+
+given #207 (T,wt=12): 179 ep v (star(x v eo) v y) = ep v y.  [para(147(a,1),4(a,1,1)),flip(a)].
+
+given #208 (T,wt=12): 183 ep v (x v star(y v eo)) = x v ep.  [para(147(a,1),29(a,1,2)),flip(a)].
+
+given #209 (T,wt=12): 186 eo v (star(x v ep) v y) = eo v y.  [para(153(a,1),4(a,1,1)),flip(a)].
+
+given #210 (T,wt=12): 190 eo v (x v star(y v ep)) = x v eo.  [para(153(a,1),29(a,1,2)),flip(a)].
+
+given #211 (A,wt=17): 135 c2 v x != x v c1 | star(c2) v star(x v c1) = star(c2).  [para(103(a,1),14(a,1)),rewrite([5(11)])].
+
+given #212 (T,wt=12): 206 x v y = y | star(x v y) != star(y).  [para(195(a,1),16(b,1)),rewrite([12(2),5(2),28(2),12(5)]),flip(b)].
+
+given #213 (T,wt=11): 2917 star(eo v x) = ep | eo v x != eo.  [para(141(a,1),206(b,1,1)),rewrite([141(5),50(7),12(10)]),flip(a),flip(b)].
+
+given #214 (T,wt=11): 2918 star(ep v x) = eo | ep v x != ep.  [para(142(a,1),206(b,1,1)),rewrite([142(5),22(7),12(10)]),flip(a),flip(b)].
+
+given #215 (T,wt=11): 2919 star(x v eo) = ep | x v eo != eo.  [para(147(a,1),206(b,1,1)),rewrite([147(5),50(7),12(10)]),flip(a),flip(b)].
+
+given #216 (A,wt=14): 136 star(x) v (star(x v y) v z) = star(x) v z.  [para(58(a,1),4(a,1,1)),flip(a)].
+
+given #217 (F,wt=20): 2913 star(star(star(c1) * star(c3)) v star(star(c2) * star(c3))) != star(c2) * star(c3).  [ur(206,a,25,a),rewrite([12(21)])].
+
+given #218 (T,wt=11): 2920 star(x v ep) = eo | x v ep != ep.  [para(153(a,1),206(b,1,1)),rewrite([153(5),22(7),12(10)]),flip(a),flip(b)].
+
+given #219 (T,wt=11): 2931 star(ep * ew) = eo | ep * ew != ep.  [para(354(a,1),206(b,1,1)),rewrite([354(6),22(8),12(12)]),flip(a),flip(b)].
+
+given #220 (T,wt=11): 2964 star(eo v x) = ep | x v eo != eo.  [para(5(a,1),2917(b,1))].
+
+given #221 (T,wt=11): 2966 star(ep v x) = eo | x v ep != ep.  [para(5(a,1),2918(b,1))].
+
+given #222 (A,wt=16): 137 star(x v y) v star(x v (y v z)) = star(x v y).  [para(4(a,1),58(a,1,2,1))].
+
+given #223 (T,wt=11): 2969 star(x v eo) = ep | eo v x != eo.  [para(5(a,1),2919(b,1))].
+
+given #224 (T,wt=11): 3002 star(x v ep) = eo | ep v x != ep.  [para(5(a,1),2920(b,1))].
+
+given #225 (T,wt=11): 3025 star(x v y) != ev | x v y = ew.  [para(137(a,1),162(a,1)),rewrite([137(10),12(7)])].
+
+given #226 (T,wt=7): 3041 star(c2) != ev | c2 = ew.  [para(23(a,1),3025(a,1,1)),rewrite([23(7)])].
+
+given #227 (A,wt=16): 138 (x * star(y)) v (x * star(y v z)) = x * star(y).  [para(58(a,1),10(a,1,2)),flip(a)].
+
+given #228 (T,wt=7): 3043 c1 != ev | star(c1) = ew.  [para(53(a,1),3025(a,1,1)),rewrite([12(3),53(8)])].
+
+given #229 (T,wt=11): 3029 star(x v y) != ew | x v y = ev.  [para(137(a,1),496(a,1)),rewrite([137(10),12(7)])].
+
+given #230 (T,wt=7): 3072 star(c2) != ew | c2 = ev.  [para(23(a,1),3029(a,1,1)),rewrite([23(7)])].
+
+given #231 (T,wt=11): 3040 star(x v y) != ev | y v x = ew.  [para(5(a,1),3025(a,1,1))].
+
+given #232 (A,wt=14): 143 star(x) v (y v star(x v z)) = y v star(x).  [para(58(a,1),29(a,1,2)),flip(a)].
+
+given #233 (T,wt=11): 3049 star(x * y) != ev | x * y = ew.  [para(2349(a,1),3025(a,1,1)),rewrite([2349(7)])].
+
+given #234 (T,wt=11): 3071 star(x v y) != ew | y v x = ev.  [para(5(a,1),3029(a,1,1))].
+
+given #235 (T,wt=11): 3079 star(x * y) != ew | x * y = ev.  [para(2349(a,1),3029(a,1,1)),rewrite([2349(7)])].
+
+given #236 (T,wt=11): 3082 star(x * y) != ev | y * x = ew.  [para(2349(a,1),3040(a,1,1)),rewrite([2349(7)])].
+
+given #237 (A,wt=14): 148 (x * ep) v (x * star(eo v y)) = x * ep.  [para(141(a,1),10(a,1,2)),flip(a)].
+
+given #238 (T,wt=11): 3105 star(x * y) != ew | y * x = ev.  [para(2349(a,1),3071(a,1,1)),rewrite([2349(7)])].
+
+given #239 (T,wt=12): 212 x v y != x | star(x v y) = star(x).  [para(27(a,1),43(a,1)),rewrite([58(6)]),flip(b)].
+
+given #240 (T,wt=12): 213 x v c2 != c1 | star(x v c2) = star(c1).  [para(81(a,1),43(a,1)),rewrite([106(10)]),flip(b)].
+
+given #241 (T,wt=12): 217 star(x) v star(y v (z v x)) = star(x).  [para(4(a,1),68(a,1,2,1))].
+
+given #242 (A,wt=25): 159 x v (y v (z v u)) != u | star(u) v star(x v (y v z)) = star(x v (y v z)).  [para(4(a,1),42(a,1,2))].
+
+given #243 (T,wt=12): 227 star(c2 v x) != star(c1) | c2 v x = c1.  [para(96(a,1),14(a,1)),rewrite([12(10),12(11),5(10),54(10),12(11)]),flip(a)].
+
+given #244 (T,wt=12): 229 star(c1) v star(x v (c2 v y)) = star(c1).  [para(29(a,1),96(a,1,2,1))].
+
+given #245 (T,wt=12): 232 star(c1) v star(x v (y v c2)) = star(c1).  [para(4(a,1),106(a,1,2,1))].
+
+given #246 (T,wt=12): 234 star(x v c2) != star(c1) | x v c2 = c1.  [para(106(a,1),14(a,1)),rewrite([12(10),12(11),5(10),81(10),12(11)]),flip(a)].
+
+given #247 (A,wt=19): 160 x v (y v z) != y | star(y) v star(x v z) = star(x v z).  [para(5(a,1),42(a,1,2))].
+
+given #248 (T,wt=12): 237 star(x) v y = y | x v star(y) != x.  [para(12(a,1),45(b,1,1)),rewrite([12(7)])].
+
+given #249 (T,wt=12): 240 ep v star(x v (y v (eo v z))) = ep.  [para(4(a,1),151(a,1,2,1))].
+
+given #250 (T,wt=12): 252 x v (x * star(y v (ep v z))) = x.  [para(29(a,1),154(a,1,2,2,1))].
+
+given #251 (T,wt=12): 257 eo v star(x v (y v (ep v z))) = eo.  [para(4(a,1),157(a,1,2,1))].
+
+given #252 (A,wt=19): 161 x v (y v z) != y | star(y) v star(z v x) = star(z v x).  [para(5(a,1),42(a,1)),rewrite([4(2)])].
+
+given #253 (T,wt=12): 262 ep v star(x v (y v (z v eo))) = ep.  [para(4(a,1),180(a,1,2,1,2))].
+
+given #254 (T,wt=12): 268 eo v star(x) = star(x) | x v ep != ep.  [para(22(a,1),46(b,1,2)),rewrite([22(9)])].
+
+given #255 (T,wt=12): 269 ep v star(x) = star(x) | x v eo != eo.  [para(50(a,1),46(b,1,2)),rewrite([50(9)])].
+
+given #256 (T,wt=12): 271 eo v star(x v (y v (z v ep))) = eo.  [para(4(a,1),187(a,1,2,1,2))].
+
+given #257 (A,wt=17): 163 x v c2 != c2 | star(c2) v star(x v c1) = star(x v c1).  [para(23(a,1),42(a,1,2))].
+
+given #258 (T,wt=12): 272 x v (x * star(y v (z v ep))) = x.  [para(187(a,1),10(a,1,2)),rewrite([9(2),9(2)]),flip(a)].
+
+given #259 (T,wt=12): 291 x v (star(y v (ep v z)) * x) = x.  [para(29(a,1),249(a,1,2,1,1))].
+
+given #260 (T,wt=12): 295 x v (star(y v (z v ep)) * x) = x.  [para(4(a,1),280(a,1,2,1,1))].
+
+given #261 (T,wt=12): 307 eo v star(x) = star(x) | ep v x != ep.  [para(12(a,1),52(b,1,2))].
+
+given #262 (A,wt=23): 164 x v (y v z) != y v z | star(y v z) v star(x v y) = star(x v y).  [para(27(a,1),42(a,1,2))].
+
+given #263 (T,wt=12): 323 ep v star(x) = star(x) | eo v x != eo.  [para(12(a,1),64(b,1,2))].
+
+given #264 (T,wt=12): 356 x * ew != x | star(x * ew) = star(x).  [para(330(a,1),43(a,1)),rewrite([342(8)]),flip(b)].
+
+given #265 (T,wt=12): 364 eo v (star(ep * ew) v x) = eo v x.  [para(354(a,1),4(a,1,1)),flip(a)].
+
+given #266 (T,wt=12): 366 eo v (x v star(ep * ew)) = x v eo.  [para(354(a,1),29(a,1,2)),flip(a)].
+
+given #267 (A,wt=23): 165 x v (y v z) != y v z | star(y v z) v star(x v z) = star(x v z).  [para(28(a,1),42(a,1,2))].
+
+given #268 (T,wt=12): 374 ew * x = x | star(ew * x) != star(x).  [para(341(a,1),16(b,1)),rewrite([12(3),5(3),368(3),12(7)]),flip(b)].
+
+given #269 (T,wt=12): 387 ew * c2 != c1 | star(ew * c2) = star(c1).  [para(353(a,1),43(a,1)),rewrite([357(12)]),flip(b)].
+
+given #270 (T,wt=12): 398 ew * x != x | star(ew * x) = star(x).  [para(368(a,1),43(a,1)),rewrite([372(8)]),flip(b)].
+
+given #271 (T,wt=12): 402 star(x * ew) != star(x) | x * ew = x.  [para(342(a,1),14(a,1)),rewrite([12(9),12(9),5(8),330(8),12(9)]),flip(a)].
+
+given #272 (A,wt=25): 167 x v (y v (z v u)) != y v u | star(y v u) v star(x v z) = star(x v z).  [para(29(a,1),42(a,1,2))].
+
+given #273 (T,wt=12): 409 star(ew * c2) != star(c1) | ew * c2 = c1.  [para(357(a,1),14(a,1)),rewrite([12(12),12(13),5(12),353(12),12(13)]),flip(a)].
+
+given #274 (T,wt=12): 423 eo v star(x v (y v (ep * ew))) = eo.  [para(4(a,1),359(a,1,2,1))].
+
+given #275 (T,wt=12): 425 x v (x * star(y v (ep * ew))) = x.  [para(359(a,1),10(a,1,2)),rewrite([9(2),9(2)]),flip(a)].
+
+given #276 (T,wt=12): 431 star(c2) v (x v star(c1)) = x v star(c1).  [para(53(a,1),70(a,1,2,2)),rewrite([53(11)])].
+
+given #277 (A,wt=19): 168 x v (y v z) != z | star(z) v star(y v x) = star(y v x).  [para(29(a,1),42(a,1))].
+
+given #278 (T,wt=12): 434 star(eo v x) v (y v ep) = y v ep.  [para(141(a,1),70(a,1,2,2)),rewrite([141(11)])].
+
+given #279 (T,wt=12): 435 star(ep v x) v (y v eo) = y v eo.  [para(142(a,1),70(a,1,2,2)),rewrite([142(11)])].
+
+given #280 (T,wt=12): 438 star(x v eo) v (y v ep) = y v ep.  [para(147(a,1),70(a,1,2,2)),rewrite([147(11)])].
+
+given #281 (T,wt=12): 439 star(x v ep) v (y v eo) = y v eo.  [para(153(a,1),70(a,1,2,2)),rewrite([153(11)])].
+
+given #282 (A,wt=23): 170 x v (c2 v y) != c2 v y | star(c2 v y) v star(x v c1) = star(x v c1).  [para(54(a,1),42(a,1,2))].
+
+given #283 (T,wt=12): 454 star(ep * ew) v (x v eo) = x v eo.  [para(354(a,1),70(a,1,2,2)),rewrite([354(13)])].
+
+given #284 (T,wt=12): 475 x v (x * star((ep * ew) v y)) = x.  [para(424(a,1),10(a,1,2)),rewrite([9(2),9(2)]),flip(a)].
+
+given #285 (T,wt=12): 478 eo v star(x v ((ep * ew) v y)) = eo.  [para(29(a,1),424(a,1,2,1))].
+
+given #286 (T,wt=12): 523 star(x) v star(y v (x * ew)) = star(x).  [para(330(a,1),80(a,1,2)),rewrite([5(13)]),xx(a)].
+
+given #287 (A,wt=23): 171 x v (y v c2) != y v c2 | star(y v c2) v star(x v c1) = star(x v c1).  [para(81(a,1),42(a,1,2))].
+
+given #288 (T,wt=12): 527 star(c1) v star(x v (ew * c2)) = star(c1).  [para(353(a,1),80(a,1,2)),rewrite([5(17)]),xx(a)].
+
+given #289 (T,wt=12): 528 star(x) v star(y v (ew * x)) = star(x).  [para(368(a,1),80(a,1,2)),rewrite([5(13)]),xx(a)].
+
+given #290 (T,wt=12): 582 star(c1) v x != x | c1 v star(x) = c1.  [para(84(a,1),42(a,1)),rewrite([53(10),12(8),5(7),53(12),12(10)])].
+
+given #291 (T,wt=12): 587 (ew * star(c1)) v star(c2) = ew * star(c1).  [para(330(a,1),84(a,2)),rewrite([8(8),5(9),394(10),8(11)])].
+
+given #292 (A,wt=17): 172 x v c2 != c2 | star(c2) v star(c1 v x) = star(c1 v x).  [para(81(a,1),42(a,1))].
+
+given #293 (T,wt=12): 670 (ep * ew) v star(x v eo) = ep * ew.  [para(354(a,1),203(a,1,2,1,2))].
+
+given #294 (T,wt=12): 765 c2 v (c1 * star(x v (ep v y))) = c2.  [para(29(a,1),752(a,1,2,2,1))].
+
+given #295 (T,wt=12): 768 c2 v (c1 * star(x v (y v ep))) = c2.  [para(70(a,1),752(a,1,2,2,1))].
+
+given #296 (T,wt=12): 1009 x v (star(y v (ep * ew)) * x) = x.  [para(359(a,1),544(a,1,1)),rewrite([36(2)]),flip(a)].
+
+given #297 (A,wt=23): 174 x v (c2 v y) != y v c1 | star(y v c1) v star(x v c2) = star(x v c2).  [para(103(a,1),42(a,1,2))].
+
+given #298 (T,wt=12): 1011 x v (star((ep * ew) v y) * x) = x.  [para(424(a,1),544(a,1,1)),rewrite([36(2)]),flip(a)].
+
+given #299 (T,wt=12): 1669 star(x) v star((ew * x) v y) = star(x).  [para(12(a,1),1247(a,1,2,1,1,2))].
+
+given #300 (T,wt=12): 1677 star(c1) v star((ew * c2) v x) = star(c1).  [para(1247(a,1),84(a,1,2)),rewrite([53(5),12(8)]),flip(a)].
+
+given #301 (T,wt=12): 2032 star(x v y) != star(y) | y v x = y.  [para(5(a,1),140(a,1,1))].
+
+given #302 (A,wt=14): 181 (x * ep) v (x * star(y v eo)) = x * ep.  [para(147(a,1),10(a,1,2)),flip(a)].
+
+given #303 (T,wt=12): 2096 (ep * ew) v star(eo v x) = ep * ew.  [para(330(a,1),146(a,2)),rewrite([5(8),343(9)])].
+
+given #304 (T,wt=12): 2327 x v y != x | star(y v x) = star(x).  [para(5(a,1),158(a,1))].
+
+given #305 (T,wt=12): 2834 x v c2 != c1 | star(c2 v x) = star(c1).  [para(5(a,1),175(a,1))].
+
+given #306 (T,wt=12): 2914 x v y = y | star(y v x) != star(y).  [para(5(a,1),206(b,1,1))].
+
+given #307 (A,wt=16): 184 star(x v eo) != y v ep | star(y v ep) = x v eo.  [para(147(a,1),42(a,1,2)),rewrite([12(10),4(12),153(11)]),flip(a),flip(b)].
+
+given #308 (T,wt=12): 3126 c2 v x != c1 | star(x v c2) = star(c1).  [para(5(a,1),213(a,1))].
+
+given #309 (T,wt=12): 3291 star(x v c2) != star(c1) | c2 v x = c1.  [para(5(a,1),227(a,1,1))].
+
+given #310 (T,wt=12): 3302 star(c2 v x) != star(c1) | x v c2 = c1.  [para(5(a,1),234(a,1,1))].
+
+given #311 (T,wt=12): 3341 x v star(c1) != x | c1 v star(x) = c1.  [para(87(a,1),160(a,1)),rewrite([53(10),12(8),5(7),53(12),12(10)])].
+
+given #312 (A,wt=16): 185 star(ep v x) != y v eo | star(y v eo) = x v ep.  [back_rewrite(178),rewrite([183(12)]),flip(b)].
+
+given #313 (T,wt=12): 3656 ew * x != x | star(x * ew) = star(x).  [para(8(a,1),356(a,1))].
+
+given #314 (T,wt=12): 3718 ew * x = x | star(x * ew) != star(x).  [para(8(a,1),374(b,1,1))].
+
+given #315 (T,wt=12): 3721 x * ew != x | star(ew * x) = star(x).  [para(8(a,1),398(a,1))].
+
+given #316 (T,wt=12): 3725 star(ew * x) != star(x) | x * ew = x.  [para(8(a,1),402(a,1,1))].
+
+given #317 (A,wt=16): 191 star(x v ep) != y v eo | star(y v eo) = x v ep.  [para(153(a,1),42(a,1,2)),rewrite([12(10),4(12),147(11)]),flip(a),flip(b)].
+
+given #318 (T,wt=12): 4115 star(x) v star((x * ew) v y) = star(x).  [para(5(a,1),523(a,1,2,1))].
+
+given #319 (T,wt=12): 4185 c2 v (c1 * star(x v (ep * ew))) = c2.  [para(330(a,1),765(a,1,2,2,1,2))].
+
+given #320 (T,wt=12): 4400 c2 v (c1 * star((ep * ew) v x)) = c2.  [para(5(a,1),4185(a,1,2,2,1))].
+
+given #321 (T,wt=13): 193 x v (star(star(x) v y) v z) = x v z.  [para(139(a,1),4(a,1,1)),flip(a)].
+
+given #322 (A,wt=16): 192 star(eo v x) != y v ep | star(y v ep) = x v eo.  [back_rewrite(177),rewrite([190(12)]),flip(b)].
+
+given #323 (T,wt=13): 198 x v (y v star(star(x) v z)) = y v x.  [para(139(a,1),29(a,1,2)),flip(a)].
+
+given #324 (T,wt=13): 201 x v (star(y v star(x)) v z) = x v z.  [para(195(a,1),4(a,1,1)),flip(a)].
+
+given #325 (T,wt=13): 207 x v (y v star(z v star(x))) = y v x.  [para(195(a,1),29(a,1,2)),flip(a)].
+
+given #326 (T,wt=13): 333 (x * (y * z)) v (y * ew) = y * ew.  [para(33(a,1),74(a,1,1))].
+
+given #327 (A,wt=15): 194 x v (y v star(star(x v y) v z)) = x v y.  [para(139(a,1),4(a,1)),flip(a)].
+
+given #328 (T,wt=13): 343 x v ((x * ew) v y) = (x * ew) v y.  [para(330(a,1),4(a,1,1)),flip(a)].
+
+given #329 (T,wt=13): 350 x v (y v (x * ew)) = y v (x * ew).  [para(330(a,1),29(a,1,2)),flip(a)].
+
+given #330 (T,wt=13): 369 x v (star(ew * star(x)) v y) = x v y.  [para(341(a,1),4(a,1,1)),flip(a)].
+
+given #331 (T,wt=13): 375 x v (y v star(ew * star(x))) = y v x.  [para(341(a,1),29(a,1,2)),flip(a)].
+
+given #332 (A,wt=15): 196 (x * y) v (x * star(star(y) v z)) = x * y.  [para(139(a,1),10(a,1,2)),flip(a)].
+
+given #333 (T,wt=13): 383 c1 v ((ew * c2) v x) = (ew * c2) v x.  [para(353(a,1),4(a,1,1)),flip(a)].
+
+given #334 (T,wt=13): 385 c1 v (x v (ew * c2)) = x v (ew * c2).  [para(353(a,1),29(a,1,2)),flip(a)].
+
+given #335 (T,wt=13): 388 ew * (x * (ew * y)) = x * (ew * y).  [para(362(a,1),7(a,2,2)),rewrite([33(5),7(4)])].
+
+given #336 (T,wt=13): 391 ew * (x * (y * ew)) = ew * (x * y).  [para(7(a,1),363(a,1,2)),rewrite([8(8)])].
+
+given #337 (A,wt=14): 197 star(star(x) v y) != x | star(x) v y = star(x).  [para(139(a,1),14(a,1)),rewrite([12(8),5(8),27(8)]),flip(a)].
+
+given #338 (T,wt=13): 394 x v ((ew * x) v y) = (ew * x) v y.  [para(368(a,1),4(a,1,1)),flip(a)].
+
+given #339 (T,wt=13): 396 x v (y v (ew * x)) = y v (ew * x).  [para(368(a,1),29(a,1,2)),flip(a)].
+
+given #340 (T,wt=13): 440 star(star(x) v y) v (z v x) = z v x.  [para(139(a,1),70(a,1,2,2)),rewrite([139(9)])].
+
+given #341 (T,wt=13): 441 star(x v star(y)) v (z v y) = z v y.  [para(195(a,1),70(a,1,2,2)),rewrite([195(9)])].
+
+given #342 (A,wt=15): 202 x v (y v star(z v star(x v y))) = x v y.  [para(195(a,1),4(a,1)),flip(a)].
+
+given #343 (T,wt=13): 455 star(ew * star(x)) v (y v x) = y v x.  [para(341(a,1),70(a,1,2,2)),rewrite([341(11)])].
+
+given #344 (T,wt=13): 488 (x * ew) v (y * (x * z)) = x * ew.  [para(33(a,1),76(a,1,2))].
+
+given #345 (T,wt=13): 585 star(c1) v (star(c2) * star(ep v x)) = star(c1).  [para(154(a,1),84(a,1,2)),rewrite([53(5)]),flip(a)].
+
+given #346 (T,wt=13): 586 star(c1) v (star(c2) * star(x v ep)) = star(c1).  [para(188(a,1),84(a,1,2)),rewrite([53(5)]),flip(a)].
+
+given #347 (A,wt=15): 204 (x * y) v (x * star(z v star(y))) = x * y.  [para(195(a,1),10(a,1,2)),flip(a)].
+
+given #348 (T,wt=13): 589 star(c1) v (star(c2) * star(ep * ew)) = star(c1).  [para(358(a,1),84(a,1,2)),rewrite([53(5)]),flip(a)].
+
+given #349 (T,wt=13): 592 c2 v (star(star(c1) v x) v y) = c2 v y.  [para(577(a,1),4(a,1,1)),flip(a)].
+
+given #350 (T,wt=13): 596 c2 v (x v star(star(c1) v y)) = x v c2.  [para(577(a,1),29(a,1,2)),flip(a)].
+
+given #351 (T,wt=13): 600 star(star(c1) v x) v (y v c2) = y v c2.  [para(577(a,1),70(a,1,2,2)),rewrite([577(13)])].
+
+given #352 (A,wt=14): 205 star(x v star(y)) != y | x v star(y) = star(y).  [para(195(a,1),14(a,1)),rewrite([12(8),5(8),28(8)]),flip(a)].
+
+given #353 (T,wt=13): 605 c2 v (star(x v star(c1)) v y) = c2 v y.  [para(593(a,1),4(a,1,1)),flip(a)].
+
+given #354 (T,wt=13): 608 c2 v (x v star(y v star(c1))) = x v c2.  [para(593(a,1),29(a,1,2)),flip(a)].
+
+given #355 (T,wt=13): 610 star(x v star(c1)) v (y v c2) = y v c2.  [para(593(a,1),70(a,1,2,2)),rewrite([593(13)])].
+
+given #356 (T,wt=13): 613 c2 v (star(ew * star(c1)) v x) = c2 v x.  [para(599(a,1),4(a,1,1)),flip(a)].
+
+given #357 (A,wt=18): 208 star(x v star(y)) != z v y | star(z v y) = x v star(y).  [para(195(a,1),42(a,1,2)),rewrite([12(9),4(10),68(9)]),flip(a),flip(b)].
+
+given #358 (T,wt=13): 616 c2 v (x v star(ew * star(c1))) = x v c2.  [para(599(a,1),29(a,1,2)),flip(a)].
+
+given #359 (T,wt=13): 618 star(ew * star(c1)) v (x v c2) = x v c2.  [para(599(a,1),70(a,1,2,2)),rewrite([599(15)])].
+
+given #360 (T,wt=13): 653 x v star(y v (z v (star(x) v u))) = x.  [para(4(a,1),199(a,1,2,1))].
+
+given #361 (T,wt=13): 661 x v star(y v (z v (u v star(x)))) = x.  [para(70(a,1),199(a,1,2,1,2))].
+
+given #362 (A,wt=18): 209 star(x v y) != z v star(x) | star(z v star(x)) = y v x.  [back_rewrite(176),rewrite([207(10)]),flip(b)].
+
+given #363 (T,wt=13): 672 (x * ew) v star(y v star(x)) = x * ew.  [para(342(a,1),203(a,1,2,1,2))].
+
+given #364 (T,wt=13): 673 (ew * c2) v star(x v star(c1)) = ew * c2.  [para(357(a,1),203(a,1,2,1,2))].
+
+given #365 (T,wt=13): 675 (ew * x) v star(y v star(x)) = ew * x.  [para(372(a,1),203(a,1,2,1,2))].
+
+given #366 (T,wt=13): 893 (x * (y * z)) v (z * ew) = z * ew.  [para(7(a,1),328(a,1,1))].
+
+given #367 (A,wt=19): 210 x v (y v z) != x v y | star(x v y) v star(z) = star(z).  [para(4(a,1),43(a,1))].
+
+given #368 (T,wt=13): 957 (x * ew) v (y * (z * x)) = x * ew.  [para(7(a,1),485(a,1,2))].
+
+given #369 (T,wt=13): 1137 c2 v star(x v (y v (star(c1) v z))) = c2.  [para(4(a,1),597(a,1,2,1))].
+
+given #370 (T,wt=13): 1144 c2 v star(x v (y v (z v star(c1)))) = c2.  [para(70(a,1),597(a,1,2,1,2))].
+
+given #371 (T,wt=13): 1246 x v star(y v (z v (ew * star(x)))) = x.  [para(4(a,1),659(a,1,2,1))].
+
+given #372 (A,wt=17): 215 c2 v x != c2 | star(c2) v star(x v c1) = star(x v c1).  [para(103(a,1),43(a,1))].
+
+given #373 (T,wt=13): 1402 (x * (y * z)) v (ew * y) = ew * y.  [para(33(a,1),912(a,1,1))].
+
+given #374 (T,wt=13): 1416 (ew * x) v (y * (x * z)) = ew * x.  [para(33(a,1),918(a,1,2))].
+
+given #375 (T,wt=13): 1463 c2 v star(x v (y v (ew * star(c1)))) = c2.  [para(4(a,1),1142(a,1,2,1))].
+
+given #376 (T,wt=13): 1673 x v star(y v ((ew * star(x)) v z)) = x.  [para(29(a,1),1247(a,1,2,1))].
+
+given #377 (A,wt=14): 216 star(x) v (star(y v x) v z) = star(x) v z.  [para(68(a,1),4(a,1,1)),flip(a)].
+
+given #378 (T,wt=13): 1799 (x * (y * z)) v (ew * z) = ew * z.  [para(7(a,1),1378(a,1,1))].
+
+given #379 (T,wt=13): 1916 (ew * x) v (y * (z * x)) = ew * x.  [para(7(a,1),1414(a,1,2))].
+
+given #380 (T,wt=13): 2019 c2 v star(x v ((ew * star(c1)) v y)) = c2.  [para(29(a,1),1464(a,1,2,1))].
+
+given #381 (T,wt=13): 2092 ep v (star(eo v x) * star(ep v y)) = ep.  [para(154(a,1),146(a,1,2)),rewrite([141(5)]),flip(a)].
+
+given #382 (A,wt=16): 218 (x * star(y)) v (x * star(z v y)) = x * star(y).  [para(68(a,1),10(a,1,2)),flip(a)].
+
+given #383 (T,wt=13): 2093 ep v (star(eo v x) * star(y v ep)) = ep.  [para(188(a,1),146(a,1,2)),rewrite([141(5)]),flip(a)].
+
+given #384 (T,wt=13): 2094 ep v (star(ep v x) * star(eo v y)) = ep.  [para(249(a,1),146(a,1,2)),rewrite([141(5)]),flip(a)].
+
+given #385 (T,wt=13): 2095 ep v (star(x v ep) * star(eo v y)) = ep.  [para(280(a,1),146(a,1,2)),rewrite([141(5)]),flip(a)].
+
+given #386 (T,wt=13): 2098 ep v (star(eo v x) * star(ep * ew)) = ep.  [para(358(a,1),146(a,1,2)),rewrite([141(5)]),flip(a)].
+
+given #387 (A,wt=14): 219 star(x) v (y v star(z v x)) = y v star(x).  [para(68(a,1),29(a,1,2)),flip(a)].
+
+given #388 (T,wt=13): 2100 ep v (star(ep * ew) * star(eo v x)) = ep.  [para(360(a,1),146(a,1,2)),rewrite([141(5)]),flip(a)].
+
+given #389 (T,wt=13): 2301 eo v (star(ep v x) * star(ep v y)) = eo.  [para(154(a,1),152(a,1,2)),rewrite([142(5)]),flip(a)].
+
+given #390 (T,wt=13): 2302 eo v (star(ep v x) * star(y v ep)) = eo.  [para(188(a,1),152(a,1,2)),rewrite([142(5)]),flip(a)].
+
+given #391 (T,wt=13): 2303 eo v (star(x v ep) * star(ep v y)) = eo.  [para(280(a,1),152(a,1,2)),rewrite([142(5)]),flip(a)].
+
+given #392 (A,wt=16): 220 star(x v y) v star(x v (z v y)) = star(x v y).  [para(29(a,1),68(a,1,2,1))].
+
+given #393 (T,wt=13): 2305 eo v (star(ep v x) * star(ep * ew)) = eo.  [para(358(a,1),152(a,1,2)),rewrite([142(5)]),flip(a)].
+
+given #394 (T,wt=13): 2307 eo v (star(ep * ew) * star(ep v x)) = eo.  [para(360(a,1),152(a,1,2)),rewrite([142(5)]),flip(a)].
+
+given #395 (T,wt=13): 2352 x v y * z = (x * z) v (y * z).  [para(8(a,1),115(a,1,2)),flip(a)].
+-------- Proof 1 -------- 
+
+============================== PROOF =================================
+
+% Proof 1 at 0.56 (+ 0.05) seconds.
+% Length of proof is 21.
+% Level of proof is 5.
+% Maximum clause weight is 20.000.
+% Given clauses 395 (79.000 givens/level).
+
+1 x v y = y <-> star(y) v star(x) = star(x) # label(non_clause).  [assumption].
+2 x v y = y -> plus(x,z) v plus(y,z) = plus(y,z) # label(non_clause) # label(goal).  [goal].
+5 x v y = y v x.  [assumption].
+8 x * y = y * x.  [assumption].
+10 x * y v z = (x * y) v (x * z).  [assumption].
+12 star(star(x)) = x.  [assumption].
+13 x v y != y | star(x) = star(y) v star(x).  [clausify(1)].
+14 x v y != y | star(y) v star(x) = star(x).  [copy(13),flip(b)].
+15 x v y = y | star(x) != star(y) v star(x).  [clausify(1)].
+16 x v y = y | star(y) v star(x) != star(x).  [copy(15),flip(b)].
+18 plus(x,y) = star(star(x) * star(y)).  [assumption].
+23 c1 v c2 = c2.  [deny(2)].
+24 plus(c2,c3) != plus(c1,c3) v plus(c2,c3).  [deny(2)].
+25 star(star(c1) * star(c3)) v star(star(c2) * star(c3)) != star(star(c2) * star(c3)).  [copy(24),rewrite([18(3),18(9),18(15)]),flip(a)].
+38 (x * y) v (x * z) = y v z * x.  [para(10(a,1),8(a,1))].
+53 star(c1) v star(c2) = star(c1).  [hyper(14,a,23,a),rewrite([5(5)])].
+57 (star(c1) * star(c3)) v (star(c2) * star(c3)) != star(c1) * star(c3).  [ur(16,a,25,a),rewrite([12(7),12(12),5(11),12(18)])].
+115 (x * y) v (y * z) = x v z * y.  [para(8(a,1),38(a,1,1))].
+2352 x v y * z = (x * z) v (y * z).  [para(8(a,1),115(a,1,2)),flip(a)].
+6868 (star(c1) * x) v (star(c2) * x) = star(c1) * x.  [para(53(a,1),2352(a,1,1)),flip(a)].
+6869 $F.  [resolve(6868,a,57,a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=395. Generated=44626. Kept=6861. proofs=1.
+Usable=352. Sos=5133. Demods=2315. Limbo=0, Disabled=1393. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=37765. Back_subsumed=115.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=2642 (6 lex), Back_demodulated=1260. Back_unit_deleted=0.
+Demod_attempts=752449. Demod_rewrites=110299.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=277625. Nonunit_bsub_feature_tests=91527.
+Megabytes=13.66.
+User_CPU=0.56, System_CPU=0.05, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+------ process 1751 exit (max_proofs) ------
+
+Process 1751 exit (max_proofs) Fri Jul 24 16:20:23 2026

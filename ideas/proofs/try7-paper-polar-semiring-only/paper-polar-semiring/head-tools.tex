@@ -1,0 +1,76 @@
+% =========================================================
+% head-tools.tex — packages, environments, macros
+% =========================================================
+
+% ---------- Block 1: encoding & fonts ----------
+% On full TeX installations lmodern + T1 are used; on minimal ones we fall
+% back to the default OT1/CM setup to avoid bitmap-font generation.
+\IfFileExists{lmodern.sty}
+  {\usepackage[T1]{fontenc}\usepackage{lmodern}}
+  {}
+\usepackage[utf8]{inputenc}
+\IfFileExists{lmodern.sty}{\usepackage{microtype}}{\usepackage[expansion=false]{microtype}}
+
+% ---------- Block 2: mathematics ----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+% ---------- Block 3: tables & layout ----------
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[margin=2.7cm]{geometry}
+
+% ---------- Block 4: bibliography ----------
+\usepackage[numbers,sort&compress]{natbib}
+
+% ---------- Block 5: hyperref & cleveref (load last) ----------
+\usepackage[colorlinks=true,linkcolor=blue!60!black,citecolor=green!45!black,urlcolor=blue!60!black]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+
+% ---------- Block 6: theorem environments ----------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\crefname{axiom}{axiom}{axioms}
+
+% ---------- Block 7: Polar Semiring notation ----------
+% Primitive: \vee, \otimes, ^{*}, e_\vee, e_\otimes
+% Derived:   \wedge, \oplus, e_\wedge, e_\oplus
+\newcommand{\ev}{e_{\vee}}
+\newcommand{\ew}{e_{\wedge}}
+\newcommand{\eo}{e_{\otimes}}
+\newcommand{\ep}{e_{\oplus}}
+\newcommand{\PS}{\mathrm{PS}}
+\newcommand{\BGA}{\mathrm{BGA}}
+\newcommand{\dstar}[1]{{#1}^{*}}          % polarity applied to #1
+\newcommand{\leqm}{\leq^{*}}              % meet order
+% Residual (BGA-native; permitted ONLY in Section 4, cf. final-rules §4)
+\newcommand{\res}{\mathbin{\to}}
+
+% ---------- Block 8: author-check notes ----------
+% \noteAI{...} marks items the author must verify before submission.
+% Set \noteAIfalse to suppress all notes in the final version.
+\newif\ifnoteAI
+\noteAItrue
+\usepackage{xcolor}
+\ifnoteAI
+  \newcommand{\noteAI}[1]{\textcolor{red!70!black}{\footnotesize [\textsf{AI-check}: #1]}}
+\else
+  \newcommand{\noteAI}[1]{}
+\fi
+
+% ---------- Block 9: architecture diagram ----------
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,backgrounds,arrows.meta,calc}

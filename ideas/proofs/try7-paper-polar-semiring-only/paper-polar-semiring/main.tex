@@ -1,0 +1,55 @@
+% =========================================================
+% main.tex — Polar Semirings
+% Structure fixed by final-rules.md (5 sections)
+% =========================================================
+\documentclass[11pt,a4paper]{article}
+
+\input{head-tools}
+
+\title{Polar Semirings}
+\author{%
+    Thu-Le Tran\\
+    Can Tho University \\
+    ttle@ctu.edu.vn
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We introduce \emph{Polar Semirings}, a class of algebraic structures in which
+polarity---an order-reversing involution---is taken as a primitive operation
+rather than derived from residuation. A Polar Semiring is axiomatized by
+eleven equational and quasi-equational axioms over the primitive signature
+$(X,\vee,\otimes,{}^{*},e_\vee,e_\otimes)$; the meet, the plus operation, and
+their units are obtained by conjugation under the polarity. We show that the
+axiom system is independent, exhibit canonical models, and prove a
+Fundamental Structure Theorem: every Polar Semiring canonically induces a dual
+Polar Semiring, with the polarity acting as an isomorphism and the two induced
+orders coinciding. We then position the class within the landscape of
+involutive algebraic structures: every bounded Girard algebra induces a Polar
+Semiring, whereas there exists a Polar Semiring on the unit interval that
+cannot be extended to a bounded Girard algebra. Consequently, bounded Girard
+algebras form a proper subclass, and Polar Semirings constitute a genuine
+residuation-free generalization.
+\end{abstract}
+
+\begin{center}
+    \textbf{Keywords:} polarity; involution; semiring; Girard algebra; residuation
+\end{center}
+
+% \noteAI{Add MSC2020 codes (suggest: 06B05, 06D30, 16Y60, 03G10)}
+
+\input{doc1-intro}
+\input{doc2-polar-semiring}
+% \input{doc3-structures}
+\input{doc3-duality}
+\input{doc4-compare}
+\input{doc5-summary}
+
+\bibliographystyle{abbrvnat}
+\bibliography{head-refs}
+
+\end{document}

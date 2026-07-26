@@ -1,0 +1,74 @@
+% ==========================================================
+% no-dualizing-element.in
+% ==========================================================
+% Muc tieu / goal of this search:
+%   Tim MOT Polar Semiring huu han trong do KHONG ton tai phan tu q nao
+%   dong vai tro dualizing element -- tuc phu dinh cua (dagger) trong
+%   paper-polar-semiring/doc4-compare.tex, eq:dagger:
+%
+%       a (x) b <= q   <->   b <= a^*      (voi moi a,b)
+%
+%   Find one finite Polar Semiring admitting NO dualizing element, i.e. a
+%   model of the negation of eq:dagger in doc4-compare.tex.
+%
+%   Neu tim duoc => PS khong suy ra BGA (Theorem 4.2, thm:impossibility),
+%   xac nhan doc lap tren mo hinh HUU HAN, bo sung cho chung minh giai tich
+%   tren mo hinh lien tuc [0,1] da co trong bai bao.
+%   A model gives an independent finite-model confirmation of Theorem 4.2.
+%
+% Ky hieu / notation:
+%   v = join (\vee), * = tensor (\otimes), star() = polarity (^*),
+%   ev = e_\vee, eo = e_\otimes.
+%   Thu tu / order:  u <= w   :<->   u v w = w.
+%
+% LUU Y / NOTE: ca hai khoi deu la formulas(assumptions) -- Mace4 chi can
+% tim MOT model thoa ca hai, khong dung co che phu-dinh-goal.
+% Both blocks are assumptions; no goal-negation mechanism is used.
+% ==========================================================
+
+assign(start_size, 2).
+assign(end_size, 12).
+assign(max_models, 1).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % ---- 11 tien de Polar Semiring / the 11 PS axioms ----
+  % J0: join idempotence
+  x v x = x.
+  % J1: join associativity
+  (x v y) v z = x v (y v z).
+  % J2: join commutativity
+  x v y = y v x.
+  % J3: join unit
+  x v ev = x.
+  % T1: tensor associativity
+  (x * y) * z = x * (y * z).
+  % T2: tensor commutativity
+  x * y = y * x.
+  % T3: tensor unit
+  x * eo = x.
+  % TJ1: tensor distributes over join
+  x * (y v z) = (x * y) v (x * z).
+  % TJ2: ev absorbing for tensor
+  x * ev = ev.
+  % P: involution
+  star(star(x)) = x.
+  % PJ: polarity / order-compatibility
+  (x v y = y) <-> (star(y) v star(x) = star(x)).
+
+end_of_list.
+
+formulas(assumptions).
+
+  % ---- Phu dinh cua (dagger) / negation of eq:dagger ----
+  % "Voi MOI q, ton tai a,b lam hong tuong duong  a*b <= q  <->  b <= star(a)."
+  % "For EVERY q there are a,b breaking  a*b <= q  <->  b <= star(a)."
+  all q (exists a exists b (
+       ( ((a * b) v q = q)    &  -(b v star(a) = star(a)) )
+     | ( -((a * b) v q = q)   &   (b v star(a) = star(a)) )
+  )).
+
+end_of_list.

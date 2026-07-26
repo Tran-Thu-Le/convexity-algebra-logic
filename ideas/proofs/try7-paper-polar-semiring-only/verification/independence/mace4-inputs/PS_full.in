@@ -1,0 +1,56 @@
+% ==========================================================
+% PS_full.in -- all 11 PS axioms; a model proves CONSISTENCY
+% ==========================================================
+% Ky hieu / Notation:
+%   v      = join   (\vee),    primitive
+%   *      = tensor (\otimes), primitive
+%   star() = polarity (^*),     primitive
+%   ev     = e_\vee,            primitive
+%   eo     = e_\otimes,         primitive
+% Dan xuat / derived (khong dung o file nay / unused here):
+%   meet(x,y) = star(star(x) v star(y)),  plus(x,y) = star(star(x) * star(y))
+% ==========================================================
+
+assign(start_size, 2).
+assign(end_size, 10).
+assign(max_models, 1).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % J0: join idempotence
+  x v x = x.
+
+  % J1: join associativity
+  (x v y) v z = x v (y v z).
+
+  % J2: join commutativity
+  x v y = y v x.
+
+  % J3: join unit
+  x v ev = x.
+
+  % T1: tensor associativity
+  (x * y) * z = x * (y * z).
+
+  % T2: tensor commutativity
+  x * y = y * x.
+
+  % T3: tensor unit
+  x * eo = x.
+
+  % TJ1: tensor distributes over join
+  x * (y v z) = (x * y) v (x * z).
+
+  % TJ2: ev absorbing for tensor
+  x * ev = ev.
+
+  % P: involution
+  star(star(x)) = x.
+
+  % PJ: polarity / order-compatibility
+  (x v y = y) <-> (star(y) v star(x) = star(x)).
+
+end_of_list.

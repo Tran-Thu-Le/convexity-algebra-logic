@@ -1,0 +1,219 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2017-11A (CIIRC), November 2017.
+Process 1468 was started by root on vm,
+Fri Jul 24 16:14:09 2026
+The command was "/home/claude/Prover9/bin/prover9 -f prover9-minimality/block2-noJ0-RS1d.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file prover9-minimality/block2-noJ0-RS1d.in
+
+assign(max_seconds,60).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+star(star(x)) = x.
+meet(x,y) = star(star(x) v star(y)).
+plus(x,y) = star(star(x) * star(y)).
+ew = star(ev).
+ep = star(eo).
+end_of_list.
+
+formulas(goals).
+meet(x,x) = x.
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 meet(x,x) = x # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+(x v y) v z = x v (y v z).  [assumption].
+x v y = y v x.  [assumption].
+x v ev = x.  [assumption].
+(x * y) * z = x * (y * z).  [assumption].
+x * y = y * x.  [assumption].
+x * eo = x.  [assumption].
+star(star(x)) = x.  [assumption].
+meet(x,y) = star(star(x) v star(y)).  [assumption].
+plus(x,y) = star(star(x) * star(y)).  [assumption].
+ew = star(ev).  [assumption].
+ep = star(eo).  [assumption].
+meet(c1,c1) != c1.  [deny(1)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ eo, ev, ep, ew, c1, *, v, meet, plus, star ]).
+After inverse_order:  (no changes).
+Unfolding symbols: meet/2 plus/2.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+
+Auto_process settings:  (no changes).
+
+kept:      2 (x v y) v z = x v (y v z).  [assumption].
+
+% Operation v is commutative; C redundancy checks enabled.
+kept:      3 x v y = y v x.  [assumption].
+kept:      4 x v ev = x.  [assumption].
+kept:      5 (x * y) * z = x * (y * z).  [assumption].
+
+% Operation * is commutative; C redundancy checks enabled.
+kept:      6 x * y = y * x.  [assumption].
+kept:      7 x * eo = x.  [assumption].
+kept:      8 star(star(x)) = x.  [assumption].
+kept:      9 meet(x,y) = star(star(x) v star(y)).  [assumption].
+kept:      10 plus(x,y) = star(star(x) * star(y)).  [assumption].
+           11 ew = star(ev).  [assumption].
+kept:      12 star(ev) = ew.  [copy(11),flip(a)].
+           13 ep = star(eo).  [assumption].
+kept:      14 star(eo) = ep.  [copy(13),flip(a)].
+           15 meet(c1,c1) != c1.  [deny(1)].
+kept:      16 star(star(c1) v star(c1)) != c1.  [copy(15),rewrite([9(3)])].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+2 (x v y) v z = x v (y v z).  [assumption].
+3 x v y = y v x.  [assumption].
+4 x v ev = x.  [assumption].
+5 (x * y) * z = x * (y * z).  [assumption].
+6 x * y = y * x.  [assumption].
+7 x * eo = x.  [assumption].
+8 star(star(x)) = x.  [assumption].
+9 meet(x,y) = star(star(x) v star(y)).  [assumption].
+10 plus(x,y) = star(star(x) * star(y)).  [assumption].
+12 star(ev) = ew.  [copy(11),flip(a)].
+14 star(eo) = ep.  [copy(13),flip(a)].
+16 star(star(c1) v star(c1)) != c1.  [copy(15),rewrite([9(3)])].
+end_of_list.
+
+formulas(demodulators).
+2 (x v y) v z = x v (y v z).  [assumption].
+3 x v y = y v x.  [assumption].
+        % (lex-dep)
+4 x v ev = x.  [assumption].
+5 (x * y) * z = x * (y * z).  [assumption].
+6 x * y = y * x.  [assumption].
+        % (lex-dep)
+7 x * eo = x.  [assumption].
+8 star(star(x)) = x.  [assumption].
+9 meet(x,y) = star(star(x) v star(y)).  [assumption].
+10 plus(x,y) = star(star(x) * star(y)).  [assumption].
+12 star(ev) = ew.  [copy(11),flip(a)].
+14 star(eo) = ep.  [copy(13),flip(a)].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.00 seconds.
+
+given #1 (I,wt=11): 2 (x v y) v z = x v (y v z).  [assumption].
+
+given #2 (I,wt=7): 3 x v y = y v x.  [assumption].
+
+% Operation v is associative-commutative; CAC redundancy checks enabled.
+
+given #3 (I,wt=5): 4 x v ev = x.  [assumption].
+
+given #4 (I,wt=11): 5 (x * y) * z = x * (y * z).  [assumption].
+
+given #5 (I,wt=7): 6 x * y = y * x.  [assumption].
+
+% Operation * is associative-commutative; CAC redundancy checks enabled.
+
+given #6 (I,wt=5): 7 x * eo = x.  [assumption].
+
+given #7 (I,wt=5): 8 star(star(x)) = x.  [assumption].
+
+given #8 (I,wt=10): 9 meet(x,y) = star(star(x) v star(y)).  [assumption].
+
+given #9 (I,wt=10): 10 plus(x,y) = star(star(x) * star(y)).  [assumption].
+
+given #10 (I,wt=4): 12 star(ev) = ew.  [copy(11),flip(a)].
+
+given #11 (I,wt=4): 14 star(eo) = ep.  [copy(13),flip(a)].
+
+given #12 (I,wt=8): 16 star(star(c1) v star(c1)) != c1.  [copy(15),rewrite([9(3)])].
+
+given #13 (A,wt=11): 17 x v (y v z) = y v (x v z).  [para(3(a,1),2(a,1,1)),rewrite([2(2)])].
+
+given #14 (T,wt=4): 25 star(ew) = ev.  [para(12(a,1),8(a,1,1))].
+
+given #15 (T,wt=4): 26 star(ep) = eo.  [para(14(a,1),8(a,1,1))].
+
+given #16 (T,wt=5): 20 ev v x = x.  [para(4(a,1),3(a,1)),flip(a)].
+
+given #17 (T,wt=5): 24 eo * x = x.  [para(7(a,1),6(a,1)),flip(a)].
+
+given #18 (A,wt=11): 21 x * (y * z) = y * (x * z).  [para(6(a,1),5(a,1,1)),rewrite([5(2)])].
+
+============================== STATISTICS ============================
+
+Given=18. Generated=156. Kept=22. proofs=0.
+Usable=18. Sos=0. Demods=17. Limbo=0, Disabled=16. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=134. Back_subsumed=2.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=21 (4 lex), Back_demodulated=2. Back_unit_deleted=0.
+Demod_attempts=1114. Demod_rewrites=171.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=0.
+Megabytes=0.06.
+User_CPU=0.00, System_CPU=0.00, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+SEARCH FAILED
+
+SEARCH FAILED
+
+Exiting with failure.
+
+------ process 1468 exit (sos_empty) ------
+
+Process 1468 exit (sos_empty) Fri Jul 24 16:14:09 2026

@@ -1,0 +1,66 @@
+% ==========================================================
+% non-distributive.in
+% ==========================================================
+% Muc tieu / goal of this search:
+%   Tim MOT Polar Semiring huu han trong do  \/  KHONG phan phoi tren  /\ :
+%       x \/ (y /\ z)  !=  (x \/ y) /\ (x \/ z)   voi mot bo (x,y,z) nao do.
+%   Find one finite Polar Semiring in which join does NOT distribute over meet.
+%
+%   Dung de thay the ghi chu \noteAI o
+%   paper-polar-semiring/doc3-structures.tex (prop:order-structure), noi bai
+%   bao khang dinh "Distributivity of \vee over \wedge is not asserted and
+%   indeed fails in general" nhung chua dung vi du cu the.
+%
+% Ky hieu / notation: v = join, * = tensor, star() = polarity,
+%   ev = e_\vee, eo = e_\otimes, meet(x,y) = star(star(x) v star(y)).
+%
+% LUU Y QUAN TRONG / IMPORTANT NOTE:
+%   Phu dinh cua tinh phan phoi duoc dat trong formulas(assumptions), KHONG
+%   phai formulas(goals) -- vi Mace4 PHU DINH cac goal (no tim phan vi du cho
+%   goal). Neu dat cong thuc exists... lam goal thi Mace4 se di tim model
+%   trong do tinh phan phoi LUON DUNG, tuc nguoc han y dinh.
+%   The negation of distributivity is an ASSUMPTION, not a goal: Mace4 negates
+%   goals, so using a goal here would search for the opposite property.
+% ==========================================================
+
+assign(start_size, 2).
+assign(end_size, 12).
+assign(max_models, 1).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % ---- 11 tien de Polar Semiring / the 11 PS axioms ----
+  % J0: join idempotence
+  x v x = x.
+  % J1: join associativity
+  (x v y) v z = x v (y v z).
+  % J2: join commutativity
+  x v y = y v x.
+  % J3: join unit
+  x v ev = x.
+  % T1: tensor associativity
+  (x * y) * z = x * (y * z).
+  % T2: tensor commutativity
+  x * y = y * x.
+  % T3: tensor unit
+  x * eo = x.
+  % TJ1: tensor distributes over join
+  x * (y v z) = (x * y) v (x * z).
+  % TJ2: ev absorbing for tensor
+  x * ev = ev.
+  % P: involution
+  star(star(x)) = x.
+  % PJ: polarity / order-compatibility
+  (x v y = y) <-> (star(y) v star(x) = star(x)).
+
+  % ---- dinh nghia meet / definition of the derived meet ----
+  meet(x,y) = star(star(x) v star(y)).
+
+  % ---- PHU DINH tinh phan phoi / NEGATION of distributivity ----
+  exists x exists y exists z
+    (x v meet(y,z) != meet(x v y, x v z)).
+
+end_of_list.

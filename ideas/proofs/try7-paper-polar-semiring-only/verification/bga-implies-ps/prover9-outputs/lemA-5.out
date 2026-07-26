@@ -1,0 +1,480 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2017-11A (CIIRC), November 2017.
+Process 562 was started by root on vm,
+Fri Jul 24 16:31:29 2026
+The command was "/home/claude/Prover9/bin/prover9 -f prover9-inputs/lemA-5.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file prover9-inputs/lemA-5.in
+
+assign(max_seconds,300).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+x v x = x.
+x v y = y v x.
+(x v y) v z = x v (y v z).
+mt(x,x) = x.
+mt(x,y) = mt(y,x).
+mt(mt(x,y),z) = mt(x,mt(y,z)).
+x v mt(x,y) = x.
+mt(x,x v y) = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+(x * y) v z = z <-> y v res(x,z) = res(x,z).
+star(x) = res(x,ep).
+star(star(x)) = x.
+end_of_list.
+
+formulas(goals).
+x v y = y -> star(y) v star(x) = star(x).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 (x * y) v z = z <-> y v res(x,z) = res(x,z) # label(non_clause).  [assumption].
+2 x v y = y -> star(y) v star(x) = star(x) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+x v x = x.  [assumption].
+x v y = y v x.  [assumption].
+(x v y) v z = x v (y v z).  [assumption].
+mt(x,x) = x.  [assumption].
+mt(x,y) = mt(y,x).  [assumption].
+mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+x v mt(x,y) = x.  [assumption].
+mt(x,x v y) = x.  [assumption].
+(x * y) * z = x * (y * z).  [assumption].
+x * y = y * x.  [assumption].
+x * eo = x.  [assumption].
+(x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+(x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+star(x) = res(x,ep).  [assumption].
+star(star(x)) = x.  [assumption].
+c1 v c2 = c2.  [deny(2)].
+star(c1) != star(c2) v star(c1).  [deny(2)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ eo, ep, c1, c2, v, *, mt, res, star ]).
+After inverse_order:  (no changes).
+Unfolding symbols: star/1.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(hyper_resolution).  % (nonunit Horn with equality)
+    % set(hyper_resolution) -> set(pos_hyper_resolution).
+  % set(neg_ur_resolution).  % (nonunit Horn with equality)
+  % assign(para_lit_limit, 2).  % (nonunit Horn with equality)
+
+Auto_process settings:  (no changes).
+
+kept:      3 x v x = x.  [assumption].
+
+% Operation v is commutative; C redundancy checks enabled.
+kept:      4 x v y = y v x.  [assumption].
+kept:      5 (x v y) v z = x v (y v z).  [assumption].
+kept:      6 mt(x,x) = x.  [assumption].
+
+% Operation mt is commutative; C redundancy checks enabled.
+kept:      7 mt(x,y) = mt(y,x).  [assumption].
+kept:      8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+kept:      9 x v mt(x,y) = x.  [assumption].
+kept:      10 mt(x,x v y) = x.  [assumption].
+kept:      11 (x * y) * z = x * (y * z).  [assumption].
+
+% Operation * is commutative; C redundancy checks enabled.
+kept:      12 x * y = y * x.  [assumption].
+kept:      13 x * eo = x.  [assumption].
+           14 (x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+kept:      15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+           16 (x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+kept:      17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+kept:      18 star(x) = res(x,ep).  [assumption].
+           19 star(star(x)) = x.  [assumption].
+kept:      20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+kept:      21 c1 v c2 = c2.  [deny(2)].
+           22 star(c1) != star(c2) v star(c1).  [deny(2)].
+kept:      23 res(c1,ep) v res(c2,ep) != res(c1,ep).  [copy(22),rewrite([18(2),18(5),18(8),4(10)]),flip(a)].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+3 x v x = x.  [assumption].
+4 x v y = y v x.  [assumption].
+5 (x v y) v z = x v (y v z).  [assumption].
+6 mt(x,x) = x.  [assumption].
+7 mt(x,y) = mt(y,x).  [assumption].
+8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+9 x v mt(x,y) = x.  [assumption].
+10 mt(x,x v y) = x.  [assumption].
+11 (x * y) * z = x * (y * z).  [assumption].
+12 x * y = y * x.  [assumption].
+13 x * eo = x.  [assumption].
+15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+18 star(x) = res(x,ep).  [assumption].
+20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+21 c1 v c2 = c2.  [deny(2)].
+23 res(c1,ep) v res(c2,ep) != res(c1,ep).  [copy(22),rewrite([18(2),18(5),18(8),4(10)]),flip(a)].
+end_of_list.
+
+formulas(demodulators).
+3 x v x = x.  [assumption].
+4 x v y = y v x.  [assumption].
+        % (lex-dep)
+5 (x v y) v z = x v (y v z).  [assumption].
+6 mt(x,x) = x.  [assumption].
+7 mt(x,y) = mt(y,x).  [assumption].
+        % (lex-dep)
+8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+9 x v mt(x,y) = x.  [assumption].
+10 mt(x,x v y) = x.  [assumption].
+11 (x * y) * z = x * (y * z).  [assumption].
+12 x * y = y * x.  [assumption].
+        % (lex-dep)
+13 x * eo = x.  [assumption].
+18 star(x) = res(x,ep).  [assumption].
+20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+21 c1 v c2 = c2.  [deny(2)].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.00 seconds.
+
+given #1 (I,wt=5): 3 x v x = x.  [assumption].
+
+given #2 (I,wt=7): 4 x v y = y v x.  [assumption].
+
+given #3 (I,wt=11): 5 (x v y) v z = x v (y v z).  [assumption].
+
+% Operation v is associative-commutative; CAC redundancy checks enabled.
+% back CAC tautology: 27 x v (y v z) = z v (x v y).  [para(5(a,1),4(a,1))].
+
+given #4 (I,wt=5): 6 mt(x,x) = x.  [assumption].
+
+given #5 (I,wt=7): 7 mt(x,y) = mt(y,x).  [assumption].
+
+given #6 (I,wt=11): 8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+
+% Operation mt is associative-commutative; CAC redundancy checks enabled.
+% back CAC tautology: 32 mt(x,mt(y,z)) = mt(z,mt(x,y)).  [para(8(a,1),7(a,1))].
+
+given #7 (I,wt=7): 9 x v mt(x,y) = x.  [assumption].
+
+given #8 (I,wt=7): 10 mt(x,x v y) = x.  [assumption].
+
+given #9 (I,wt=11): 11 (x * y) * z = x * (y * z).  [assumption].
+
+given #10 (I,wt=7): 12 x * y = y * x.  [assumption].
+
+% Operation * is associative-commutative; CAC redundancy checks enabled.
+
+given #11 (I,wt=5): 13 x * eo = x.  [assumption].
+
+given #12 (I,wt=16): 15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+
+given #13 (I,wt=16): 17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+
+given #14 (I,wt=6): 18 star(x) = res(x,ep).  [assumption].
+
+given #15 (I,wt=7): 20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+
+given #16 (I,wt=5): 21 c1 v c2 = c2.  [deny(2)].
+
+given #17 (I,wt=11): 23 res(c1,ep) v res(c2,ep) != res(c1,ep).  [copy(22),rewrite([18(2),18(5),18(8),4(10)]),flip(a)].
+
+given #18 (A,wt=9): 25 x v (x v y) = x v y.  [para(3(a,1),5(a,1,1)),flip(a)].
+
+given #19 (T,wt=5): 45 eo * x = x.  [para(13(a,1),12(a,1)),flip(a)].
+
+given #20 (T,wt=5): 58 mt(c1,c2) = c1.  [para(21(a,1),10(a,1,2))].
+
+given #21 (T,wt=7): 36 x v mt(y,x) = x.  [para(7(a,1),9(a,1,2))].
+
+given #22 (T,wt=7): 38 mt(x,y v x) = x.  [para(4(a,1),10(a,1,2))].
+
+given #23 (A,wt=9): 26 x v (y v x) = y v x.  [para(3(a,1),5(a,2,2)),rewrite([4(2)])].
+
+given #24 (T,wt=9): 30 mt(x,mt(x,y)) = mt(x,y).  [para(6(a,1),8(a,1,1)),flip(a)].
+
+given #25 (T,wt=9): 31 mt(x,mt(y,x)) = mt(y,x).  [para(6(a,1),8(a,2,2)),rewrite([7(2)])].
+
+given #26 (T,wt=9): 52 x v (y * res(y,x)) = x.  [hyper(17,b,3,a),rewrite([4(3)])].
+
+given #27 (T,wt=7): 83 x v res(eo,x) = x.  [para(45(a,1),52(a,1,2))].
+
+given #28 (A,wt=11): 28 x v (y v z) = y v (x v z).  [para(4(a,1),5(a,1,1)),rewrite([5(2)])].
+
+given #29 (T,wt=9): 56 c1 v (c2 v x) = c2 v x.  [para(21(a,1),5(a,1,1)),flip(a)].
+
+given #30 (T,wt=7): 98 mt(c1,c2 v x) = c1.  [para(56(a,1),10(a,1,2))].
+
+given #31 (T,wt=7): 100 mt(c1,x v c2) = c1.  [para(4(a,1),98(a,1,2))].
+
+given #32 (T,wt=9): 57 c2 v (x v c1) = x v c2.  [para(21(a,1),5(a,2,2)),rewrite([4(4)])].
+
+given #33 (A,wt=11): 33 mt(x,mt(y,z)) = mt(y,mt(x,z)).  [para(7(a,1),8(a,1,1)),rewrite([8(2)])].
+
+given #34 (T,wt=9): 63 mt(c1,mt(c2,x)) = mt(c1,x).  [para(58(a,1),8(a,1,1)),flip(a)].
+
+given #35 (T,wt=9): 64 mt(c2,mt(x,c1)) = mt(x,c1).  [para(58(a,1),8(a,2,2)),rewrite([7(4)])].
+
+given #36 (T,wt=7): 119 c2 v mt(x,c1) = c2.  [para(64(a,1),9(a,1,2))].
+
+given #37 (T,wt=7): 121 c2 v mt(c1,x) = c2.  [para(7(a,1),119(a,1,2))].
+
+given #38 (A,wt=11): 34 x v (mt(x,y) v z) = x v z.  [para(9(a,1),5(a,1,1)),flip(a)].
+
+given #39 (T,wt=9): 67 x v mt(y,mt(z,x)) = x.  [para(8(a,1),36(a,1,2))].
+
+given #40 (T,wt=9): 69 mt(x,y v (z v x)) = x.  [para(5(a,1),38(a,1,2))].
+
+given #41 (T,wt=9): 88 mt(x,res(eo,x)) = res(eo,x).  [para(83(a,1),38(a,1,2)),rewrite([7(3)])].
+
+given #42 (T,wt=7): 156 c2 v res(eo,c1) = c2.  [para(88(a,1),121(a,1,2))].
+
+given #43 (A,wt=13): 35 x v (y v mt(x v y,z)) = x v y.  [para(9(a,1),5(a,1)),flip(a)].
+
+given #44 (T,wt=8): 158 c2 = c1 | res(eo,c1) != c2.  [para(156(a,1),17(b,1)),rewrite([45(3),4(3),21(3)]),flip(b)].
+
+given #45 (T,wt=9): 90 mt(x,y v (x v z)) = x.  [para(28(a,1),10(a,1,2))].
+
+given #46 (T,wt=9): 92 c1 v (x v c2) = x v c2.  [para(21(a,1),28(a,1,2)),flip(a)].
+
+given #47 (T,wt=9): 102 mt(c1,x v (c2 v y)) = c1.  [para(28(a,1),98(a,1,2))].
+
+given #48 (A,wt=13): 37 mt(x,y) v mt(x,mt(y,z)) = mt(x,y).  [para(8(a,1),9(a,1,2))].
+
+given #49 (T,wt=9): 103 mt(c1,x v (y v c2)) = c1.  [para(5(a,1),100(a,1,2))].
+
+given #50 (T,wt=9): 105 c2 v (x v c1) = c2 v x.  [para(57(a,2),4(a,1))].
+
+given #51 (T,wt=9): 108 x v mt(y,mt(x,z)) = x.  [para(33(a,1),9(a,1,2))].
+
+given #52 (T,wt=9): 110 mt(c1,mt(x,c2)) = mt(x,c1).  [para(58(a,1),33(a,1,2)),flip(a)].
+
+given #53 (A,wt=13): 39 mt(x v y,x v (y v z)) = x v y.  [para(5(a,1),10(a,1,2))].
+
+given #54 (T,wt=9): 122 c2 v mt(x,mt(y,c1)) = c2.  [para(8(a,1),119(a,1,2))].
+
+given #55 (T,wt=9): 126 c2 v mt(x,mt(c1,y)) = c2.  [para(33(a,1),121(a,1,2))].
+
+given #56 (T,wt=9): 133 x v res(eo,mt(x,y)) = x.  [para(83(a,1),34(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #57 (T,wt=9): 155 mt(c2,res(eo,c1)) = res(eo,c1).  [para(88(a,1),63(a,2)),rewrite([154(7)])].
+
+given #58 (A,wt=11): 40 mt(x,mt(x v y,z)) = mt(x,z).  [para(10(a,1),8(a,1,1)),flip(a)].
+
+given #59 (T,wt=9): 200 x v mt(y,res(eo,x)) = x.  [para(88(a,1),108(a,1,2,2))].
+
+given #60 (T,wt=9): 222 c2 v mt(x,res(eo,c1)) = c2.  [para(88(a,1),126(a,1,2,2))].
+
+given #61 (T,wt=9): 225 x v res(eo,mt(y,x)) = x.  [para(7(a,1),133(a,1,2,2))].
+
+given #62 (T,wt=9): 232 c2 v res(eo,mt(x,c1)) = c2.  [para(64(a,1),133(a,1,2,2))].
+
+given #63 (A,wt=13): 41 mt(x,mt(y,mt(x,y) v z)) = mt(x,y).  [para(10(a,1),8(a,1)),flip(a)].
+
+given #64 (T,wt=9): 234 x v res(eo,res(eo,x)) = x.  [para(88(a,1),133(a,1,2,2))].
+
+given #65 (T,wt=9): 238 c2 v res(eo,res(eo,c1)) = c2.  [para(155(a,1),133(a,1,2,2))].
+
+given #66 (T,wt=9): 247 x v mt(res(eo,x),y) = x.  [para(7(a,1),200(a,1,2))].
+
+given #67 (T,wt=9): 253 c2 v mt(res(eo,c1),x) = c2.  [para(7(a,1),222(a,1,2))].
+
+given #68 (A,wt=11): 42 x * (y * z) = y * (x * z).  [para(12(a,1),11(a,1,1)),rewrite([11(2)])].
+
+given #69 (T,wt=9): 270 c2 v res(eo,mt(c1,x)) = c2.  [para(7(a,1),232(a,1,2,2))].
+
+given #70 (T,wt=11): 65 x v (mt(y,x) v z) = x v z.  [para(36(a,1),5(a,1,1)),flip(a)].
+
+given #71 (T,wt=11): 70 mt(x,mt(y v x,z)) = mt(x,z).  [para(38(a,1),8(a,1,1)),flip(a)].
+
+given #72 (T,wt=11): 85 x v (res(eo,x) v y) = x v y.  [para(83(a,1),5(a,1,1)),flip(a)].
+
+given #73 (A,wt=13): 46 x v res(y,y * x) = res(y,y * x).  [hyper(15,a,3,a)].
+
+given #74 (T,wt=5): 381 res(eo,x) = x.  [para(45(a,1),46(a,1,2,2)),rewrite([83(3),45(3)]),flip(a)].
+
+given #75 (T,wt=5): 393 res(ep,ep) = eo.  [para(381(a,1),20(a,1,1))].
+
+given #76 (T,wt=9): 377 mt(x,res(y,y * x)) = x.  [para(46(a,1),10(a,1,2))].
+
+given #77 (T,wt=7): 397 mt(eo,res(x,x)) = eo.  [para(13(a,1),377(a,1,2,2))].
+
+given #78 (A,wt=16): 47 x v (y * z) != x | z v res(y,x) = res(y,x).  [para(4(a,1),15(a,1))].
+
+given #79 (T,wt=9): 380 eo v res(x,x) = res(x,x).  [para(13(a,1),46(a,1,2,2)),rewrite([13(5)])].
+
+given #80 (T,wt=9): 384 mt(c1,res(x,x * c2)) = c1.  [para(46(a,1),98(a,1,2))].
+
+given #81 (T,wt=9): 396 mt(x,res(y,x * y)) = x.  [para(12(a,1),377(a,1,2,2))].
+
+given #82 (T,wt=9): 414 mt(eo,x v res(y,y)) = eo.  [para(380(a,1),90(a,1,2,2))].
+
+given #83 (A,wt=26): 48 mt(x * y,z) != x * y | y v res(x,mt(x * y,z)) = res(x,mt(x * y,z)).  [para(9(a,1),15(a,1)),flip(a)].
+
+given #84 (T,wt=9): 418 mt(c1,res(x,c2 * x)) = c1.  [para(12(a,1),384(a,1,2,2))].
+
+given #85 (T,wt=9): 432 mt(eo,res(x,x) v y) = eo.  [para(4(a,1),414(a,1,2))].
+
+given #86 (T,wt=10): 411 x v y != x | y v x = x.  [para(45(a,1),47(a,1,2)),rewrite([381(4),381(5)])].
+
+given #87 (T,wt=11): 89 x v (y v mt(x,z)) = y v x.  [para(9(a,1),28(a,1,2)),flip(a)].
+
+given #88 (A,wt=22): 49 (x * (y * z)) v u != u | z v res(x * y,u) = res(x * y,u).  [para(11(a,1),15(a,1,1))].
+
+given #89 (T,wt=11): 93 x v (y v mt(z,x)) = y v x.  [para(36(a,1),28(a,1,2)),flip(a)].
+
+given #90 (T,wt=11): 101 mt(c1,mt(c2 v x,y)) = mt(c1,y).  [para(98(a,1),8(a,1,1)),flip(a)].
+
+given #91 (T,wt=11): 104 mt(c1,mt(x v c2,y)) = mt(c1,y).  [para(100(a,1),8(a,1,1)),flip(a)].
+
+given #92 (T,wt=11): 107 mt(x v c1,x v c2) = x v c1.  [para(57(a,1),38(a,1,2))].
+
+given #93 (A,wt=16): 50 (x * y) v z != z | x v res(y,z) = res(y,z).  [para(12(a,1),15(a,1,1))].
+
+given #94 (T,wt=11): 109 mt(x,mt(y,x v z)) = mt(y,x).  [para(10(a,1),33(a,1,2)),flip(a)].
+
+given #95 (T,wt=11): 112 mt(x,mt(y,z v x)) = mt(y,x).  [para(38(a,1),33(a,1,2)),flip(a)].
+
+given #96 (T,wt=11): 113 mt(c1,mt(x,c2 v y)) = mt(x,c1).  [para(98(a,1),33(a,1,2)),flip(a)].
+
+given #97 (T,wt=11): 114 mt(c1,mt(x,y v c2)) = mt(x,c1).  [para(100(a,1),33(a,1,2)),flip(a)].
+
+given #98 (A,wt=14): 51 x v y != y | eo v res(x,y) = res(x,y).  [para(13(a,1),15(a,1,1))].
+
+given #99 (T,wt=9): 576 eo v res(c1,c2) = res(c1,c2).  [hyper(51,a,21,a)].
+
+given #100 (T,wt=7): 595 mt(eo,res(c1,c2)) = eo.  [para(576(a,1),10(a,1,2))].
+
+given #101 (T,wt=9): 597 mt(eo,x v res(c1,c2)) = eo.  [para(576(a,1),90(a,1,2,2))].
+
+given #102 (T,wt=9): 603 mt(eo,res(c1,c2) v x) = eo.  [para(4(a,1),597(a,1,2))].
+
+given #103 (A,wt=16): 53 (x * y) v z = z | res(x,z) v y != res(x,z).  [para(4(a,1),17(b,1))].
+
+given #104 (T,wt=11): 116 mt(c1,x) v mt(c2,x) = mt(c2,x).  [para(63(a,1),36(a,1,2)),rewrite([4(5)])].
+
+given #105 (T,wt=11): 120 c2 v (mt(x,c1) v y) = c2 v y.  [para(119(a,1),5(a,1,1)),flip(a)].
+
+given #106 (T,wt=11): 123 c2 v (x v mt(y,c1)) = x v c2.  [para(119(a,1),28(a,1,2)),flip(a)].
+
+given #107 (T,wt=11): 124 c2 v (mt(c1,x) v y) = c2 v y.  [para(121(a,1),5(a,1,1)),flip(a)].
+
+given #108 (A,wt=20): 54 (x * y v z) v u = u | y v (z v res(x,u)) != res(x,u).  [para(5(a,1),17(b,1))].
+
+given #109 (T,wt=11): 125 c2 v (x v mt(c1,y)) = x v c2.  [para(121(a,1),28(a,1,2)),flip(a)].
+
+given #110 (T,wt=11): 131 mt(x,y) v (z v x) = z v x.  [para(26(a,1),34(a,2)),rewrite([74(4)])].
+
+given #111 (T,wt=11): 132 x v (y * res(y,mt(x,z))) = x.  [para(52(a,1),34(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #112 (T,wt=11): 138 x v mt(y,mt(z,mt(u,x))) = x.  [para(8(a,1),67(a,1,2,2))].
+
+given #113 (A,wt=14): 55 ep v (res(x,ep) * y) = ep | y v x != x.  [para(20(a,1),17(b,1,2)),rewrite([4(5),20(12)])].
+
+given #114 (T,wt=9): 761 ep v res(res(c1,c2),ep) = ep.  [hyper(55,b,576,a),rewrite([12(8),45(8)])].
+
+given #115 (T,wt=9): 762 ep v res(res(x,x),ep) = ep.  [hyper(55,b,380,a),rewrite([12(6),45(6)])].
+
+given #116 (T,wt=9): 770 ep v (c1 * res(c2,ep)) = ep.  [hyper(55,b,21,a),rewrite([12(6)])].
+-------- Proof 1 -------- 
+
+============================== PROOF =================================
+
+% Proof 1 at 0.03 (+ 0.02) seconds.
+% Length of proof is 19.
+% Level of proof is 6.
+% Maximum clause weight is 16.000.
+% Given clauses 116 (19.333 givens/level).
+
+1 (x * y) v z = z <-> y v res(x,z) = res(x,z) # label(non_clause).  [assumption].
+2 x v y = y -> star(y) v star(x) = star(x) # label(non_clause) # label(goal).  [goal].
+4 x v y = y v x.  [assumption].
+12 x * y = y * x.  [assumption].
+14 (x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+16 (x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+18 star(x) = res(x,ep).  [assumption].
+19 star(star(x)) = x.  [assumption].
+20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+21 c1 v c2 = c2.  [deny(2)].
+22 star(c1) != star(c2) v star(c1).  [deny(2)].
+23 res(c1,ep) v res(c2,ep) != res(c1,ep).  [copy(22),rewrite([18(2),18(5),18(8),4(10)]),flip(a)].
+47 x v (y * z) != x | z v res(y,x) = res(y,x).  [para(4(a,1),15(a,1))].
+55 ep v (res(x,ep) * y) = ep | y v x != x.  [para(20(a,1),17(b,1,2)),rewrite([4(5),20(12)])].
+770 ep v (c1 * res(c2,ep)) = ep.  [hyper(55,b,21,a),rewrite([12(6)])].
+814 res(c1,ep) v res(c2,ep) = res(c1,ep).  [hyper(47,a,770,a),rewrite([4(7)])].
+815 $F.  [resolve(814,a,23,a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=116. Generated=5217. Kept=808. proofs=1.
+Usable=99. Sos=565. Demods=479. Limbo=0, Disabled=160. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=4409. Back_subsumed=2.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=602 (8 lex), Back_demodulated=139. Back_unit_deleted=0.
+Demod_attempts=52078. Demod_rewrites=9207.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=1232. Nonunit_bsub_feature_tests=1229.
+Megabytes=1.62.
+User_CPU=0.03, System_CPU=0.02, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+------ process 562 exit (max_proofs) ------
+
+Process 562 exit (max_proofs) Fri Jul 24 16:31:29 2026

@@ -1,0 +1,90 @@
+% Search for one finite polar-semiring model satisfying the 11 axioms
+% while all five non-axiomatic independent distributive laws fail.
+%
+% Primitive operations:
+%   x ^ y       = plus
+%   x + y       = tensor
+%   star(x)     = polarity
+%
+% Derived operations:
+%   with(x,y)   = star(star(x) ^ star(y))
+%   parr(x,y)   = star(star(x) + star(y))
+
+assign(start_size,2).
+assign(end_size,12).
+assign(max_models,1).
+
+op(400,infix,"^").
+op(500,infix,"+").
+
+formulas(assumptions).
+
+% ================================================================
+% The 11 axioms of a polar semiring
+% ================================================================
+
+% M0: idempotence of plus
+x ^ x = x.
+
+% M1: associativity of plus
+x ^ (y ^ z) = (x ^ y) ^ z.
+
+% M2: commutativity of plus
+x ^ y = y ^ x.
+
+% M3: unit of plus
+x ^ em = x.
+
+% S1: associativity of tensor
+x + (y + z) = (x + y) + z.
+
+% S2: commutativity of tensor
+x + y = y + x.
+
+% S3: unit of tensor
+x + ez = x.
+
+% SM1: tensor distributes over plus
+x + (y ^ z) = (x + y) ^ (x + z).
+
+% SM2: em is absorbing for tensor
+x + em = em.
+
+% P: involutive polarity
+star(star(x)) = x.
+
+% PM: polarity reverses the order induced by plus
+(x ^ y = x) <-> (star(y) ^ star(x) = star(y)).
+
+% ================================================================
+% Definitions of the two polar-dual operations
+% ================================================================
+
+with(x,y) = star(star(x) ^ star(y)).
+parr(x,y) = star(star(x) + star(y)).
+
+% ================================================================
+% Require failure of each of the other five independent laws
+% ================================================================
+
+% D2 fails: tensor does not distribute over with
+exists x exists y exists z
+  (x + with(y,z) != with(x + y, x + z)).
+
+% D3 fails: tensor does not distribute over parr
+exists x exists y exists z
+  (x + parr(y,z) != parr(x + y, x + z)).
+
+% D4 fails: plus does not distribute over tensor
+exists x exists y exists z
+  (x ^ (y + z) != (x ^ y) + (x ^ z)).
+
+% D5 fails: plus does not distribute over with
+exists x exists y exists z
+  (x ^ with(y,z) != with(x ^ y, x ^ z)).
+
+% D6 fails: plus does not distribute over parr
+exists x exists y exists z
+  (x ^ parr(y,z) != parr(x ^ y, x ^ z)).
+
+end_of_list.

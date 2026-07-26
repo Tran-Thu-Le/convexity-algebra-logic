@@ -1,0 +1,127 @@
+============================== Mace4 =================================
+Mace4 (64) version 2017-11A (CIIRC), November 2017.
+Process 1605 was started by root on vm,
+Fri Jul 24 16:20:22 2026
+The command was "/home/claude/Prover9/bin/mace4 -f mace4-independence/mace4-inputs/without_J0.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file mace4-independence/mace4-inputs/without_J0.in
+
+assign(start_size,2).
+assign(end_size,10).
+assign(max_models,1).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+x * y v z = (x * y) v (x * z).
+x * ev = ev.
+star(star(x)) = x.
+x v y = y <-> star(y) v star(x) = star(x).
+(exists x x v x != x).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 x v y = y <-> star(y) v star(x) = star(x) # label(non_clause).  [assumption].
+2 (exists x x v x != x) # label(non_clause).  [assumption].
+
+============================== end of process non-clausal formulas ===
+
+============================== CLAUSES FOR SEARCH ====================
+
+formulas(mace4_clauses).
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+x * y v z = (x * y) v (x * z).
+x * ev = ev.
+star(star(x)) = x.
+x v y != y | star(x) = star(y) v star(x).
+x v y = y | star(x) != star(y) v star(x).
+c1 v c1 != c1.
+end_of_list.
+
+============================== end of clauses for search =============
+
+% There are no natural numbers in the input.
+
+============================== DOMAIN SIZE 2 =========================
+
+=== Mace4 starting on domain size 2. ===
+
+============================== STATISTICS ============================
+
+For domain size 2.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=49, kept=49.
+Selections=4, assignments=7, propagations=9, current_models=0.
+Rewrite_terms=184, rewrite_bools=52, indexes=20.
+Rules_from_neg_clauses=2, cross_offs=2.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 3 =========================
+
+=== Mace4 starting on domain size 3. ===
+
+============================== MODEL =================================
+
+interpretation( 3, [number=1, seconds=0], [
+
+        function(eo, [ 0 ]),
+
+        function(ev, [ 1 ]),
+
+        function(c1, [ 0 ]),
+
+        function(star(_), [ 0, 2, 1 ]),
+
+        function(*(_,_), [
+			   0, 1, 2,
+			   1, 1, 1,
+			   2, 1, 2 ]),
+
+        function(v(_,_), [
+			   2, 0, 2,
+			   0, 1, 2,
+			   2, 2, 2 ])
+]).
+
+============================== end of model ==========================
+
+============================== STATISTICS ============================
+
+For domain size 3.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=130, kept=130.
+Selections=5, assignments=8, propagations=22, current_models=1.
+Rewrite_terms=566, rewrite_bools=159, indexes=75.
+Rules_from_neg_clauses=2, cross_offs=8.
+
+============================== end of statistics =====================
+
+------ process 1605 exit (max_models) ------
+
+User_CPU=0.00, System_CPU=0.00, Wall_clock=0.
+
+Exiting with 1 model.
+
+Process 1605 exit (max_models) Fri Jul 24 16:20:22 2026
+The process finished Fri Jul 24 16:20:22 2026

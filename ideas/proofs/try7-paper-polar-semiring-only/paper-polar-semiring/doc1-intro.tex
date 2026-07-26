@@ -1,0 +1,102 @@
+% =========================================================
+% doc1-intro.tex — Section 1: Introduction
+% Source: d0 §Sec1; d1 §1 (motivation, contributions, related work)
+% =========================================================
+
+\section{Introduction}\label{sec:intro}
+
+Order-reversing involutions arise in two largely separate traditions. In the
+theory of residuated structures, of which bounded Girard algebras are the
+representative example, a structure carries a negation $\dstar{(\cdot)}$
+obtained from the residual by fixing a distinguished element $\ep$ and setting
+$\dstar{a} := a \res \ep$ \citep{Rosenthal1990,Agliano2025}. This negation has
+two properties: it is an involution, $\dstar{(\dstar{a})} = a$, and it is
+antitone with respect to the order, $a \leq b$ implying
+$\dstar{b} \leq \dstar{a}$. In this tradition the residual is the source of
+both properties: the involution and its order-reversal are consequences of the
+residuation law, not primitive assumptions.
+
+In algebra, by contrast, a semiring with involution is equipped with a negation
+$\dstar{(\cdot)}$ as a primitive operation satisfying only
+$\dstar{(\dstar{a})} = a$, that is, an anti-automorphism of the semiring
+\citep{Golan1999,dolinka2000minimal}. Here the negation is primitive rather than
+manufactured, but it is not antitone; indeed the structure carries no order at
+all with respect to which antitonicity could be stated.
+
+These two traditions leave a natural question open: is there a structure in
+which the negation is a primitive operation possessing both properties at
+once---involution and antitonicity---without being generated from a residual?
+
+This paper answers the question affirmatively. We retain the involution axiom
+of the algebraic tradition and replace the residual by a single new axiom
+relating the negation to the join. On this basis the order is not primitive but
+derived: it is recovered from the join, and antitonicity is not assumed but
+follows. Concretely, we introduce \emph{Polar Semirings}: idempotent
+commutative semirings equipped with a primitive negation subject to two axioms,
+the involution axiom and a new polarity--join compatibility axiom. On this
+structure (i)~the order and the antitonicity of the negation are generated
+rather than assumed; (ii)~no residual is used; and (iii)~in contrast to a
+semiring with involution, the negation is not an anti-automorphism of a single
+structure but an isomorphism onto a new dual idempotent commutative semiring.
+
+This is not the only work to obtain a primitive, order-compatible polarity.
+Dual pairs of semirings, developed to study fuzzy sets, provide such a polarity
+as well \citep{movckovr2025unification}; that system, however, imposes
+additional distributivity axioms tailored to its intended application. Our
+concern is not a particular application but the axiomatic question of how little
+is required: we add only the two axioms governing the negation on top of a
+standard semiring, isolating the polarity and discarding the distributivity
+constraints entirely. This isolation makes it possible (i)~to separate the
+contribution of the polarity itself from any distributivity assumption; (ii)~to
+identify the minimal axiomatic cost of a primitive, order-compatible polarity;
+and (iii)~to obtain a structure that does not presuppose completeness or the
+extra distributivity laws of dual pairs of semirings.
+
+\paragraph{Contributions.}
+The paper makes three contributions.
+\begin{enumerate}
+  \item \emph{Definition and minimality} (\Cref{sec:ps}). We axiomatize Polar
+  Semirings by eleven axioms, exhibit canonical models, and prove that the
+  axiom system is independent: no axiom is a consequence of the remaining
+  ten.
+  \item \emph{Architecture} (\Cref{sec:arch}). We show that the axioms
+  decompose into three layers: an algebraic layer (the polarity-free
+  semiring reduct), a reflection layer, in which the involution axiom alone
+  generates the dual operations and all De Morgan laws at no axiomatic cost,
+  and an integration layer, in which the single polarity axiom fuses the
+  reflected order with the original one. The decomposition culminates in the
+  Fundamental Structure Theorem: every Polar Semiring canonically induces a
+  dual Polar Semiring, the polarity is an isomorphism onto the dual, and the
+  two induced orders coincide.
+  \item \emph{Positioning} (\Cref{sec:positioning}). We locate Polar
+  Semirings relative to bounded Girard algebras. Every bounded Girard
+  algebra, upon forgetting its residual, satisfies all eleven axioms; and
+  there exists a Polar Semiring on the unit interval that cannot be extended
+  to a bounded Girard algebra. Hence bounded Girard algebras form a proper
+  subclass, and Polar Semirings are a strict, residuation-free
+  generalization.
+\end{enumerate}
+
+\paragraph{Related structures.}
+The order-theoretic reduct of a Polar Semiring is a bounded lattice with an
+antitone involution satisfying the De Morgan laws, that is, a bounded
+i-lattice in the sense of \citet{Kalman1958}; distributivity is not assumed,
+so De Morgan algebras \citep{Rasiowa1974} and Boolean algebras arise from
+Polar Semirings only after adding further axioms. On the multiplicative side,
+semirings with involution \citep{Golan1999} retain the involution but drop
+the order-compatibility axiom entirely. A brief orientation table comparing
+these classes precedes the detailed comparison with bounded Girard algebras
+in \Cref{sec:positioning}. Throughout the paper we maintain a strict
+terminological distinction, elaborated in \Cref{sec:arch}: a structure is
+called \emph{involutive} when it satisfies only the equation
+$\dstar{(\dstar{a})}=a$, and \emph{polar} when the involution is additionally
+compatible with the induced order, in Birkhoff's classical sense
+\citep{Birkhoff1940}.
+
+\paragraph{Outline.}
+\Cref{sec:ps} defines Polar Semirings, presents basic models, and proves
+independence of the axioms. \Cref{sec:arch} develops the three-layer
+architectural analysis and proves the Fundamental Structure Theorem.
+\Cref{sec:positioning} carries out the comparison with bounded Girard
+algebras, proving both the inclusion and its strictness.
+\Cref{sec:conclusion} summarizes and discusses future directions.

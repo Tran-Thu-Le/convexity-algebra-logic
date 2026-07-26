@@ -1,0 +1,178 @@
+============================== Mace4 =================================
+Mace4 (64) version 2017-11A (CIIRC), November 2017.
+Process 1814 was started by root on vm,
+Fri Jul 24 16:20:23 2026
+The command was "/home/claude/Prover9/bin/mace4 -f mace4-join-not-distribute-meet/mace4-inputs/non-distributive.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file mace4-join-not-distribute-meet/mace4-inputs/non-distributive.in
+
+assign(start_size,2).
+assign(end_size,12).
+assign(max_models,1).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+x v x = x.
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+x * y v z = (x * y) v (x * z).
+x * ev = ev.
+star(star(x)) = x.
+x v y = y <-> star(y) v star(x) = star(x).
+meet(x,y) = star(star(x) v star(y)).
+(exists x exists y exists z x v meet(y,z) != meet(x v y,x v z)).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 x v y = y <-> star(y) v star(x) = star(x) # label(non_clause).  [assumption].
+2 (exists x exists y exists z x v meet(y,z) != meet(x v y,x v z)) # label(non_clause).  [assumption].
+
+============================== end of process non-clausal formulas ===
+
+============================== CLAUSES FOR SEARCH ====================
+
+formulas(mace4_clauses).
+x v x = x.
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+x * y v z = (x * y) v (x * z).
+x * ev = ev.
+star(star(x)) = x.
+x v y != y | star(x) = star(y) v star(x).
+x v y = y | star(x) != star(y) v star(x).
+meet(x,y) = star(star(x) v star(y)).
+meet(c1 v c2,c1 v c3) != c1 v meet(c2,c3).
+end_of_list.
+
+============================== end of clauses for search =============
+
+% There are no natural numbers in the input.
+
+============================== DOMAIN SIZE 2 =========================
+
+=== Mace4 starting on domain size 2. ===
+
+============================== STATISTICS ============================
+
+For domain size 2.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=55, kept=49.
+Selections=17, assignments=33, propagations=88, current_models=0.
+Rewrite_terms=814, rewrite_bools=130, indexes=43.
+Rules_from_neg_clauses=8, cross_offs=8.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 3 =========================
+
+=== Mace4 starting on domain size 3. ===
+
+============================== STATISTICS ============================
+
+For domain size 3.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=142, kept=133.
+Selections=42, assignments=123, propagations=912, current_models=0.
+Rewrite_terms=10108, rewrite_bools=1889, indexes=712.
+Rules_from_neg_clauses=81, cross_offs=266.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 4 =========================
+
+=== Mace4 starting on domain size 4. ===
+
+============================== STATISTICS ============================
+
+For domain size 4.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.01 seconds).
+Ground clauses: seen=293, kept=281.
+Selections=338, assignments=1326, propagations=5340, current_models=0.
+Rewrite_terms=88678, rewrite_bools=23401, indexes=5656.
+Rules_from_neg_clauses=297, cross_offs=2199.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 5 =========================
+
+=== Mace4 starting on domain size 5. ===
+
+============================== MODEL =================================
+
+interpretation( 5, [number=1, seconds=0], [
+
+        function(eo, [ 0 ]),
+
+        function(ev, [ 1 ]),
+
+        function(c1, [ 0 ]),
+
+        function(c2, [ 2 ]),
+
+        function(c3, [ 3 ]),
+
+        function(star(_), [ 0, 4, 2, 3, 1 ]),
+
+        function(*(_,_), [
+			   0, 1, 2, 3, 4,
+			   1, 1, 1, 1, 1,
+			   2, 1, 0, 3, 4,
+			   3, 1, 3, 1, 3,
+			   4, 1, 4, 3, 4 ]),
+
+        function(meet(_,_), [
+			   0, 1, 1, 1, 0,
+			   1, 1, 1, 1, 1,
+			   1, 1, 2, 1, 2,
+			   1, 1, 1, 3, 3,
+			   0, 1, 2, 3, 4 ]),
+
+        function(v(_,_), [
+			   0, 0, 4, 4, 4,
+			   0, 1, 2, 3, 4,
+			   4, 2, 2, 4, 4,
+			   4, 3, 4, 3, 4,
+			   4, 4, 4, 4, 4 ])
+]).
+
+============================== end of model ==========================
+
+============================== STATISTICS ============================
+
+For domain size 5.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.01 seconds).
+Ground clauses: seen=526, kept=511.
+Selections=201, assignments=936, propagations=3357, current_models=1.
+Rewrite_terms=61781, rewrite_bools=16694, indexes=4934.
+Rules_from_neg_clauses=173, cross_offs=2535.
+
+============================== end of statistics =====================
+
+------ process 1814 exit (max_models) ------
+
+User_CPU=0.01, System_CPU=0.00, Wall_clock=0.
+
+Exiting with 1 model.
+
+Process 1814 exit (max_models) Fri Jul 24 16:20:23 2026
+The process finished Fri Jul 24 16:20:23 2026

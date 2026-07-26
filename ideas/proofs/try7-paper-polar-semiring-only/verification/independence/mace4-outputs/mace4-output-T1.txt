@@ -1,0 +1,149 @@
+============================== Mace4 =================================
+Mace4 (64) version 2017-11A (CIIRC), November 2017.
+Process 1629 was started by root on vm,
+Fri Jul 24 16:20:22 2026
+The command was "/home/claude/Prover9/bin/mace4 -f mace4-independence/mace4-inputs/without_T1.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file mace4-independence/mace4-inputs/without_T1.in
+
+assign(start_size,2).
+assign(end_size,10).
+assign(max_models,1).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+x v x = x.
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+x * y = y * x.
+x * eo = x.
+x * y v z = (x * y) v (x * z).
+x * ev = ev.
+star(star(x)) = x.
+x v y = y <-> star(y) v star(x) = star(x).
+(exists x exists y exists z (x * y) * z != x * (y * z)).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 x v y = y <-> star(y) v star(x) = star(x) # label(non_clause).  [assumption].
+2 (exists x exists y exists z (x * y) * z != x * (y * z)) # label(non_clause).  [assumption].
+
+============================== end of process non-clausal formulas ===
+
+============================== CLAUSES FOR SEARCH ====================
+
+formulas(mace4_clauses).
+x v x = x.
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+x * y = y * x.
+x * eo = x.
+x * y v z = (x * y) v (x * z).
+x * ev = ev.
+star(star(x)) = x.
+x v y != y | star(x) = star(y) v star(x).
+x v y = y | star(x) != star(y) v star(x).
+(c1 * c2) * c3 != c1 * (c2 * c3).
+end_of_list.
+
+============================== end of clauses for search =============
+
+% There are no natural numbers in the input.
+
+============================== DOMAIN SIZE 2 =========================
+
+=== Mace4 starting on domain size 2. ===
+
+============================== STATISTICS ============================
+
+For domain size 2.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=43, kept=37.
+Selections=9, assignments=17, propagations=8, current_models=0.
+Rewrite_terms=147, rewrite_bools=41, indexes=6.
+Rules_from_neg_clauses=0, cross_offs=0.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 3 =========================
+
+=== Mace4 starting on domain size 3. ===
+
+============================== STATISTICS ============================
+
+For domain size 3.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=106, kept=97.
+Selections=27, assignments=78, propagations=57, current_models=0.
+Rewrite_terms=1585, rewrite_bools=394, indexes=93.
+Rules_from_neg_clauses=14, cross_offs=44.
+
+============================== end of statistics =====================
+
+============================== DOMAIN SIZE 4 =========================
+
+=== Mace4 starting on domain size 4. ===
+
+============================== MODEL =================================
+
+interpretation( 4, [number=1, seconds=0], [
+
+        function(eo, [ 0 ]),
+
+        function(ev, [ 1 ]),
+
+        function(c1, [ 2 ]),
+
+        function(c2, [ 2 ]),
+
+        function(c3, [ 3 ]),
+
+        function(star(_), [ 1, 0, 3, 2 ]),
+
+        function(*(_,_), [
+			   0, 1, 2, 3,
+			   1, 1, 1, 1,
+			   2, 1, 3, 3,
+			   3, 1, 3, 1 ]),
+
+        function(v(_,_), [
+			   0, 0, 0, 0,
+			   0, 1, 2, 3,
+			   0, 2, 2, 2,
+			   0, 3, 2, 3 ])
+]).
+
+============================== end of model ==========================
+
+============================== STATISTICS ============================
+
+For domain size 4.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.00 seconds).
+Ground clauses: seen=213, kept=201.
+Selections=125, assignments=485, propagations=407, current_models=1.
+Rewrite_terms=16355, rewrite_bools=4655, indexes=969.
+Rules_from_neg_clauses=51, cross_offs=411.
+
+============================== end of statistics =====================
+
+------ process 1629 exit (max_models) ------
+
+User_CPU=0.00, System_CPU=0.00, Wall_clock=0.
+
+Exiting with 1 model.
+
+Process 1629 exit (max_models) Fri Jul 24 16:20:22 2026
+The process finished Fri Jul 24 16:20:22 2026

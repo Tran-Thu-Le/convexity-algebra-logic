@@ -1,0 +1,221 @@
+% =========================================================
+% doc2-polar-semiring.tex — Section 2: Primitive Polarity on Semirings
+% =========================================================
+
+\section{Primitive Polarity on Semirings}\label{sec:ps}
+
+The objective of this section is to establish primitive polarity as an
+independent algebraic primitive that can be adjoined to an idempotent
+commutative semiring without appeal to residuals or dual operations. We
+first fix the underlying semiring, then introduce the polarity through two
+further axioms, isolate the role of each, exhibit canonical models, and
+verify that the resulting eleven-axiom system is independent.
+
+\begin{definition}[Primitive semiring]\label{def:semiring}
+A \emph{primitive semiring} is a structure $(X,\vee,\otimes,\ev,\eo)$, with
+$\vee,\otimes$ binary operations and $\ev,\eo \in X$, satisfying for all
+$a,b,c \in X$:
+\begin{align}
+  a \vee a &= a, \tag{J0}\label{ax:J0}\\
+  (a \vee b) \vee c &= a \vee (b \vee c), \tag{J1}\label{ax:J1}\\
+  a \vee b &= b \vee a, \tag{J2}\label{ax:J2}\\
+  a \vee \ev &= a, \tag{J3}\label{ax:J3}\\
+  (a \otimes b) \otimes c &= a \otimes (b \otimes c), \tag{T1}\label{ax:T1}\\
+  a \otimes b &= b \otimes a, \tag{T2}\label{ax:T2}\\
+  a \otimes \eo &= a, \tag{T3}\label{ax:T3}\\
+  a \otimes (b \vee c) &= (a \otimes b) \vee (a \otimes c),
+    \tag{TJ1}\label{ax:TJ1}\\
+  a \otimes \ev &= \ev. \tag{TJ2}\label{ax:TJ2}
+\end{align}
+\end{definition}
+
+Axioms \eqref{ax:J0} to \eqref{ax:J3} make $(X,\vee,\ev)$ an idempotent
+commutative monoid, axioms \eqref{ax:T1} to \eqref{ax:T3} make
+$(X,\otimes,\eo)$ a commutative monoid, and \eqref{ax:TJ1} to \eqref{ax:TJ2}
+link the two, so that $(X,\vee,\otimes,\ev,\eo)$ is an idempotent commutative
+semiring \citep{Golan1999}. These nine axioms describe the algebraic layer
+alone; no duality, reflection, or residual is present.
+
+\begin{definition}[Polar Semiring]\label{def:ps}
+A \emph{Polar Semiring} is a structure $(X,\vee,\otimes,{}^{*},\ev,\eo)$
+whose reduct $(X,\vee,\otimes,\ev,\eo)$ is a primitive semiring and whose
+unary operation ${}^{*}\colon X \to X$ satisfies, for all $a,b \in X$:
+\begin{align}
+  \dstar{(\dstar{a})} &= a, \tag{P}\label{ax:P}\\
+  a \vee b = b \;&\Longleftrightarrow\; \dstar{b} \vee \dstar{a} = \dstar{a}.
+    \tag{PJ}\label{ax:PJ}
+\end{align}
+The operation ${}^{*}$ is the \emph{polarity} of the structure. We
+abbreviate ``Polar Semiring'' by PS.
+\end{definition}
+
+% Axioms \eqref{ax:P} and \eqref{ax:PJ} are of a different nature from the
+% nine semiring axioms: they add no algebraic operation but introduce a
+% primitive polarity and its single point of contact with the semiring. To
+% make that contact explicit, define the \emph{join order} by
+% \begin{equation}\label{eq:orders}
+%   a \leq b \;:\Longleftrightarrow\; a \vee b = b,
+% \end{equation}
+% which is a partial order by \eqref{ax:J0} to \eqref{ax:J2}, with least
+% element $\ev$ by \eqref{ax:J3} and $a \vee b$ the join of $a$ and $b$. Under
+% \eqref{eq:orders}, axiom \eqref{ax:PJ} states that $a \leq b$ if and only if
+% $\dstar{b} \leq \dstar{a}$; that is, ${}^{*}$ is an antitone involution on
+% $(X,\leq)$, the classical notion of a polarity on an ordered set
+% \citep{Birkhoff1940}. No dual operation belongs to the signature, and none
+% is constructed here; the structures generated from ${}^{*}$ by conjugation
+% are the subject of \Cref{sec:arch}. The next two propositions record the
+% distinct roles of \eqref{ax:P} and \eqref{ax:PJ}.
+
+
+
+\begin{proposition}[Role of the polarity axiom]\label{prop:role-P}
+Under \eqref{ax:P}, the polarity ${}^{*}$ is a bijection with
+${}^{*} = {}^{*}{}^{-1}$.
+\end{proposition}
+
+\begin{proof}
+By \eqref{ax:P} each $a$ equals $\dstar{(\dstar{a})}$, so ${}^{*}$ is
+surjective; and $\dstar{a} = \dstar{b}$ gives
+$a = \dstar{(\dstar{a})} = \dstar{(\dstar{b})} = b$, so ${}^{*}$ is
+injective. The same equation shows ${}^{*}$ equals its own inverse.
+\end{proof}
+
+\begin{proposition}[Nontriviality of polarity]\label{prop:role-PJ}
+Let $(X,\vee,{}^{*})$ satisfy \eqref{ax:J0} to \eqref{ax:J2} and
+\eqref{ax:PJ}. If ${}^{*} = \mathrm{id}_X$, then $X$ is a singleton.
+Consequently, on every nontrivial Polar Semiring, ${}^{*} \neq \mathrm{id}_X$.
+\end{proposition}
+
+\begin{proof}
+Assume ${}^{*} = \mathrm{id}_X$, let $a,b \in X$ be arbitrary, and set
+$c = a \vee b$. By \eqref{ax:J1} and \eqref{ax:J0},
+$$
+  a \vee c = a \vee (a \vee b) = (a \vee a) \vee b = a \vee b = c.
+$$
+Applying \eqref{ax:PJ} to the pair $(a,c)$, the equality $a \vee c = c$
+yields $\dstar{c} \vee \dstar{a} = \dstar{a}$, which under
+${}^{*} = \mathrm{id}_X$ reads $c \vee a = a$; but \eqref{ax:J2} gives
+$c \vee a = a \vee c = c$, so $a = c$. Symmetrically, by \eqref{ax:J1},
+\eqref{ax:J0}, and \eqref{ax:J2},
+$$
+  b \vee c = b \vee (a \vee b) = (b \vee b) \vee a = b \vee a = a \vee b = c,
+$$
+and \eqref{ax:PJ} applied to $(b,c)$ gives $\dstar{c} \vee \dstar{b} =
+\dstar{b}$, that is, $c \vee b = b$; again \eqref{ax:J2} gives $c \vee b =
+b \vee c = c$, so $b = c$. Hence $a = c = b$. As $a,b$ were arbitrary, any
+two elements of $X$ coincide, so $X$ is a singleton.
+\end{proof}
+
+The proof uses only the join idempotence, associativity, and commutativity
+\eqref{ax:J0} to \eqref{ax:J2} together with \eqref{ax:PJ}; neither the join
+unit \eqref{ax:J3}, nor any tensor axiom, nor the order or the derived meet
+is invoked. Thus \eqref{ax:PJ} does more than relate the primitive semiring
+to the involution: on every nontrivial model it forbids the trivial
+involution, so that the polarity of a nontrivial Polar Semiring is a genuine
+reflection rather than the identity. Axiom \eqref{ax:P} alone would permit
+${}^{*} = \mathrm{id}_X$; it is \eqref{ax:PJ} that rules this out. The deeper
+structural role of \eqref{ax:PJ}, generating the compatibility between a
+Polar Semiring and its dual, is established in \Cref{sec:arch}.
+
+We now exhibit canonical models, confirming that the class is nonempty and
+that primitive polarity coexists with the semiring operations. In each case
+the join order coincides with the natural order of a chain, so
+\eqref{ax:J0} to \eqref{ax:J3} are immediate; we verify the remaining
+axioms directly.
+
+\begin{example}[Involutive semiring model]\label{ex:involutive-semiring}
+An \emph{involutive semiring} consists of a structure
+$(X,\vee,\otimes,{}^{*},e_{\vee},e_{\otimes})$,
+where $(X,\vee,e_{\vee})$ and $(X,\otimes,e_{\otimes})$ are commutative monoids,
+${}^{*}:X\to X$ is an involution satisfying
+$(a^{*})^{*}=a$,
+and distributes over both operations,
+\[
+(a\vee b)^{*}=a^{*}\vee b^{*},\qquad
+(a\otimes b)^{*}=a^{*}\otimes b^{*}.
+\]
+Moreover, $\otimes$ distributes over $\vee$.
+
+Compared with Polar Semirings, this structure does not require
+$\vee$ to be idempotent and does not impose any compatibility between
+${}^{*}$ and the order induced by $\vee$. In particular, the identity map
+${}^{*}=\mathrm{id}_{X}$ always satisfies the involution and distribution
+axioms. Hence involutive semirings illustrate that the semiring axioms
+together with involution alone do not exclude the trivial involution,
+highlighting the essential role of the polarity axiom \eqref{ax:PJ}.
+\end{example}
+
+\begin{example}[Boolean model]\label{ex:boolean}
+Let $X = \{0,1\}$ with $\vee = \max$, $\otimes = \min$, $\dstar{x} = 1-x$,
+$\ev = 0$, $\eo = 1$. The monoid axioms \eqref{ax:T1} to \eqref{ax:T3} hold
+for $\min$ with unit $1$; \eqref{ax:TJ1} is the distributivity of $\min$
+over $\max$; \eqref{ax:TJ2} reads $\min(a,0)=0$; \eqref{ax:P} holds since
+$1-(1-x)=x$; and \eqref{ax:PJ} holds because $x \mapsto 1-x$ is antitone.
+This is the smallest nontrivial Polar Semiring.
+\end{example}
+
+\begin{example}[Tropical model]\label{ex:tropical}
+Let $X = \mathbb{R} \cup \{-\infty,+\infty\}$ with $\vee = \max$,
+$a \otimes b = a+b$, $\dstar{x} = -x$, $\ev = -\infty$, $\eo = 0$, under the
+convention $(-\infty)+x = -\infty$ for all $x$, including $x = +\infty$. Then
+$(X,\otimes,0)$ is a commutative monoid, so \eqref{ax:T1} to \eqref{ax:T3}
+hold; addition is monotone, so $a + \max(b,c) = \max(a+b,a+c)$ gives
+\eqref{ax:TJ1}; the stated convention gives $a \otimes (-\infty) = -\infty$,
+which is \eqref{ax:TJ2}; \eqref{ax:P} holds since $-(-x)=x$; and negation is
+antitone, giving \eqref{ax:PJ}.
+\end{example}
+
+\begin{example}[Quadratic model on the unit interval]\label{ex:quadratic}
+Let $X = [0,1]$ with $\vee = \max$, $a \otimes b = ab$, and
+\begin{equation}\label{eq:quadratic-star}
+  \dstar{x} := \bigl(1 - \sqrt{x}\bigr)^{2},
+\end{equation}
+with $\ev = 0$ and $\eo = 1$. Ordinary multiplication makes
+$(X,\otimes,1)$ a commutative monoid and is monotone, giving \eqref{ax:T1}
+to \eqref{ax:T3} and \eqref{ax:TJ1}; $a \otimes 0 = 0$ gives \eqref{ax:TJ2}.
+The map \eqref{eq:quadratic-star} is strictly decreasing with $\dstar{0}=1$,
+$\dstar{1}=0$, whence \eqref{ax:PJ}, and it is an involution: since
+$1 - \sqrt{x} \geq 0$ on $[0,1]$,
+$$
+  \dstar{(\dstar{x})}
+  = \Bigl(1 - \sqrt{(1-\sqrt{x})^{2}}\Bigr)^{2}
+  = \bigl(1 - (1 - \sqrt{x})\bigr)^{2}
+  = x,
+$$
+which is \eqref{ax:P}. This model plays a decisive role in
+\Cref{subsec:impossibility}.
+\end{example}
+
+No dual semiring is introduced or analyzed at this stage; the three models
+are given purely in the primitive signature $(X,\vee,\otimes,{}^{*},\ev,\eo)$.
+We close by verifying that no axiom is redundant.
+
+\begin{theorem}[Independence]\label{thm:independence}
+The eleven-axiom system of \Cref{def:semiring} and \Cref{def:ps} is
+independent: for each axiom there exists a finite structure
+$(X,\vee,\otimes,{}^{*},\ev,\eo)$ satisfying the remaining ten axioms but not
+the selected one.
+\end{theorem}
+
+\begin{proof}
+For each axiom a finite countermodel was obtained by exhaustive search with
+the model finder Mace4, and the nonderivability claims were checked
+independently with the theorem prover Prover9 \citep{McCune2005}. The
+countermodels have at most \noteAI{fill in the maximal cardinality} elements
+and are listed in \noteAI{decide: appendix with the model tables, or
+supplementary material}.
+\noteAI{Per final rules \S6.2, the original Mace4/Prover9 runs used the
+obsolete axiom names (M0 to M3, S1 to S3, SM1 to SM2, PM) and the obsolete
+choice of primitives ($\wedge$ primitive). The runs must be repeated in the
+present signature (primitives $\vee,\otimes,{}^{*},\ev,\eo$; axioms J0 to J3,
+T1 to T3, TJ1, TJ2, P, PJ) before this theorem is submitted.}
+\end{proof}
+
+Each axiom therefore contributes an essential and independent ingredient to
+the definition of a Polar Semiring. This section has shown that primitive
+polarity may be adjoined to a semiring consistently and independently, yet
+so far it is only an involution constrained by a single compatibility
+axiom. Whether these minimal assumptions already determine a dual
+architecture is the question of the next section, which answers it in the
+affirmative: primitive polarity canonically generates a dual semiring
+together with a compatible order.

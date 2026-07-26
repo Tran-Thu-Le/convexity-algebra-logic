@@ -1,0 +1,71 @@
+%% ==== Block lemA-3: Lemma (3):  a <= b  ==>  a (x) c <= b (x) c ====
+%% Bai bao / paper: thm:bga-implies-ps (doc4-compare.tex)
+%% Gia thiet / hypotheses: BGA1-BGA3 (+ dinh nghia star); KHONG dung BGA5. BGA1-BGA3 plus the definition of star; BGA5 unused.
+%%
+%% Ky hieu / notation (tat ca viet bang ky hieu PS, tru residual):
+%%   v        = join   (\vee)          nguyen thuy cua BGA / BGA primitive
+%%   mt(x,y)  = meet   (\wedge)        nguyen thuy cua BGA / BGA primitive
+%%   *        = tensor (\otimes)       nguyen thuy cua BGA / BGA primitive
+%%   res(x,y) = residual (\to)         nguyen thuy cua BGA -- KHONG co trong PS
+%%   eo, ep, ew                        nguyen thuy cua BGA / BGA primitives
+%%   star(x)  = res(x,ep)              DAN XUAT / derived
+%%   ev       = star(ew)               DAN XUAT / derived
+%%   Thu tu / order:  u <= w  :<->  u v w = w.
+
+assign(max_seconds, 300).
+
+op(400, infix, "v").
+op(450, infix, "*").
+
+formulas(assumptions).
+
+  % BGA1a: join idempotent
+  x v x = x.
+
+  % BGA1b: join commutative
+  x v y = y v x.
+
+  % BGA1c: join associative
+  (x v y) v z = x v (y v z).
+
+  % BGA1d: meet idempotent
+  mt(x,x) = x.
+
+  % BGA1e: meet commutative
+  mt(x,y) = mt(y,x).
+
+  % BGA1f: meet associative
+  mt(mt(x,y),z) = mt(x,mt(y,z)).
+
+  % BGA1g: absorption 1
+  x v mt(x,y) = x.
+
+  % BGA1h: absorption 2
+  mt(x, x v y) = x.
+
+  % BGA2a: tensor associative
+  (x * y) * z = x * (y * z).
+
+  % BGA2b: tensor commutative
+  x * y = y * x.
+
+  % BGA2c: tensor unit eo
+  x * eo = x.
+
+  % BGA3: residuation:  a (x) b <= c  <->  b <= a -> c
+  ((x * y) v z = z) <-> (y v res(x,z) = res(x,z)).
+
+  % BGA4a: polarity defined from the residual
+  star(x) = res(x, ep).
+
+  % BGA4b: the polarity is involutive
+  star(star(x)) = x.
+
+end_of_list.
+
+formulas(goals).
+
+  % Lemma (3):  a <= b  ==>  a (x) c <= b (x) c
+  (x v y = y) -> ((x * z) v (y * z) = (y * z)).
+
+end_of_list.

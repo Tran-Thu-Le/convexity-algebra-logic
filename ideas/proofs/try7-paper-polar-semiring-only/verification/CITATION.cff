@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: "Machine verification for Polar Semirings"
+message: "If you use this verification artifact, please cite the accompanying paper."
+type: software
+authors:
+  - family-names: "[AUTHOR FAMILY NAME]"
+    given-names: "[AUTHOR GIVEN NAME]"
+license: MIT
+keywords:
+  - polar semiring
+  - involution
+  - Girard algebra
+  - Prover9
+  - Mace4
+  - automated theorem proving
+references:
+  - type: article
+    title: "Polar Semirings"
+    authors:
+      - family-names: "[AUTHOR FAMILY NAME]"
+        given-names: "[AUTHOR GIVEN NAME]"
+    year: 2026
+    notes: "Fill in venue, volume, and pages once published."

@@ -1,0 +1,281 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2017-11A (CIIRC), November 2017.
+Process 546 was started by root on vm,
+Fri Jul 24 16:31:28 2026
+The command was "/home/claude/Prover9/bin/prover9 -f prover9-inputs/lemA-1.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file prover9-inputs/lemA-1.in
+
+assign(max_seconds,300).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+x v x = x.
+x v y = y v x.
+(x v y) v z = x v (y v z).
+mt(x,x) = x.
+mt(x,y) = mt(y,x).
+mt(mt(x,y),z) = mt(x,mt(y,z)).
+x v mt(x,y) = x.
+mt(x,x v y) = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+(x * y) v z = z <-> y v res(x,z) = res(x,z).
+star(x) = res(x,ep).
+star(star(x)) = x.
+end_of_list.
+
+formulas(goals).
+x v y = y <-> eo v res(x,y) = res(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 (x * y) v z = z <-> y v res(x,z) = res(x,z) # label(non_clause).  [assumption].
+2 x v y = y <-> eo v res(x,y) = res(x,y) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+x v x = x.  [assumption].
+x v y = y v x.  [assumption].
+(x v y) v z = x v (y v z).  [assumption].
+mt(x,x) = x.  [assumption].
+mt(x,y) = mt(y,x).  [assumption].
+mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+x v mt(x,y) = x.  [assumption].
+mt(x,x v y) = x.  [assumption].
+(x * y) * z = x * (y * z).  [assumption].
+x * y = y * x.  [assumption].
+x * eo = x.  [assumption].
+(x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+(x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+star(x) = res(x,ep).  [assumption].
+star(star(x)) = x.  [assumption].
+c1 v c2 = c2 | res(c1,c2) = eo v res(c1,c2).  [deny(2)].
+c1 v c2 != c2 | res(c1,c2) != eo v res(c1,c2).  [deny(2)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (non-Horn, no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ eo, ep, c1, c2, v, *, mt, res, star ]).
+After inverse_order:  (no changes).
+Unfolding symbols: star/1.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(binary_resolution).  % (non-Horn)
+  % set(neg_ur_resolution).  % (non-Horn, less than 100 clauses)
+
+Auto_process settings:
+  % set(factor).  % (non-Horn)
+  % set(unit_deletion).  % (non-Horn)
+
+kept:      3 x v x = x.  [assumption].
+
+% Operation v is commutative; C redundancy checks enabled.
+kept:      4 x v y = y v x.  [assumption].
+kept:      5 (x v y) v z = x v (y v z).  [assumption].
+kept:      6 mt(x,x) = x.  [assumption].
+
+% Operation mt is commutative; C redundancy checks enabled.
+kept:      7 mt(x,y) = mt(y,x).  [assumption].
+kept:      8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+kept:      9 x v mt(x,y) = x.  [assumption].
+kept:      10 mt(x,x v y) = x.  [assumption].
+kept:      11 (x * y) * z = x * (y * z).  [assumption].
+
+% Operation * is commutative; C redundancy checks enabled.
+kept:      12 x * y = y * x.  [assumption].
+kept:      13 x * eo = x.  [assumption].
+           14 (x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+kept:      15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+           16 (x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+kept:      17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+kept:      18 star(x) = res(x,ep).  [assumption].
+           19 star(star(x)) = x.  [assumption].
+kept:      20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+           21 c1 v c2 = c2 | res(c1,c2) = eo v res(c1,c2).  [deny(2)].
+kept:      22 c1 v c2 = c2 | eo v res(c1,c2) = res(c1,c2).  [copy(21),flip(b)].
+           23 c1 v c2 != c2 | res(c1,c2) != eo v res(c1,c2).  [deny(2)].
+kept:      24 c1 v c2 != c2 | eo v res(c1,c2) != res(c1,c2).  [copy(23),flip(b)].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+3 x v x = x.  [assumption].
+4 x v y = y v x.  [assumption].
+5 (x v y) v z = x v (y v z).  [assumption].
+6 mt(x,x) = x.  [assumption].
+7 mt(x,y) = mt(y,x).  [assumption].
+8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+9 x v mt(x,y) = x.  [assumption].
+10 mt(x,x v y) = x.  [assumption].
+11 (x * y) * z = x * (y * z).  [assumption].
+12 x * y = y * x.  [assumption].
+13 x * eo = x.  [assumption].
+15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+18 star(x) = res(x,ep).  [assumption].
+20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+22 c1 v c2 = c2 | eo v res(c1,c2) = res(c1,c2).  [copy(21),flip(b)].
+24 c1 v c2 != c2 | eo v res(c1,c2) != res(c1,c2).  [copy(23),flip(b)].
+end_of_list.
+
+formulas(demodulators).
+3 x v x = x.  [assumption].
+4 x v y = y v x.  [assumption].
+        % (lex-dep)
+5 (x v y) v z = x v (y v z).  [assumption].
+6 mt(x,x) = x.  [assumption].
+7 mt(x,y) = mt(y,x).  [assumption].
+        % (lex-dep)
+8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+9 x v mt(x,y) = x.  [assumption].
+10 mt(x,x v y) = x.  [assumption].
+11 (x * y) * z = x * (y * z).  [assumption].
+12 x * y = y * x.  [assumption].
+        % (lex-dep)
+13 x * eo = x.  [assumption].
+18 star(x) = res(x,ep).  [assumption].
+20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.00 seconds.
+
+given #1 (I,wt=5): 3 x v x = x.  [assumption].
+
+given #2 (I,wt=7): 4 x v y = y v x.  [assumption].
+
+given #3 (I,wt=11): 5 (x v y) v z = x v (y v z).  [assumption].
+
+% Operation v is associative-commutative; CAC redundancy checks enabled.
+% back CAC tautology: 28 x v (y v z) = z v (x v y).  [para(5(a,1),4(a,1))].
+
+given #4 (I,wt=5): 6 mt(x,x) = x.  [assumption].
+
+given #5 (I,wt=7): 7 mt(x,y) = mt(y,x).  [assumption].
+
+given #6 (I,wt=11): 8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+
+% Operation mt is associative-commutative; CAC redundancy checks enabled.
+% back CAC tautology: 33 mt(x,mt(y,z)) = mt(z,mt(x,y)).  [para(8(a,1),7(a,1))].
+
+given #7 (I,wt=7): 9 x v mt(x,y) = x.  [assumption].
+
+given #8 (I,wt=7): 10 mt(x,x v y) = x.  [assumption].
+
+given #9 (I,wt=11): 11 (x * y) * z = x * (y * z).  [assumption].
+
+given #10 (I,wt=7): 12 x * y = y * x.  [assumption].
+
+% Operation * is associative-commutative; CAC redundancy checks enabled.
+
+given #11 (I,wt=5): 13 x * eo = x.  [assumption].
+
+given #12 (I,wt=16): 15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+
+given #13 (I,wt=16): 17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+
+given #14 (I,wt=6): 18 star(x) = res(x,ep).  [assumption].
+
+given #15 (I,wt=7): 20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+
+given #16 (I,wt=14): 22 c1 v c2 = c2 | eo v res(c1,c2) = res(c1,c2).  [copy(21),flip(b)].
+
+given #17 (A,wt=9): 26 x v (x v y) = x v y.  [para(3(a,1),5(a,1,1)),flip(a)].
+
+given #18 (F,wt=9): 58 eo v res(c1,c2) != res(c1,c2).  [back_rewrite(24),rewrite([57(3)]),xx(a)].
+-------- Proof 1 -------- 
+
+============================== PROOF =================================
+
+% Proof 1 at 0.00 (+ 0.01) seconds.
+% Length of proof is 16.
+% Level of proof is 5.
+% Maximum clause weight is 16.000.
+% Given clauses 18 (3.600 givens/level).
+
+1 (x * y) v z = z <-> y v res(x,z) = res(x,z) # label(non_clause).  [assumption].
+2 x v y = y <-> eo v res(x,y) = res(x,y) # label(non_clause) # label(goal).  [goal].
+12 x * y = y * x.  [assumption].
+13 x * eo = x.  [assumption].
+14 (x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+16 (x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+21 c1 v c2 = c2 | res(c1,c2) = eo v res(c1,c2).  [deny(2)].
+22 c1 v c2 = c2 | eo v res(c1,c2) = res(c1,c2).  [copy(21),flip(b)].
+23 c1 v c2 != c2 | res(c1,c2) != eo v res(c1,c2).  [deny(2)].
+24 c1 v c2 != c2 | eo v res(c1,c2) != res(c1,c2).  [copy(23),flip(b)].
+46 eo * x = x.  [para(13(a,1),12(a,1)),flip(a)].
+57 c1 v c2 = c2.  [resolve(22,b,17,b),rewrite([12(8),46(8)]),merge(b)].
+58 eo v res(c1,c2) != res(c1,c2).  [back_rewrite(24),rewrite([57(3)]),xx(a)].
+62 $F.  [ur(15,b,58,a),rewrite([12(3),46(3),57(3)]),xx(a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=18. Generated=156. Kept=54. proofs=1.
+Usable=17. Sos=28. Demods=34. Limbo=0, Disabled=26. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=101. Back_subsumed=2.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=41 (8 lex), Back_demodulated=5. Back_unit_deleted=0.
+Demod_attempts=1189. Demod_rewrites=176.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=9. Nonunit_bsub_feature_tests=27.
+Megabytes=0.15.
+User_CPU=0.00, System_CPU=0.01, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+------ process 546 exit (max_proofs) ------
+
+Process 546 exit (max_proofs) Fri Jul 24 16:31:28 2026

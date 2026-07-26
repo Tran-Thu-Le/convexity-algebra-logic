@@ -1,0 +1,148 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2017-11A (CIIRC), November 2017.
+Process 1679 was started by root on vm,
+Fri Jul 24 16:20:22 2026
+The command was "/home/claude/Prover9/bin/prover9 -f prover9-paper-theorems/prover9-inputs/block1-RD5d.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file prover9-paper-theorems/prover9-inputs/block1-RD5d.in
+
+assign(max_seconds,60).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+star(star(x)) = x.
+meet(x,y) = star(star(x) v star(y)).
+plus(x,y) = star(star(x) * star(y)).
+ew = star(ev).
+ep = star(eo).
+end_of_list.
+
+formulas(goals).
+star(ep) = eo.
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 star(ep) = eo # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+(x v y) v z = x v (y v z).  [assumption].
+x v y = y v x.  [assumption].
+x v ev = x.  [assumption].
+(x * y) * z = x * (y * z).  [assumption].
+x * y = y * x.  [assumption].
+x * eo = x.  [assumption].
+star(star(x)) = x.  [assumption].
+meet(x,y) = star(star(x) v star(y)).  [assumption].
+plus(x,y) = star(star(x) * star(y)).  [assumption].
+ew = star(ev).  [assumption].
+ep = star(eo).  [assumption].
+star(ep) != eo.  [deny(1)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ eo, ev, ep, ew, *, v, meet, plus, star ]).
+After inverse_order:  (no changes).
+Unfolding symbols: ep/0 meet/2 plus/2.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+
+Auto_process settings:  (no changes).
+
+kept:      2 (x v y) v z = x v (y v z).  [assumption].
+
+% Operation v is commutative; C redundancy checks enabled.
+kept:      3 x v y = y v x.  [assumption].
+kept:      4 x v ev = x.  [assumption].
+kept:      5 (x * y) * z = x * (y * z).  [assumption].
+
+% Operation * is commutative; C redundancy checks enabled.
+kept:      6 x * y = y * x.  [assumption].
+kept:      7 x * eo = x.  [assumption].
+kept:      8 star(star(x)) = x.  [assumption].
+kept:      9 meet(x,y) = star(star(x) v star(y)).  [assumption].
+kept:      10 plus(x,y) = star(star(x) * star(y)).  [assumption].
+           11 ew = star(ev).  [assumption].
+kept:      12 star(ev) = ew.  [copy(11),flip(a)].
+kept:      13 ep = star(eo).  [assumption].
+           14 star(ep) != eo.  [deny(1)].
+-------- Proof 1 -------- 
+
+============================== PROOF =================================
+
+% Proof 1 at 0.00 (+ 0.00) seconds.
+% Length of proof is 5.
+% Level of proof is 2.
+% Maximum clause weight is 5.000.
+% Given clauses 0 (0.000 givens/level).
+
+1 star(ep) = eo # label(non_clause) # label(goal).  [goal].
+8 star(star(x)) = x.  [assumption].
+13 ep = star(eo).  [assumption].
+14 star(ep) != eo.  [deny(1)].
+15 $F.  [copy(14),rewrite([13(1),8(3)]),xx(a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=0. Generated=12. Kept=11. proofs=1.
+Usable=0. Sos=0. Demods=11. Limbo=11, Disabled=12. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=0. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=11 (2 lex), Back_demodulated=0. Back_unit_deleted=0.
+Demod_attempts=86. Demod_rewrites=2.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=0.
+Megabytes=0.04.
+User_CPU=0.00, System_CPU=0.00, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+------ process 1679 exit (max_proofs) ------
+
+Process 1679 exit (max_proofs) Fri Jul 24 16:20:22 2026

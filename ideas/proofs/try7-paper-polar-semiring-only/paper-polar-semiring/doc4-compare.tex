@@ -1,0 +1,449 @@
+% =========================================================
+% doc4-compare.tex — Section 4: Positioning
+% Sole content source: d3-compare-PS-and-BGA.md
+%   Appendix A → 4.1 ; Sec 2 → 4.2 (compressed: 1 theorem + one
+%   11-row table, axiom names TRANSLATED to J/T/TJ/P/PJ) ;
+%   Sec 3 → 4.3 (impossibility on [0,1]).
+% The residual \res is the ONLY BGA-native symbol used, and only here.
+% =========================================================
+
+\section{Positioning within Existing Algebraic Frameworks}\label{sec:positioning}
+
+The previous section showed that a primitive polarity generates a complete dual algebraic architecture. Since axioms \eqref{ax:P} and \eqref{ax:PJ} define an antitone involution, it is natural to ask whether this duality has already appeared in existing algebraic structures. Among the classical candidates, bounded Girard algebras are the closest to Polar Semirings. We show that every bounded Girard algebra admits a canonical Polar Semiring reduct, whereas the converse fails. Thus, primitive polarity is strictly more general than polarity derived from residuation.
+
+% \begin{center}
+% \small
+% \begin{tabular}{@{}p{4.6cm}p{4.3cm}p{4.3cm}@{}}
+% \toprule
+% Class & Relation to PS & Axiomatic difference \\
+% \midrule
+% Polar Lattice ($=$ bounded i-lattice \citep{Kalman1958}) &
+%   order reduct of every PS & none (reduct) \\
+% De Morgan algebra \citep{Rasiowa1974} &
+%   special case of the order reduct & adds $\vee/\wedge$ distributivity \\
+% Boolean algebra &
+%   special case of De Morgan algebras & adds excluded middle \\
+% Semiring with involution \citep{Golan1999} &
+%   PS minus \eqref{ax:PJ} & drops order compatibility \\
+% Bounded Girard algebra &
+%   proper subclass of PS (\Cref{cor:strict}) & adds a residual \\
+% \bottomrule
+% \end{tabular}
+% \end{center}
+\subsection{Polar semiring and bounded Girard algebra}
+\label{subsec:bga-defn}
+% \subsection{Polarity versus Residual}
+
+We recall the definition of a bounded Girard algebra, rewritten entirely in
+the notation of this paper. The residual $\res$ is the one primitive of the
+definition that has no counterpart in a Polar Semiring; it is the only
+symbol foreign to our signature, and it appears in this section only.
+
+\begin{definition}[Bounded Girard algebra]\label{def:bga}
+A \emph{bounded Girard algebra} (BGA) is a structure
+\[
+  (X,\vee,\wedge,\otimes,\res,\eo,\ep,\ew)
+\]
+satisfying:
+\begin{align}
+  &(X,\vee,\wedge) \text{ is a lattice}, \tag{BGA1}\label{ax:BGA1}\\
+  &(X,\otimes,\eo) \text{ is a commutative monoid}, \tag{BGA2}\label{ax:BGA2}\\
+  &a \otimes b \leq c \;\Longleftrightarrow\; b \leq a \res c,
+     \tag{BGA3}\label{ax:BGA3}\\
+  &\dstar{(\dstar{a})} = a, \quad\text{where } \dstar{a} := a \res \ep,
+     \tag{BGA4}\label{ax:BGA4}\\
+  &a \leq \ew \text{ for all } a, \tag{BGA5}\label{ax:BGA5}
+\end{align}
+where $\leq$ denotes the lattice order, $a \leq b :\iff a \vee b = b$.
+The remaining operations of the PS signature are derived:
+$\ev := \dstar{\ew}$ and $a \oplus b := \dstar{(\dstar{a} \otimes
+\dstar{b})}$.
+\end{definition}
+
+\noteAI{\Cref{def:bga} follows the axiomatization recorded in the project
+notes as sourced from \citep{Agliano2025}; verify against the published
+formulation (in particular whether boundedness is stated via \eqref{ax:BGA5}
+or via a bottom element) before submission.}
+
+By \eqref{ax:BGA3}--\eqref{ax:BGA4}, the polarity of a BGA is a derived
+operation, manufactured from the residual and the distinguished element
+$\ep$. The question of this section is whether that manufacturing step is
+essential.
+
+% \subsection{Every bounded Girard algebra induces a Polar
+% Semiring}\label{subsec:bga-implies-ps}
+
+We first isolate the consequences of residuation that will be needed; all
+of them use only \eqref{ax:BGA1}--\eqref{ax:BGA3}.
+
+\begin{lemma}\label{lem:res-toolkit}
+In any structure satisfying
+\eqref{ax:BGA1}--\eqref{ax:BGA3}:
+\begin{enumerate}
+  \item $a \leq b \iff \eo \leq a \res b$;
+  \item $b \otimes (b \res c) \leq c$;
+  \item $a \leq b$ implies $a \otimes c \leq b \otimes c$;
+  \item $a \leq b$ implies $b \res z \leq a \res z$; in particular, with
+        $z := \ep$, the map ${}^{*}$ is antitone.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Put $b := \eo$ in \eqref{ax:BGA3} and use $a \otimes \eo = a$.
+(2) By \eqref{ax:BGA3}, $b \otimes (b \res c) \leq c$ is equivalent to
+$b \res c \leq b \res c$.
+(3) By commutativity, $b \leq c \res (b \otimes c)$ holds unconditionally
+(it is \eqref{ax:BGA3} applied to $c \otimes b \leq b \otimes c$); from
+$a \leq b$ and transitivity, $a \leq c \res (b \otimes c)$, and
+\eqref{ax:BGA3} converts this back to $a \otimes c \leq b \otimes c$.
+(4) By (3), $a \otimes (b \res z) \leq b \otimes (b \res z)$, and by (2)
+the right-hand side is $\leq z$; then \eqref{ax:BGA3} gives
+$b \res z \leq a \res z$.
+\end{proof}
+
+\begin{theorem}[BGA $\Rightarrow$ PS]\label{thm:bga-implies-ps}
+Let $(X,\vee,\wedge,\otimes,\res,\eo,\ep,\ew)$ be a bounded Girard algebra,
+and let ${}^{*}$, $\ev$ be the derived operations of \Cref{def:bga}. Then
+$(X,\vee,\otimes,{}^{*},\ev,\eo)$ is a Polar Semiring, and its derived meet
+and order coincide with the lattice meet and order of the BGA.
+\end{theorem}
+
+\begin{proof}
+\Cref{tab:eleven} lists, for each of the eleven PS axioms, the BGA facts
+from which it follows. Seven rows are immediate: \eqref{ax:J0},
+\eqref{ax:J1}, \eqref{ax:J2} are contained in the lattice axiom
+\eqref{ax:BGA1}; \eqref{ax:T1}, \eqref{ax:T2}, \eqref{ax:T3} are
+\eqref{ax:BGA2}; and \eqref{ax:P} is \eqref{ax:BGA4}. The four remaining
+rows are proved after the table.
+
+\begin{table}[ht]
+\centering
+\caption{Derivation of the eleven PS axioms from the BGA axioms.}
+\label{tab:eleven}
+\begin{tabular}{@{}llll@{}}
+\toprule
+PS axiom & Statement & Derived from & Status \\
+\midrule
+\eqref{ax:J0} & $a \vee a = a$ & \eqref{ax:BGA1} & immediate \\
+\eqref{ax:J1} & associativity of $\vee$ & \eqref{ax:BGA1} & immediate \\
+\eqref{ax:J2} & commutativity of $\vee$ & \eqref{ax:BGA1} & immediate \\
+\eqref{ax:J3} & $a \vee \ev = a$ & \eqref{ax:BGA4}, \eqref{ax:BGA5},
+  \Cref{lem:res-toolkit}(4) & proof below \\
+\eqref{ax:T1} & associativity of $\otimes$ & \eqref{ax:BGA2} & immediate \\
+\eqref{ax:T2} & commutativity of $\otimes$ & \eqref{ax:BGA2} & immediate \\
+\eqref{ax:T3} & $a \otimes \eo = a$ & \eqref{ax:BGA2} & immediate \\
+\eqref{ax:TJ1} & $\otimes$ distributes over $\vee$ &
+  \eqref{ax:BGA3}, \Cref{lem:res-toolkit}(1,3) & proof below \\
+\eqref{ax:TJ2} & $a \otimes \ev = \ev$ &
+  \eqref{ax:BGA3}, \eqref{ax:J3} & proof below \\
+\eqref{ax:P} & $\dstar{(\dstar{a})} = a$ & \eqref{ax:BGA4} & immediate \\
+\eqref{ax:PJ} & polarity & \eqref{ax:BGA4},
+  \Cref{lem:res-toolkit}(4) & proof below \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{\eqref{ax:J3}.} By \eqref{ax:BGA5}, $a \leq \ew$ for all $a$; since
+${}^{*}$ is antitone (\Cref{lem:res-toolkit}(4)),
+$\ev = \dstar{\ew} \leq \dstar{a}$ for all $a$. As ${}^{*}$ is surjective by
+\eqref{ax:BGA4}, every element of $X$ is of the form $\dstar{a}$, so $\ev$
+is the least element of the lattice, and $a \vee \ev = a$ follows.
+
+\emph{\eqref{ax:TJ1}.} The inequality
+$(a \otimes b) \vee (a \otimes c) \leq a \otimes (b \vee c)$ follows from
+\Cref{lem:res-toolkit}(3) applied to $b, c \leq b \vee c$. Conversely, put
+$u := (a \otimes b) \vee (a \otimes c)$. From $a \otimes b \leq u$ and
+$a \otimes c \leq u$, axiom \eqref{ax:BGA3} yields
+$b \leq a \res u$ and $c \leq a \res u$, hence
+$b \vee c \leq a \res u$, and \eqref{ax:BGA3} converts this to
+$a \otimes (b \vee c) \leq u$.
+
+\emph{\eqref{ax:TJ2}.} Since $\ev$ is the least element,
+$\ev \leq a \otimes \ev$; and $a \otimes \ev \leq \ev$ is, by
+\eqref{ax:BGA3}, equivalent to $\ev \leq a \res \ev$, which holds because
+$\ev$ is least. Antisymmetry concludes.
+
+\emph{\eqref{ax:PJ}.} Unfolding \eqref{eq:orders}, the axiom asserts
+$a \leq b \iff \dstar{b} \leq \dstar{a}$. The forward direction is
+\Cref{lem:res-toolkit}(4). For the converse, apply
+\Cref{lem:res-toolkit}(4) to $\dstar{b} \leq \dstar{a}$ to obtain
+$\dstar{(\dstar{a})} \leq \dstar{(\dstar{b})}$, and use \eqref{ax:BGA4}.
+
+Finally, the derived meet of the induced PS coincides with the lattice
+meet: for the antitone bijection ${}^{*}$, the element
+$\dstar{(\dstar{a} \vee \dstar{b})}$ is the greatest lower bound of
+$\{a,b\}$ in $(X,\leq)$, which in the lattice \eqref{ax:BGA1} is
+$a \wedge b$.
+\end{proof}
+
+% \subsection{The impossibility theorem}\label{subsec:impossibility}
+
+We now show that \Cref{thm:bga-implies-ps} cannot be reversed: the quadratic
+model of \Cref{ex:quadratic} is a Polar Semiring that admits no bounded
+Girard algebra structure. In a BGA, the polarity is by definition
+$\dstar{a} = a \res \ep$ for the residual $\res$ of $\otimes$; on
+$([0,1],\leq)$ with $\otimes$ the ordinary product, the residual, when it
+exists, is uniquely determined by \eqref{ax:BGA3}:
+\begin{equation}\label{eq:interval-residual}
+  a \res c \;=\; \max\{\, b \in [0,1] : ab \leq c \,\}
+          \;=\; \min\bigl(1,\, c/a\bigr)
+  \quad (a \in (0,1]),
+  \qquad 0 \res c = 1.
+\end{equation}
+Thus extendability of the quadratic model to a BGA amounts to the existence
+of a dualizing constant $q \in [0,1]$ with $\dstar{a} = a \res q$ for all
+$a$, and the theorem rules this out.
+
+\begin{theorem}[Impossibility]\label{thm:impossibility}
+Let $([0,1],\vee,\otimes,{}^{*},0,1)$ be the quadratic model of
+\Cref{ex:quadratic}. There exists no $q \in [0,1]$ such that
+\begin{equation}\label{eq:dagger}
+  a \otimes b \leq q
+  \;\Longleftrightarrow\;
+  b \leq \dstar{a}
+  \qquad\text{for all } a,b \in [0,1].
+\end{equation}
+Consequently, the quadratic model cannot be extended to a bounded Girard
+algebra: no choice of residual and dualizing element $\ep$ makes its
+polarity \eqref{eq:quadratic-star} arise as $a \mapsto a \res \ep$.
+\end{theorem}
+
+\begin{proof}
+Fix $a \in (0,1]$. As functions of $b$, both sides of \eqref{eq:dagger} are
+threshold conditions: the left-hand side holds precisely for
+$b \leq \min(1, q/a)$, the right-hand side precisely for
+$b \leq \dstar{a}$. Since \eqref{eq:dagger} must hold for every
+$b \in [0,1]$, the thresholds must agree:
+\begin{equation}\label{eq:threshold}
+  \min\bigl(1,\, q/a\bigr) = \dstar{a}
+  \qquad\text{for all } a \in (0,1].
+\end{equation}
+Evaluating \eqref{eq:threshold} at $a = 1$ gives
+$\min(1,q) = \dstar{1} = 0$; as $q \in [0,1]$, this forces $q = 0$. But
+substituting $q = 0$ into \eqref{eq:threshold} at any $a \in (0,1)$ gives
+$0 = \dstar{a} = (1-\sqrt{a})^{2} > 0$, a contradiction. Hence no
+$q$ satisfies \eqref{eq:dagger}.
+
+For the final claim: in any BGA structure on this carrier extending the
+given $(\vee,\otimes)$, the order is the usual order of $[0,1]$, the
+residual is forced to be \eqref{eq:interval-residual} by \eqref{ax:BGA3},
+and the polarity is $a \res \ep$ for the primitive constant
+$q := \ep$; the displayed equivalence \eqref{eq:dagger} is then exactly the
+requirement that this derived polarity coincide with
+\eqref{eq:quadratic-star}.
+\noteAI{Per final-rules \S6.1, step \eqref{eq:threshold} (the
+``$(\dagger)$'' step of the source notes) required independent
+verification. I have re-derived it above and it checks out: for fixed
+$a\in(0,1]$ the LHS of \eqref{eq:dagger} is $b\le\min(1,q/a)$, the RHS is
+$b\le\dstar{a}$, equality of the two down-sets on $[0,1]$ forces equality
+of thresholds; $a=1$ forces $q=0$; $q=0$ fails for every $a<1$. Please
+perform your own final check (and, if desired, a Mace4 confirmation on a
+finite subchain) before submission.}
+\end{proof}
+
+\begin{corollary}\label{cor:strict}
+$\BGA \subsetneq \PS$: the class of Polar Semirings induced by bounded
+Girard algebras via \Cref{thm:bga-implies-ps} is a proper subclass of the
+class of all Polar Semirings.
+\end{corollary}
+
+\begin{remark}\label{rem:why-impossible}
+The impossibility has a structural explanation. Among the eleven PS axioms,
+none constrains $\otimes$ and ${}^{*}$ jointly through the order:
+\eqref{ax:TJ1}--\eqref{ax:TJ2} relate $\otimes$ to $\vee$ without
+mentioning ${}^{*}$, while \eqref{ax:P} and \eqref{ax:PJ} relate ${}^{*}$
+to $\vee$ without mentioning $\otimes$. Whether a given polarity is
+residuation-compatible with a given tensor is therefore left entirely
+undetermined by the axioms, and \Cref{thm:impossibility} shows that this
+freedom is genuine: the gap between the two classes is non-empty. In this
+precise sense, Polar Semirings are a residuation-free generalization of
+bounded Girard algebras---the polarity is promoted to a primitive, the
+residual is discarded, and \Cref{thm:bga-implies-ps,thm:impossibility}
+together certify that the generalization is strict rather than a
+reformulation.
+\end{remark}
+
+\subsection{Polar semiring and other structures}
+\label{subsec:related-structures}
+
+The gap isolated in \Cref{thm:bga-implies-ps,thm:impossibility} is not
+peculiar to bounded Girard algebras. It reflects a single structural fact
+about the eleven axioms: \eqref{ax:PJ} ties the polarity to the order
+without reference to $\otimes$, so any framework that manufactures the
+polarity from $\otimes$ and an extra primitive --- a residual, a
+dualizing constant, a fixed negation --- adds information that
+\eqref{ax:J0}--\eqref{ax:TJ2} alone do not supply. The remaining
+comparisons below trace the same fault line through three further
+traditions, without repeating the reduct-and-impossibility argument in
+each case.
+
+The shape of \Cref{def:bga} is itself inherited from linear logic: a
+bounded Girard algebra is an algebraic distillation of the phase
+semantics of linear logic \noteAI{cite Girard's original phase-semantics
+paper, e.g. Girard 1987}, and is order-equivalent to a
+\emph{Girard quantale} --- a join-complete lattice-ordered monoid carrying
+a dualizing element \noteAI{cite a Girard-quantale reference, e.g.
+Rosenthal or rosenthal1990quantales}. Both traditions treat
+the polarity as something derived from residuation on a complete lattice,
+which is exactly the feature \Cref{subsec:bga-defn} isolates and rejects;
+we do not unpack them separately here, since \eqref{ax:BGA1}--\eqref{ax:BGA5}
+already exhibit their defining move in the sharpest available form.
+
+A different departure is taken by involutive semirings, studied purely as
+algebraic objects rather than as models of a logic
+\citep{dolinka2000minimal,dheena2018ideals}. There the polarity is a
+primitive anti-automorphism of $\otimes$, but it is required to interact
+with $\otimes$ alone: nothing analogous to \eqref{ax:PJ} ties it to the
+order, and $\vee$ is not assumed idempotent, so \eqref{ax:J0} fails as
+well. The additive and multiplicative reducts collapse into a single
+pair of operations, $\wedge \equiv \vee$ and $\oplus \equiv \otimes$,
+leaving no room for the order-compatible duality that
+\eqref{ax:P}--\eqref{ax:PJ} express. Polar Semirings and involutive
+semirings are consequently incomparable rather than nested: each satisfies
+axioms the other does not.
+
+Dual pairs of semirings arise in the study of fuzzy sets and
+residuated structures \citep{movckovr2025unification}, and sit on the
+opposite side of PS from involutive semirings. All eleven axioms hold,
+and the polarity remains primitive as in PS, but a dual pair of
+semirings additionally assumes completeness of the order and demands that
+$\otimes$ and $\vee$ distribute over a primitive $\wedge$, together with
+distributivity of $\vee$ over $\wedge$. Where PS keeps $\wedge$ and
+$\oplus$ derived and imposes no completeness, a dual pair of semirings
+promotes them to primitives governed by their own axioms. It is thus a
+proper strengthening of PS built on the same primitive polarity, in
+contrast to bounded Girard algebras, which weaken the polarity to a
+derived notion while adding the residual.
+
+Table~\ref{tab:comparison} and Table~\ref{tab:axiom-comparison} summarize
+these four comparisons side by side, recording for each structure which
+operations are primitive versus derived and which of the eleven PS
+axioms it satisfies.
+
+
+
+
+\begin{table}[!ht]
+\centering
+\caption{Comparison of Polar Semirings, Bounded Girard Algebras, Dual Pairs of Semirings, and Classical Involutive Semirings}
+\label{tab:comparison}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Property}
+& \textbf{PS}
+& \textbf{BGA}
+& \textbf{DPS}
+& \textbf{IS} \\
+\hline
+
+Residual
+& ---
+& Primitive
+& ---
+& --- \\
+
+Polar $(*)$
+& Primitive
+& Derived
+& Primitive
+& Primitive \\
+
+Join $(\vee)$
+& Primitive
+& Primitive
+& Primitive
+& Primitive \\
+
+Tensor $(\otimes)$
+& Primitive
+& Primitive
+& Primitive
+& Primitive  \\
+
+Meet $(\wedge)$
+& Derived
+& Primitive
+& Primitive
+& $\equiv \vee$ \\
+
+Plus $(\oplus)$
+& Derived
+& Derived
+& Primitive
+& $\equiv \otimes$ \\
+
+Unit of join $(1_\vee)$
+& Primitive
+& Primitive
+& Primitive
+& Primitive \\
+
+
+Unit of tensor $(1_\otimes)$
+& Primitive
+& Primitive
+& Primitive
+& Primitive \\
+
+Unit of meet $(1_\wedge)$
+& Derived
+& Primitive
+& Primitive
+& $=1_\vee$ \\
+
+Unit of plus $(1_\oplus)$
+& Derived
+& Primitive
+& Primitive
+& $=1_\otimes$ \\
+
+\hline
+
+$\otimes$ distributes over $\vee$
+& Primitive
+& Derived
+& Primitive
+& Primitive \\
+
+$\otimes$ distributes over $\wedge$
+& ---
+& ---
+& Primitive
+& Primitive \\
+
+$\vee$ distributes over $\wedge$
+& ---
+& ---
+& Primitive
+& --- \\
+
+involutive
+& Primitive
+& Primitive
+& Primitive
+& Primitive \\
+
+antitone
+& Derived
+& Derived
+& Derived
+& --- \\
+
+\hline
+
+PS axioms satisfied
+& All
+& All
+& All
+& All but J0, PJ \\
+
+% Additional assumptions
+% & ---
+% & ---
+% & ---
+% & $\wedge \equiv \vee$; $\oplus \equiv \otimes$ \\
+
+\hline
+\end{tabular}
+\end{table}

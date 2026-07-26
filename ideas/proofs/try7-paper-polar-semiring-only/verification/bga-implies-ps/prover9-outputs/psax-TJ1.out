@@ -1,0 +1,3032 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2017-11A (CIIRC), November 2017.
+Process 602 was started by root on vm,
+Fri Jul 24 16:31:32 2026
+The command was "/home/claude/Prover9/bin/prover9 -f prover9-inputs/psax-TJ1.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file prover9-inputs/psax-TJ1.in
+
+assign(max_seconds,300).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+x v x = x.
+x v y = y v x.
+(x v y) v z = x v (y v z).
+mt(x,x) = x.
+mt(x,y) = mt(y,x).
+mt(mt(x,y),z) = mt(x,mt(y,z)).
+x v mt(x,y) = x.
+mt(x,x v y) = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+(x * y) v z = z <-> y v res(x,z) = res(x,z).
+star(x) = res(x,ep).
+star(star(x)) = x.
+x v ew = ew.
+ev = star(ew).
+end_of_list.
+
+formulas(goals).
+x * y v z = (x * y) v (x * z).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 (x * y) v z = z <-> y v res(x,z) = res(x,z) # label(non_clause).  [assumption].
+2 x * y v z = (x * y) v (x * z) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+x v x = x.  [assumption].
+x v y = y v x.  [assumption].
+(x v y) v z = x v (y v z).  [assumption].
+mt(x,x) = x.  [assumption].
+mt(x,y) = mt(y,x).  [assumption].
+mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+x v mt(x,y) = x.  [assumption].
+mt(x,x v y) = x.  [assumption].
+(x * y) * z = x * (y * z).  [assumption].
+x * y = y * x.  [assumption].
+x * eo = x.  [assumption].
+(x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+(x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+star(x) = res(x,ep).  [assumption].
+star(star(x)) = x.  [assumption].
+x v ew = ew.  [assumption].
+ev = star(ew).  [assumption].
+(c1 * c2) v (c1 * c3) != c1 * c2 v c3.  [deny(2)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ ew, eo, ep, ev, c1, c2, c3, v, *, mt, res, star ]).
+After inverse_order:  (no changes).
+Unfolding symbols: star/1.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(hyper_resolution).  % (nonunit Horn with equality)
+    % set(hyper_resolution) -> set(pos_hyper_resolution).
+  % set(neg_ur_resolution).  % (nonunit Horn with equality)
+  % assign(para_lit_limit, 2).  % (nonunit Horn with equality)
+
+Auto_process settings:  (no changes).
+
+kept:      3 x v x = x.  [assumption].
+
+% Operation v is commutative; C redundancy checks enabled.
+kept:      4 x v y = y v x.  [assumption].
+kept:      5 (x v y) v z = x v (y v z).  [assumption].
+kept:      6 mt(x,x) = x.  [assumption].
+
+% Operation mt is commutative; C redundancy checks enabled.
+kept:      7 mt(x,y) = mt(y,x).  [assumption].
+kept:      8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+kept:      9 x v mt(x,y) = x.  [assumption].
+kept:      10 mt(x,x v y) = x.  [assumption].
+kept:      11 (x * y) * z = x * (y * z).  [assumption].
+
+% Operation * is commutative; C redundancy checks enabled.
+kept:      12 x * y = y * x.  [assumption].
+kept:      13 x * eo = x.  [assumption].
+           14 (x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+kept:      15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+           16 (x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+kept:      17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+kept:      18 star(x) = res(x,ep).  [assumption].
+           19 star(star(x)) = x.  [assumption].
+kept:      20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+kept:      21 x v ew = ew.  [assumption].
+           22 ev = star(ew).  [assumption].
+kept:      23 res(ew,ep) = ev.  [copy(22),rewrite([18(3)]),flip(a)].
+           24 (c1 * c2) v (c1 * c3) != c1 * c2 v c3.  [deny(2)].
+kept:      25 c1 * c2 v c3 != (c1 * c2) v (c1 * c3).  [copy(24),flip(a)].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+3 x v x = x.  [assumption].
+4 x v y = y v x.  [assumption].
+5 (x v y) v z = x v (y v z).  [assumption].
+6 mt(x,x) = x.  [assumption].
+7 mt(x,y) = mt(y,x).  [assumption].
+8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+9 x v mt(x,y) = x.  [assumption].
+10 mt(x,x v y) = x.  [assumption].
+11 (x * y) * z = x * (y * z).  [assumption].
+12 x * y = y * x.  [assumption].
+13 x * eo = x.  [assumption].
+15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+18 star(x) = res(x,ep).  [assumption].
+20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+21 x v ew = ew.  [assumption].
+23 res(ew,ep) = ev.  [copy(22),rewrite([18(3)]),flip(a)].
+25 c1 * c2 v c3 != (c1 * c2) v (c1 * c3).  [copy(24),flip(a)].
+end_of_list.
+
+formulas(demodulators).
+3 x v x = x.  [assumption].
+4 x v y = y v x.  [assumption].
+        % (lex-dep)
+5 (x v y) v z = x v (y v z).  [assumption].
+6 mt(x,x) = x.  [assumption].
+7 mt(x,y) = mt(y,x).  [assumption].
+        % (lex-dep)
+8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+9 x v mt(x,y) = x.  [assumption].
+10 mt(x,x v y) = x.  [assumption].
+11 (x * y) * z = x * (y * z).  [assumption].
+12 x * y = y * x.  [assumption].
+        % (lex-dep)
+13 x * eo = x.  [assumption].
+18 star(x) = res(x,ep).  [assumption].
+20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+21 x v ew = ew.  [assumption].
+23 res(ew,ep) = ev.  [copy(22),rewrite([18(3)]),flip(a)].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.00 seconds.
+
+given #1 (I,wt=5): 3 x v x = x.  [assumption].
+
+given #2 (I,wt=7): 4 x v y = y v x.  [assumption].
+
+given #3 (I,wt=11): 5 (x v y) v z = x v (y v z).  [assumption].
+
+% Operation v is associative-commutative; CAC redundancy checks enabled.
+% back CAC tautology: 29 x v (y v z) = z v (x v y).  [para(5(a,1),4(a,1))].
+
+given #4 (I,wt=5): 6 mt(x,x) = x.  [assumption].
+
+given #5 (I,wt=7): 7 mt(x,y) = mt(y,x).  [assumption].
+
+given #6 (I,wt=11): 8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+
+% Operation mt is associative-commutative; CAC redundancy checks enabled.
+% back CAC tautology: 34 mt(x,mt(y,z)) = mt(z,mt(x,y)).  [para(8(a,1),7(a,1))].
+
+given #7 (I,wt=7): 9 x v mt(x,y) = x.  [assumption].
+
+given #8 (I,wt=7): 10 mt(x,x v y) = x.  [assumption].
+
+given #9 (I,wt=11): 11 (x * y) * z = x * (y * z).  [assumption].
+
+given #10 (I,wt=7): 12 x * y = y * x.  [assumption].
+
+% Operation * is associative-commutative; CAC redundancy checks enabled.
+
+given #11 (I,wt=5): 13 x * eo = x.  [assumption].
+
+given #12 (I,wt=16): 15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+
+given #13 (I,wt=16): 17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+
+given #14 (I,wt=6): 18 star(x) = res(x,ep).  [assumption].
+
+given #15 (I,wt=7): 20 res(res(x,ep),ep) = x.  [copy(19),rewrite([18(1),18(3)])].
+
+given #16 (I,wt=5): 21 x v ew = ew.  [assumption].
+
+given #17 (I,wt=5): 23 res(ew,ep) = ev.  [copy(22),rewrite([18(3)]),flip(a)].
+
+given #18 (I,wt=13): 25 c1 * c2 v c3 != (c1 * c2) v (c1 * c3).  [copy(24),flip(a)].
+
+given #19 (A,wt=9): 27 x v (x v y) = x v y.  [para(3(a,1),5(a,1,1)),flip(a)].
+
+given #20 (T,wt=5): 47 eo * x = x.  [para(13(a,1),12(a,1)),flip(a)].
+
+given #21 (T,wt=5): 59 ew v x = ew.  [para(21(a,1),4(a,1)),flip(a)].
+
+given #22 (T,wt=5): 60 mt(x,ew) = x.  [para(21(a,1),10(a,1,2))].
+
+given #23 (T,wt=5): 62 res(ev,ep) = ew.  [para(23(a,1),20(a,1,1))].
+
+given #24 (A,wt=9): 28 x v (y v x) = y v x.  [para(3(a,1),5(a,2,2)),rewrite([4(2)])].
+
+given #25 (T,wt=5): 68 mt(ew,x) = x.  [para(60(a,1),7(a,1)),flip(a)].
+
+given #26 (T,wt=7): 38 x v mt(y,x) = x.  [para(7(a,1),9(a,1,2))].
+
+given #27 (T,wt=7): 40 mt(x,y v x) = x.  [para(4(a,1),10(a,1,2))].
+
+given #28 (T,wt=7): 69 ep v (ev * x) = ep.  [para(62(a,1),17(b,1,2)),rewrite([4(4),21(8),62(10)]),xx(b)].
+
+given #29 (A,wt=11): 30 x v (y v z) = y v (x v z).  [para(4(a,1),5(a,1,1)),rewrite([5(2)])].
+
+given #30 (T,wt=5): 82 ep v ev = ep.  [para(13(a,1),69(a,1,2))].
+
+given #31 (T,wt=5): 92 mt(ep,ev) = ev.  [para(82(a,1),40(a,1,2)),rewrite([7(3)])].
+
+given #32 (T,wt=7): 81 ep v (x * ev) = ep.  [para(12(a,1),69(a,1,2))].
+
+given #33 (T,wt=9): 32 mt(x,mt(x,y)) = mt(x,y).  [para(6(a,1),8(a,1,1)),flip(a)].
+
+given #34 (A,wt=9): 33 mt(x,mt(y,x)) = mt(y,x).  [para(6(a,1),8(a,2,2)),rewrite([7(2)])].
+
+given #35 (T,wt=9): 54 x v (y * res(y,x)) = x.  [hyper(17,b,3,a),rewrite([4(3)])].
+
+given #36 (T,wt=7): 108 x v res(eo,x) = x.  [para(47(a,1),54(a,1,2))].
+
+given #37 (T,wt=9): 58 x v res(y,ew) = res(y,ew).  [hyper(15,a,21,a)].
+
+given #38 (T,wt=5): 119 res(x,ew) = ew.  [para(58(a,1),59(a,1))].
+
+given #39 (A,wt=11): 35 mt(x,mt(y,z)) = mt(y,mt(x,z)).  [para(7(a,1),8(a,1,1)),rewrite([8(2)])].
+
+given #40 (T,wt=9): 75 x v mt(y,mt(z,x)) = x.  [para(8(a,1),38(a,1,2))].
+
+given #41 (T,wt=9): 77 mt(x,y v (z v x)) = x.  [para(5(a,1),40(a,1,2))].
+
+given #42 (T,wt=7): 136 mt(ev,x v ep) = ev.  [para(82(a,1),77(a,1,2,2))].
+
+given #43 (T,wt=7): 141 mt(ev,ep v x) = ev.  [para(4(a,1),136(a,1,2))].
+
+given #44 (A,wt=11): 36 x v (mt(x,y) v z) = x v z.  [para(9(a,1),5(a,1,1)),flip(a)].
+
+given #45 (T,wt=9): 83 mt(ep,ev * x) = ev * x.  [para(69(a,1),40(a,1,2)),rewrite([7(4)])].
+
+given #46 (T,wt=9): 85 mt(x,y v (x v z)) = x.  [para(30(a,1),10(a,1,2))].
+
+given #47 (T,wt=9): 90 ep v (ev v x) = ep v x.  [para(82(a,1),5(a,1,1)),flip(a)].
+
+given #48 (T,wt=7): 169 ep v mt(ev,x) = ep.  [para(9(a,1),90(a,1,2)),rewrite([82(3)]),flip(a)].
+
+given #49 (A,wt=13): 37 x v (y v mt(x v y,z)) = x v y.  [para(9(a,1),5(a,1)),flip(a)].
+
+given #50 (T,wt=7): 170 ep v mt(x,ev) = ep.  [para(38(a,1),90(a,1,2)),rewrite([82(3)]),flip(a)].
+
+given #51 (T,wt=7): 174 ep v res(eo,ev) = ep.  [para(108(a,1),90(a,1,2)),rewrite([82(3)]),flip(a)].
+
+given #52 (T,wt=8): 192 ev = ep | res(eo,ev) != ep.  [para(174(a,1),17(b,1)),rewrite([47(3),82(3)]),flip(a),flip(b)].
+
+given #53 (T,wt=9): 91 ev v (x v ep) = x v ep.  [para(82(a,1),5(a,2,2)),rewrite([4(4)])].
+
+given #54 (A,wt=13): 39 mt(x,y) v mt(x,mt(y,z)) = mt(x,y).  [para(8(a,1),9(a,1,2))].
+
+given #55 (T,wt=9): 93 ep v (x v ev) = x v ep.  [para(82(a,1),30(a,1,2)),flip(a)].
+
+given #56 (T,wt=9): 94 mt(ep,mt(ev,x)) = mt(ev,x).  [para(92(a,1),8(a,1,1)),flip(a)].
+
+given #57 (T,wt=9): 95 mt(ev,mt(x,ep)) = mt(x,ev).  [para(92(a,1),8(a,2,2)),rewrite([7(4)])].
+
+given #58 (T,wt=9): 97 ep v (x * (y * ev)) = ep.  [para(11(a,1),81(a,1,2))].
+
+given #59 (A,wt=13): 41 mt(x v y,x v (y v z)) = x v y.  [para(5(a,1),10(a,1,2))].
+
+given #60 (T,wt=9): 98 mt(ep,x * ev) = x * ev.  [para(81(a,1),40(a,1,2)),rewrite([7(4)])].
+
+given #61 (T,wt=9): 114 mt(x,res(eo,x)) = res(eo,x).  [para(108(a,1),40(a,1,2)),rewrite([7(3)])].
+
+given #62 (T,wt=9): 120 x v mt(y,mt(x,z)) = x.  [para(35(a,1),9(a,1,2))].
+
+given #63 (T,wt=9): 124 mt(ep,mt(x,ev)) = mt(x,ev).  [para(92(a,1),35(a,1,2)),flip(a)].
+
+given #64 (A,wt=11): 42 mt(x,mt(x v y,z)) = mt(x,z).  [para(10(a,1),8(a,1,1)),flip(a)].
+
+given #65 (T,wt=9): 142 mt(ev,x v (y v ep)) = ev.  [para(5(a,1),136(a,1,2))].
+
+given #66 (T,wt=9): 147 mt(ev,x v (ep v y)) = ev.  [para(30(a,1),141(a,1,2))].
+
+given #67 (T,wt=9): 157 x v res(eo,mt(x,y)) = x.  [para(108(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #68 (T,wt=9): 173 ep v (x * res(x,ev)) = ep.  [para(54(a,1),90(a,1,2)),rewrite([82(3)]),flip(a)].
+
+given #69 (A,wt=13): 43 mt(x,mt(y,mt(x,y) v z)) = mt(x,y).  [para(10(a,1),8(a,1)),flip(a)].
+
+given #70 (T,wt=9): 175 ep v mt(x,mt(y,ev)) = ep.  [para(75(a,1),90(a,1,2)),rewrite([82(3)]),flip(a)].
+
+given #71 (T,wt=9): 179 ep v mt(x,mt(ev,y)) = ep.  [para(35(a,1),169(a,1,2))].
+
+given #72 (T,wt=9): 193 mt(ep,res(eo,ev)) = res(eo,ev).  [para(174(a,1),40(a,1,2)),rewrite([7(5)])].
+
+given #73 (T,wt=9): 213 mt(ev,mt(x,ep)) = mt(ev,x).  [para(95(a,2),7(a,1))].
+
+given #74 (A,wt=11): 44 x * (y * z) = y * (x * z).  [para(12(a,1),11(a,1,1)),rewrite([11(2)])].
+
+given #75 (T,wt=9): 218 ep v (x * (ev * y)) = ep.  [para(12(a,1),97(a,1,2,2))].
+
+given #76 (T,wt=9): 243 ep v mt(x,ev * y) = ep.  [para(83(a,1),120(a,1,2,2))].
+
+given #77 (T,wt=9): 244 ep v mt(x,y * ev) = ep.  [para(98(a,1),120(a,1,2,2))].
+
+given #78 (T,wt=9): 245 x v mt(y,res(eo,x)) = x.  [para(114(a,1),120(a,1,2,2))].
+
+given #79 (A,wt=13): 48 x v res(y,y * x) = res(y,y * x).  [hyper(15,a,3,a)].
+
+given #80 (T,wt=5): 333 res(eo,x) = x.  [para(47(a,1),48(a,1,2,2)),rewrite([108(3),47(3)]),flip(a)].
+
+given #81 (T,wt=5): 345 res(ep,ep) = eo.  [para(333(a,1),20(a,1,1))].
+
+given #82 (T,wt=7): 334 res(x,x * ew) = ew.  [para(48(a,1),59(a,1))].
+
+given #83 (T,wt=7): 348 res(x,ew * x) = ew.  [para(12(a,1),334(a,1,2))].
+
+given #84 (A,wt=16): 49 x v (y * z) != x | z v res(y,x) = res(y,x).  [para(4(a,1),15(a,1))].
+
+given #85 (T,wt=9): 310 ep v mt(ev * x,y) = ep.  [para(7(a,1),243(a,1,2))].
+
+given #86 (T,wt=9): 315 ep v mt(x * ev,y) = ep.  [para(7(a,1),244(a,1,2))].
+
+given #87 (T,wt=9): 329 mt(x,res(y,y * x)) = x.  [para(48(a,1),10(a,1,2))].
+
+given #88 (T,wt=7): 375 mt(eo,res(x,x)) = eo.  [para(13(a,1),329(a,1,2,2))].
+
+given #89 (A,wt=26): 50 mt(x * y,z) != x * y | y v res(x,mt(x * y,z)) = res(x,mt(x * y,z)).  [para(9(a,1),15(a,1)),flip(a)].
+
+given #90 (T,wt=9): 332 eo v res(x,x) = res(x,x).  [para(13(a,1),48(a,1,2,2)),rewrite([13(5)])].
+
+given #91 (T,wt=9): 336 mt(ev,res(x,x * ep)) = ev.  [para(48(a,1),141(a,1,2))].
+
+given #92 (T,wt=9): 356 ev v res(x,ep) = res(x,ep).  [hyper(49,a,81,a)].
+
+given #93 (T,wt=5): 402 ev v x = x.  [para(20(a,1),356(a,1,2)),rewrite([20(6)])].
+
+given #94 (A,wt=22): 51 (x * (y * z)) v u != u | z v res(x * y,u) = res(x * y,u).  [para(11(a,1),15(a,1,1))].
+
+given #95 (T,wt=5): 408 x v ev = x.  [para(402(a,1),4(a,1)),flip(a)].
+
+given #96 (T,wt=5): 409 mt(ev,x) = ev.  [para(402(a,1),9(a,1))].
+
+given #97 (T,wt=5): 410 mt(x,ev) = ev.  [para(402(a,1),38(a,1))].
+
+given #98 (T,wt=7): 407 (x * ev) v y = y.  [hyper(17,b,402,a)].
+
+given #99 (A,wt=16): 52 (x * y) v z != z | x v res(y,z) = res(y,z).  [para(12(a,1),15(a,1,1))].
+
+given #100 (T,wt=5): 437 x * ev = ev.  [para(407(a,1),408(a,1)),flip(a)].
+
+given #101 (T,wt=5): 454 ev * x = ev.  [para(437(a,1),12(a,1)),flip(a)].
+
+given #102 (T,wt=5): 455 res(ev,ev) = ew.  [para(437(a,1),348(a,1,2))].
+
+given #103 (T,wt=7): 411 x * res(x,ev) = ev.  [para(402(a,1),54(a,1))].
+
+given #104 (A,wt=14): 53 x v y != y | eo v res(x,y) = res(x,y).  [para(13(a,1),15(a,1,1))].
+
+given #105 (T,wt=7): 461 res(res(ew,ev),ev) = ew.  [para(411(a,1),348(a,1,2))].
+
+given #106 (T,wt=7): 478 res(ew,ev) * x = ev.  [para(461(a,1),17(b,1,2)),rewrite([4(6),402(6),21(8),461(12)]),xx(b)].
+
+given #107 (T,wt=5): 480 res(ew,ev) = ev.  [para(478(a,1),13(a,1)),flip(a)].
+
+given #108 (T,wt=8): 481 ew * x = ev | ev != x.  [para(480(a,1),17(b,1,2)),rewrite([4(4),402(4),408(6),480(7)]),flip(b)].
+
+given #109 (A,wt=16): 55 (x * y) v z = z | res(x,z) v y != res(x,z).  [para(4(a,1),17(b,1))].
+
+given #110 (T,wt=9): 374 mt(x,res(y,x * y)) = x.  [para(12(a,1),329(a,1,2,2))].
+
+given #111 (T,wt=9): 393 mt(eo,x v res(y,y)) = eo.  [para(332(a,1),85(a,1,2,2))].
+
+given #112 (T,wt=9): 456 x v res(ev,y) = res(ev,y).  [para(437(a,1),52(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #113 (T,wt=5): 512 res(ev,x) = ew.  [para(456(a,1),59(a,1))].
+
+given #114 (A,wt=20): 56 (x * y v z) v u = u | y v (z v res(x,u)) != res(x,u).  [para(5(a,1),17(b,1))].
+
+given #115 (T,wt=9): 457 x * (res(x,ev) * y) = ev.  [para(411(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #116 (T,wt=9): 460 x * (y * res(x,ev)) = ev.  [para(411(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #117 (T,wt=9): 503 mt(x,res(res(x,ev),ev)) = x.  [para(411(a,1),374(a,1,2,2))].
+
+given #118 (T,wt=9): 504 mt(eo,res(x,x) v y) = eo.  [para(4(a,1),393(a,1,2))].
+
+given #119 (A,wt=14): 57 ep v (res(x,ep) * y) = ep | y v x != x.  [para(20(a,1),17(b,1,2)),rewrite([4(5),20(12)])].
+
+given #120 (T,wt=9): 551 ep v res(res(x,x),ep) = ep.  [hyper(57,b,332,a),rewrite([12(6),47(6)])].
+
+given #121 (T,wt=10): 361 x v y != x | y v x = x.  [para(47(a,1),49(a,1,2)),rewrite([333(4),333(5)])].
+
+given #122 (T,wt=10): 413 ep v (ew * x) = ep | ev != x.  [back_rewrite(61),rewrite([408(8)]),flip(b)].
+
+given #123 (T,wt=11): 73 x v (mt(y,x) v z) = x v z.  [para(38(a,1),5(a,1,1)),flip(a)].
+
+given #124 (A,wt=17): 63 x v res(y,(y * x) v z) = res(y,(y * x) v z).  [hyper(15,a,27,a)].
+
+given #125 (T,wt=9): 603 res(x,(x * ew) v y) = ew.  [para(63(a,1),59(a,1))].
+
+given #126 (T,wt=9): 616 res(x,y v (x * ew)) = ew.  [para(4(a,1),603(a,1,2))].
+
+given #127 (T,wt=9): 618 res(x,(ew * x) v y) = ew.  [para(12(a,1),603(a,1,2,1))].
+
+given #128 (T,wt=9): 626 res(x,y v (ew * x)) = ew.  [para(12(a,1),616(a,1,2,2))].
+
+given #129 (A,wt=13): 65 x v (y v (x v z)) = y v (x v z).  [para(27(a,1),5(a,2,2)),rewrite([30(3),5(2)])].
+
+given #130 (T,wt=7): 636 res(res(ew,x),x) = ew.  [para(54(a,1),626(a,1,2))].
+
+given #131 (T,wt=9): 646 x v (res(ew,x) * y) = x.  [para(636(a,1),17(b,1,2)),rewrite([4(4),21(7),636(9)]),xx(b)].
+
+given #132 (T,wt=7): 651 x v res(ew,x) = x.  [para(13(a,1),646(a,1,2))].
+
+given #133 (T,wt=5): 674 ew * ew = ew.  [para(334(a,1),651(a,1,2)),rewrite([4(5),59(5)]),flip(a)].
+
+given #134 (A,wt=12): 67 (x * ew) v y = y | res(x,y) != ew.  [para(59(a,1),17(b,1)),flip(b)].
+
+given #135 (T,wt=6): 685 ep = ew | ev != ew.  [para(23(a,1),67(b,1)),rewrite([674(3),59(3)]),flip(a)].
+
+given #136 (T,wt=8): 683 ew != x | res(ew,x) = ew.  [para(674(a,1),15(a,1,1)),rewrite([59(2),59(6)]),flip(b)].
+
+given #137 (T,wt=9): 650 x v (y * res(ew,x)) = x.  [para(12(a,1),646(a,1,2))].
+
+given #138 (T,wt=9): 670 mt(x,res(ew,x)) = res(ew,x).  [para(651(a,1),40(a,1,2)),rewrite([7(3)])].
+
+given #139 (A,wt=17): 70 x v res(y,z v (y * x)) = res(y,z v (y * x)).  [hyper(15,a,28,a)].
+
+given #140 (T,wt=9): 673 x v res(ew,mt(x,y)) = x.  [para(651(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #141 (T,wt=9): 680 x v res(ew,mt(y,x)) = x.  [para(651(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #142 (T,wt=9): 681 ew * (ew * x) = ew * x.  [para(674(a,1),11(a,1,1)),flip(a)].
+
+given #143 (T,wt=9): 682 ew * (x * ew) = x * ew.  [para(674(a,1),11(a,2,2)),rewrite([12(4)])].
+
+given #144 (A,wt=13): 72 x v (y v (z v x)) = y v (z v x).  [para(5(a,1),28(a,1,2)),rewrite([5(5)])].
+
+given #145 (T,wt=9): 706 x v mt(y,res(ew,x)) = x.  [para(670(a,1),120(a,1,2,2))].
+
+given #146 (T,wt=8): 829 ew * ep = ep | eo != ew.  [back_rewrite(686),rewrite([821(5)])].
+
+given #147 (T,wt=9): 745 x v res(ew,res(ew,x)) = x.  [para(670(a,1),673(a,1,2,2))].
+
+given #148 (T,wt=9): 771 res(ew,ew * x) = ew * x.  [para(681(a,1),48(a,1,2,2)),rewrite([651(7),681(7)]),flip(a)].
+
+given #149 (A,wt=13): 74 x v (y v mt(z,x v y)) = x v y.  [para(38(a,1),5(a,1)),flip(a)].
+
+given #150 (T,wt=7): 849 mt(x,ew * x) = x.  [para(771(a,1),329(a,1,2))].
+
+given #151 (T,wt=7): 872 mt(x,x * ew) = x.  [para(12(a,1),849(a,1,2))].
+
+given #152 (T,wt=9): 772 res(ew * x,ew * x) = ew.  [para(681(a,1),348(a,1,2))].
+
+given #153 (T,wt=9): 783 res(ew,x * ew) = x * ew.  [para(682(a,1),48(a,1,2,2)),rewrite([651(7),682(7)]),flip(a)].
+
+given #154 (A,wt=26): 76 mt(x,y * z) != y * z | z v res(y,mt(x,y * z)) = res(y,mt(x,y * z)).  [para(38(a,1),15(a,1)),flip(a)].
+
+given #155 (T,wt=9): 784 res(x * ew,x * ew) = ew.  [para(682(a,1),348(a,1,2))].
+
+given #156 (T,wt=9): 816 x v mt(res(ew,x),y) = x.  [para(7(a,1),706(a,1,2))].
+
+given #157 (T,wt=9): 821 x v (ew * x) = ew * x.  [para(329(a,1),706(a,1,2)),rewrite([4(3)])].
+
+given #158 (T,wt=9): 825 x v (x * ew) = x * ew.  [para(374(a,1),706(a,1,2)),rewrite([4(3)])].
+
+given #159 (A,wt=11): 78 mt(x,mt(y v x,z)) = mt(x,z).  [para(40(a,1),8(a,1,1)),flip(a)].
+
+given #160 (T,wt=9): 875 mt(x,ew * x v y) = x.  [para(849(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #161 (T,wt=9): 888 res(x * ew,ew * x) = ew.  [para(12(a,1),772(a,1,1))].
+
+given #162 (T,wt=9): 889 res(ew * x,x * ew) = ew.  [para(12(a,1),772(a,1,2))].
+
+given #163 (T,wt=9): 929 mt(x,y v (ew * x)) = x.  [para(821(a,1),85(a,1,2,2))].
+
+given #164 (A,wt=13): 79 mt(x,mt(y,z v mt(x,y))) = mt(x,y).  [para(40(a,1),8(a,1)),flip(a)].
+
+given #165 (T,wt=9): 933 mt(eo,ew * res(x,x)) = eo.  [para(821(a,1),504(a,1,2))].
+
+given #166 (T,wt=9): 937 mt(x,y v (x * ew)) = x.  [para(825(a,1),85(a,1,2,2))].
+
+given #167 (T,wt=9): 965 mt(x,ew * y v x) = x.  [para(849(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #168 (T,wt=9): 982 mt(x,(ew * x) v y) = x.  [para(4(a,1),929(a,1,2))].
+
+given #169 (A,wt=11): 84 x v (y v mt(x,z)) = y v x.  [para(9(a,1),30(a,1,2)),flip(a)].
+
+given #170 (T,wt=9): 1009 mt(x,(x * ew) v y) = x.  [para(4(a,1),937(a,1,2))].
+
+given #171 (T,wt=10): 830 ew * x = x | res(ew,x) != x.  [back_rewrite(669),rewrite([821(3)])].
+
+given #172 (T,wt=8): 1079 ew * ep = ep | ev != ep.  [para(23(a,1),830(b,1))].
+
+given #173 (T,wt=10): 905 ew * x != x | res(ew,x) = x.  [para(849(a,1),76(a,1)),rewrite([849(7),651(6),849(7)]),flip(a),flip(b)].
+
+given #174 (A,wt=24): 86 x v ((y * z) v u) != x v u | z v res(y,x v u) = res(y,x v u).  [para(30(a,1),15(a,1))].
+
+given #175 (T,wt=8): 1081 eo != ew | res(ew,eo) = eo.  [para(13(a,1),905(a,1)),flip(a)].
+
+given #176 (T,wt=10): 906 x * ew != x | res(x,x) = ew.  [para(872(a,1),76(a,1)),rewrite([872(7),59(6),872(7)]),flip(a),flip(b)].
+
+given #177 (T,wt=10): 1080 x * ew != x | res(ew,x) = x.  [para(12(a,1),905(a,1))].
+
+given #178 (T,wt=10): 1118 ew * x != x | res(x,x) = ew.  [para(12(a,1),906(a,1))].
+
+given #179 (A,wt=11): 87 x v (y v mt(z,x)) = y v x.  [para(38(a,1),30(a,1,2)),flip(a)].
+
+given #180 (T,wt=11): 121 mt(x,mt(y,x v z)) = mt(y,x).  [para(10(a,1),35(a,1,2)),flip(a)].
+
+given #181 (T,wt=11): 123 mt(x,mt(y,z v x)) = mt(y,x).  [para(40(a,1),35(a,1,2)),flip(a)].
+
+given #182 (T,wt=11): 127 x v mt(y,mt(z,mt(u,x))) = x.  [para(8(a,1),75(a,1,2,2))].
+
+given #183 (T,wt=11): 131 mt(x,y v (z v (u v x))) = x.  [para(5(a,1),77(a,1,2,2))].
+
+given #184 (A,wt=13): 88 mt(x v y,x v (z v y)) = x v y.  [para(30(a,1),40(a,1,2))].
+
+given #185 (T,wt=11): 153 mt(x,y) v (z v x) = z v x.  [para(28(a,1),36(a,2)),rewrite([72(4)])].
+
+given #186 (T,wt=11): 156 x v (y * res(y,mt(x,z))) = x.  [para(54(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #187 (T,wt=9): 1293 res(res(ew,mt(x,y)),x) = ew.  [para(156(a,1),626(a,1,2))].
+
+given #188 (T,wt=7): 1305 res(ew,mt(ep,x)) = ev.  [para(1293(a,1),20(a,1,1)),rewrite([23(3)]),flip(a)].
+
+given #189 (A,wt=13): 101 mt(x,mt(y,mt(x,z))) = mt(y,mt(x,z)).  [para(32(a,1),8(a,2,2)),rewrite([35(3),8(2)])].
+
+given #190 (T,wt=7): 1308 res(ew,mt(x,ep)) = ev.  [para(7(a,1),1305(a,1,2))].
+
+given #191 (T,wt=8): 1312 mt(ep,x) = ew | ev != ew.  [para(1305(a,1),67(b,1)),rewrite([674(3),59(4)]),flip(a)].
+
+given #192 (T,wt=8): 1319 mt(x,ep) = ew | ev != ew.  [para(1308(a,1),67(b,1)),rewrite([674(3),59(4)]),flip(a)].
+
+given #193 (T,wt=9): 1303 res(res(ew,mt(x,y)),y) = ew.  [para(7(a,1),1293(a,1,1,2))].
+
+given #194 (A,wt=13): 103 mt(x,mt(y,mt(z,x))) = mt(y,mt(z,x)).  [para(8(a,1),33(a,1,2)),rewrite([8(5)])].
+
+given #195 (T,wt=9): 1307 res(res(ew,res(ew,x)),x) = ew.  [para(670(a,1),1293(a,1,1,2))].
+
+given #196 (T,wt=9): 1310 res(ew,mt(x,mt(ep,y))) = ev.  [para(35(a,1),1305(a,1,2))].
+
+given #197 (T,wt=9): 1316 res(ew,mt(x,mt(y,ep))) = ev.  [para(8(a,1),1308(a,1,2))].
+
+given #198 (T,wt=9): 1322 res(res(ew,x),x v y) = ew.  [para(10(a,1),1303(a,1,1,2))].
+
+given #199 (A,wt=13): 104 x v ((y * res(y,x)) v z) = x v z.  [para(54(a,1),5(a,1,1)),flip(a)].
+
+given #200 (T,wt=9): 1323 res(res(ew,x),y v x) = ew.  [para(40(a,1),1303(a,1,1,2))].
+
+given #201 (T,wt=9): 1331 res(res(ew,eo),res(x,x)) = ew.  [para(375(a,1),1303(a,1,1,2))].
+
+given #202 (T,wt=9): 1336 res(res(ew,x),ew * x) = ew.  [para(849(a,1),1303(a,1,1,2))].
+
+given #203 (T,wt=9): 1337 res(res(ew,x),x * ew) = ew.  [para(872(a,1),1303(a,1,1,2))].
+
+given #204 (A,wt=15): 105 x v (y v (z * res(z,x v y))) = x v y.  [para(54(a,1),5(a,1)),flip(a)].
+
+given #205 (T,wt=10): 1378 mt(x,mt(ep,y)) = ew | ev != ew.  [para(1310(a,1),67(b,1)),rewrite([674(3),59(5)]),flip(a)].
+
+given #206 (T,wt=10): 1383 mt(x,mt(y,ep)) = ew | ev != ew.  [para(1316(a,1),67(b,1)),rewrite([674(3),59(5)]),flip(a)].
+
+given #207 (T,wt=11): 159 x v mt(y,mt(z,mt(x,u))) = x.  [para(75(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #208 (T,wt=11): 164 mt(x,y v (z v (x v u))) = x.  [para(5(a,1),85(a,1,2))].
+
+given #209 (A,wt=13): 106 x v (y * (z * res(y * z,x))) = x.  [para(11(a,1),54(a,1,2))].
+
+given #210 (T,wt=11): 202 mt(x,y) v mt(y,x) = mt(x,y).  [para(33(a,1),39(a,1,2))].
+
+given #211 (T,wt=11): 226 mt(x v y,y v x) = x v y.  [para(28(a,1),41(a,1,2))].
+
+given #212 (T,wt=11): 252 mt(x v y,mt(z,x)) = mt(z,x).  [para(33(a,1),42(a,2)),rewrite([103(4)])].
+
+given #213 (T,wt=11): 338 mt(x,y v res(z,z * x)) = x.  [para(48(a,1),85(a,1,2,2))].
+
+given #214 (A,wt=32): 107 x * res(x,y * z) != y * z | z v res(y,x * res(x,y * z)) = res(y,x * res(x,y * z)).  [para(54(a,1),15(a,1)),flip(a)].
+
+given #215 (T,wt=11): 347 res(x * y,x * (y * ew)) = ew.  [para(11(a,1),334(a,1,2))].
+
+given #216 (T,wt=11): 349 (x * y) v (x * ew) = x * ew.  [para(334(a,1),17(b,1,2)),rewrite([21(9),334(11)]),xx(b)].
+
+given #217 (T,wt=11): 350 (x * y) v (ew * x) = ew * x.  [para(348(a,1),17(b,1,2)),rewrite([21(9),348(11)]),xx(b)].
+
+given #218 (T,wt=11): 352 res(x * y,x * (ew * y)) = ew.  [para(44(a,1),348(a,1,2))].
+
+given #219 (A,wt=13): 109 mt(x,y * res(y,x)) = y * res(y,x).  [para(54(a,1),40(a,1,2)),rewrite([7(3)])].
+
+given #220 (T,wt=9): 1674 res(ew,x * res(x,ep)) = ev.  [para(109(a,1),1305(a,1,2))].
+
+given #221 (T,wt=10): 1685 x * res(x,ep) = ew | ev != ew.  [para(1674(a,1),67(b,1)),rewrite([674(3),59(5)]),flip(a)].
+
+given #222 (T,wt=11): 354 res(x,ep) v res(x,ev) = res(x,ep).  [hyper(49,a,173,a),rewrite([4(5)])].
+
+given #223 (T,wt=7): 1694 eo v res(ep,ev) = eo.  [para(345(a,1),354(a,1,1)),rewrite([345(8)])].
+
+given #224 (A,wt=13): 110 x v (y v (z * res(z,x))) = y v x.  [para(54(a,1),30(a,1,2)),flip(a)].
+
+given #225 (T,wt=8): 1707 ev = ep | res(ep,ev) != eo.  [para(1694(a,1),17(b,1)),rewrite([12(3),47(3),408(3)]),flip(a),flip(b)].
+
+given #226 (T,wt=9): 1690 x v res(res(x,ep),ev) = x.  [para(20(a,1),354(a,1,1)),rewrite([20(9)])].
+
+given #227 (T,wt=9): 1708 mt(eo,res(ep,ev)) = res(ep,ev).  [para(1694(a,1),40(a,1,2)),rewrite([7(5)])].
+
+given #228 (T,wt=9): 1718 eo v mt(res(ep,ev),x) = eo.  [para(1694(a,1),153(a,1,2)),rewrite([4(6),1694(11)])].
+
+given #229 (A,wt=13): 122 mt(x,y) v mt(x,mt(z,y)) = mt(x,y).  [para(35(a,1),38(a,1,2))].
+
+given #230 (T,wt=9): 1719 res(res(ew,res(ep,ev)),eo) = ew.  [para(1694(a,1),1323(a,1,2))].
+
+given #231 (T,wt=9): 1771 eo v mt(x,res(ep,ev)) = eo.  [para(1708(a,1),120(a,1,2,2))].
+
+given #232 (T,wt=9): 1772 eo v res(ew,res(ep,ev)) = eo.  [para(1708(a,1),673(a,1,2,2))].
+
+given #233 (T,wt=11): 378 mt(x,res(y,y * x v z)) = x.  [para(329(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #234 (A,wt=13): 125 x v (mt(y,mt(z,x)) v u) = x v u.  [para(75(a,1),5(a,1,1)),flip(a)].
+
+given #235 (T,wt=11): 380 mt(eo,mt(res(x,x),y)) = mt(eo,y).  [para(375(a,1),8(a,1,1)),flip(a)].
+
+given #236 (T,wt=11): 381 mt(eo,mt(x,res(y,y))) = mt(x,eo).  [para(375(a,1),35(a,1,2)),flip(a)].
+
+given #237 (T,wt=11): 382 res(x,x) v mt(y,eo) = res(x,x).  [para(375(a,1),75(a,1,2,2))].
+
+given #238 (T,wt=9): 1977 x v (x * mt(y,eo)) = x.  [hyper(55,b,382,a),rewrite([4(4)])].
+
+given #239 (A,wt=15): 126 x v (y v mt(z,mt(u,x v y))) = x v y.  [para(75(a,1),5(a,1)),flip(a)].
+
+given #240 (T,wt=9): 1987 x v (x * mt(eo,y)) = x.  [para(7(a,1),1977(a,1,2,2))].
+
+given #241 (T,wt=9): 1990 x v (mt(y,eo) * x) = x.  [para(12(a,1),1977(a,1,2))].
+
+given #242 (T,wt=9): 2039 x v (mt(eo,y) * x) = x.  [para(12(a,1),1987(a,1,2))].
+
+given #243 (T,wt=9): 2051 x v (x * res(ew,eo)) = x.  [para(670(a,1),1987(a,1,2,2))].
+
+given #244 (A,wt=32): 128 mt(x,mt(y,z * u)) != z * u | u v res(z,mt(x,mt(y,z * u))) = res(z,mt(x,mt(y,z * u))).  [para(75(a,1),15(a,1)),flip(a)].
+
+given #245 (T,wt=9): 2061 x v (x * res(ep,ev)) = x.  [para(1708(a,1),1987(a,1,2,2))].
+
+given #246 (T,wt=9): 2106 x v (res(ew,eo) * x) = x.  [para(670(a,1),2039(a,1,2,1))].
+
+given #247 (T,wt=9): 2118 x v (res(ep,ev) * x) = x.  [para(1708(a,1),2039(a,1,2,1))].
+
+given #248 (T,wt=11): 458 x * (y * res(x * y,ev)) = ev.  [para(411(a,1),11(a,1)),flip(a)].
+
+given #249 (A,wt=13): 129 x v (y v mt(z,mt(u,x))) = y v x.  [para(75(a,1),30(a,1,2)),flip(a)].
+
+given #250 (T,wt=9): 2245 x * res(ew * x,ev) = ev.  [para(458(a,1),821(a,1,2)),rewrite([4(7),402(7),458(12)])].
+
+given #251 (T,wt=9): 2290 x * res(x * ew,ev) = ev.  [para(12(a,1),2245(a,1,2,1))].
+
+given #252 (T,wt=9): 2294 res(ew * x,ev) = res(x,ev).  [para(2245(a,1),48(a,1,2,2)),rewrite([4(7),462(7),2245(9)])].
+
+given #253 (T,wt=9): 2299 res(x * ew,ev) = res(x,ev).  [para(2290(a,1),48(a,1,2,2)),rewrite([4(7),538(7),2290(9)])].
+
+given #254 (A,wt=15): 130 mt(x,y) v mt(z,mt(x,mt(u,y))) = mt(x,y).  [para(35(a,1),75(a,1,2,2))].
+
+given #255 (T,wt=10): 2305 ew * x = ev | res(x,ev) != ew.  [para(2294(a,1),67(b,1)),rewrite([12(4),681(4),4(4),402(4)])].
+
+given #256 (T,wt=10): 2311 x * ew = ev | res(x,ev) != ew.  [para(2299(a,1),67(b,1)),rewrite([12(4),682(4),4(4),402(4)])].
+
+given #257 (T,wt=11): 459 res(x,ev) v res(x,y) = res(x,y).  [para(411(a,1),15(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #258 (T,wt=11): 485 x v (y * mt(z,res(y,x))) = x.  [hyper(55,b,38,a),rewrite([4(4)])].
+
+given #259 (A,wt=13): 132 mt(x,mt(y v (z v x),u)) = mt(x,u).  [para(77(a,1),8(a,1,1)),flip(a)].
+
+given #260 (T,wt=9): 2387 x * mt(y,res(x,ev)) = ev.  [para(485(a,1),402(a,1)),flip(a)].
+
+given #261 (T,wt=9): 2396 res(mt(x,res(ew,y)),y) = ew.  [para(485(a,1),626(a,1,2))].
+
+given #262 (T,wt=9): 2488 x * mt(res(x,ev),y) = ev.  [para(7(a,1),2387(a,1,2))].
+
+given #263 (T,wt=9): 2498 res(mt(res(ew,x),y),x) = ew.  [para(7(a,1),2396(a,1,1))].
+
+given #264 (A,wt=15): 133 mt(x,mt(y,z v (u v mt(x,y)))) = mt(x,y).  [para(77(a,1),8(a,1)),flip(a)].
+
+given #265 (T,wt=9): 2503 res(x,ew * x v y) = ew.  [para(378(a,1),2396(a,1,1))].
+
+given #266 (T,wt=7): 2553 ew * eo v x = ew.  [para(2503(a,1),333(a,1)),flip(a)].
+
+given #267 (T,wt=7): 2554 ew * res(x,x) = ew.  [para(332(a,1),2503(a,1,2,2)),rewrite([333(5)])].
+
+given #268 (T,wt=7): 2570 ew * x v eo = ew.  [para(4(a,1),2553(a,1,2))].
+
+given #269 (A,wt=15): 135 mt(x v y,z v (x v (u v y))) = x v y.  [para(30(a,1),77(a,1,2,2))].
+
+given #270 (T,wt=7): 2585 res(eo v x,ev) = ev.  [para(2553(a,1),2294(a,1,1)),rewrite([480(3)]),flip(a)].
+
+given #271 (T,wt=7): 2597 res(res(x,x),ev) = ev.  [para(2554(a,1),2294(a,1,1)),rewrite([480(3)]),flip(a)].
+
+given #272 (T,wt=7): 2608 res(x v eo,ev) = ev.  [para(2570(a,1),2294(a,1,1)),rewrite([480(3)]),flip(a)].
+
+given #273 (T,wt=9): 2512 x * res(ew,res(x,ev)) = ev.  [para(670(a,1),2488(a,1,2))].
+
+given #274 (A,wt=15): 138 mt(x * res(x,y),z v y) = x * res(x,y).  [para(54(a,1),77(a,1,2,2))].
+
+given #275 (T,wt=9): 2547 res(x,ew * y v x) = ew.  [para(4(a,1),2503(a,1,2,2))].
+
+given #276 (T,wt=9): 2562 res(x * y,x * ew) = ew.  [para(349(a,1),2503(a,1,2,2)),rewrite([682(5)])].
+
+given #277 (T,wt=9): 2563 res(x * y,ew * x) = ew.  [para(350(a,1),2503(a,1,2,2)),rewrite([681(5)])].
+
+given #278 (T,wt=9): 2573 ew * x v (eo v y) = ew.  [para(30(a,1),2553(a,1,2))].
+
+given #279 (A,wt=13): 140 mt(x,mt(y,z v (u v x))) = mt(y,x).  [para(77(a,1),35(a,1,2)),flip(a)].
+
+given #280 (T,wt=9): 2577 ew * res(x,x v y) = ew.  [para(63(a,1),2553(a,1,2)),rewrite([13(3)])].
+
+given #281 (T,wt=9): 2578 ew * res(x,y v x) = ew.  [para(70(a,1),2553(a,1,2)),rewrite([13(3)])].
+
+given #282 (T,wt=9): 2579 ew * x v (y v eo) = ew.  [para(72(a,1),2553(a,1,2))].
+
+given #283 (T,wt=9): 2675 res(x v (eo v y),ev) = ev.  [para(30(a,1),2585(a,1,1))].
+
+given #284 (A,wt=17): 150 x v (y v (mt(x v y,z) v u)) = x v (y v u).  [para(36(a,1),5(a,1)),rewrite([5(2)]),flip(a)].
+
+given #285 (T,wt=9): 2677 res(res(x,x v y),ev) = ev.  [para(63(a,1),2585(a,1,1)),rewrite([13(2)])].
+
+given #286 (T,wt=9): 2678 res(res(x,y v x),ev) = ev.  [para(70(a,1),2585(a,1,1)),rewrite([13(2)])].
+
+given #287 (T,wt=9): 2679 res(x v (y v eo),ev) = ev.  [para(72(a,1),2585(a,1,1))].
+
+given #288 (T,wt=9): 2757 res(mt(x,y),ew * x) = ew.  [para(9(a,1),2547(a,1,2,2))].
+
+given #289 (A,wt=17): 151 mt(x,y) v (mt(x,mt(y,z)) v u) = mt(x,y) v u.  [para(8(a,1),36(a,1,2,1))].
+
+given #290 (T,wt=9): 2759 res(mt(x,y),ew * y) = ew.  [para(38(a,1),2547(a,1,2,2))].
+
+given #291 (T,wt=9): 2808 res(x * y,y * ew) = ew.  [para(12(a,1),2562(a,1,1))].
+
+given #292 (T,wt=9): 2815 res(x * y,ew * y) = ew.  [para(12(a,1),2563(a,1,1))].
+
+given #293 (T,wt=9): 2827 ew * x v res(y,y) = ew.  [para(48(a,1),2573(a,1,2,2)),rewrite([13(3)])].
+
+given #294 (A,wt=34): 152 mt(x * y,z) v u != (x * y) v u | y v res(x,mt(x * y,z) v u) = res(x,mt(x * y,z) v u).  [para(36(a,1),15(a,1)),flip(a)].
+
+given #295 (T,wt=9): 2906 ew * res(mt(x,y),x) = ew.  [para(9(a,1),2578(a,1,2,2))].
+
+given #296 (T,wt=9): 2909 ew * res(mt(x,y),y) = ew.  [para(38(a,1),2578(a,1,2,2))].
+
+given #297 (T,wt=9): 2937 ew * res(res(ep,ev),eo) = ew.  [para(1694(a,1),2578(a,1,2,2))].
+
+given #298 (T,wt=9): 2970 res(x v res(y,y),ev) = ev.  [para(48(a,1),2675(a,1,1,2)),rewrite([13(2)])].
+
+given #299 (A,wt=15): 154 mt(x v y,mt(x,z) v y) = mt(x,z) v y.  [para(36(a,1),40(a,1,2)),rewrite([7(4)])].
+
+given #300 (T,wt=9): 3073 res(res(mt(x,y),x),ev) = ev.  [para(9(a,1),2678(a,1,1,2))].
+
+given #301 (T,wt=9): 3075 res(res(mt(x,y),y),ev) = ev.  [para(38(a,1),2678(a,1,1,2))].
+
+given #302 (T,wt=9): 3097 res(res(res(ep,ev),eo),ev) = ev.  [para(1694(a,1),2678(a,1,1,2))].
+
+given #303 (T,wt=9): 3121 res(mt(x,y),x * ew) = ew.  [para(12(a,1),2757(a,1,2))].
+
+given #304 (A,wt=15): 155 x v (y v (mt(x,z) v u)) = y v (x v u).  [para(36(a,1),30(a,1,2)),flip(a)].
+
+given #305 (T,wt=9): 3197 res(mt(x,y),y * ew) = ew.  [para(12(a,1),2759(a,1,2))].
+
+given #306 (T,wt=9): 3204 ew * res(x,x) v y = ew.  [para(504(a,1),2759(a,1,1)),rewrite([333(6)])].
+
+given #307 (T,wt=9): 3369 res(res(x,x) v y,ev) = ev.  [para(4(a,1),2970(a,1,1))].
+
+given #308 (T,wt=10): 2569 eo != ew | res(ew,eo) = res(x,x).  [back_rewrite(1008),rewrite([2554(3)]),flip(a)].
+
+given #309 (A,wt=13): 158 x v (mt(y,mt(x,z)) v u) = x v u.  [para(35(a,1),36(a,1,2,1))].
+
+given #310 (T,wt=10): 2576 ew != x | res(eo v y,x) = ew.  [para(2553(a,1),52(a,1,1)),rewrite([59(2),59(7)]),flip(b)].
+
+given #311 (T,wt=10): 2591 ew != x | res(res(y,y),x) = ew.  [para(2554(a,1),52(a,1,1)),rewrite([59(2),59(6)]),flip(b)].
+
+given #312 (T,wt=10): 2602 ew != x | res(y v eo,x) = ew.  [para(2570(a,1),52(a,1,1)),rewrite([59(2),59(7)]),flip(b)].
+
+given #313 (T,wt=10): 2674 eo v x * y = ev | ev != y.  [para(2585(a,1),17(b,1,2)),rewrite([4(5),402(5),408(7),2585(9)]),flip(b)].
+
+given #314 (A,wt=17): 160 mt(mt(x,y) v z,u v (x v z)) = mt(x,y) v z.  [para(36(a,1),77(a,1,2,2))].
+
+given #315 (T,wt=10): 2680 res(x,x) * y = ev | ev != y.  [para(2597(a,1),17(b,1,2)),rewrite([4(4),402(4),408(6),2597(7)]),flip(b)].
+
+given #316 (T,wt=10): 2682 x v eo * y = ev | ev != y.  [para(2608(a,1),17(b,1,2)),rewrite([4(5),402(5),408(7),2608(9)]),flip(b)].
+
+given #317 (T,wt=11): 486 x v (y * mt(res(y,x),z)) = x.  [hyper(55,b,9,a),rewrite([4(4)])].
+
+given #318 (T,wt=11): 501 mt(x,res(y,x v z * y)) = x.  [para(374(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #319 (A,wt=15): 163 mt(x v y,z v (x v (y v u))) = x v y.  [para(5(a,1),85(a,1,2,2))].
+
+given #320 (T,wt=11): 505 mt(eo,x v (y v res(z,z))) = eo.  [para(5(a,1),393(a,1,2))].
+
+given #321 (T,wt=11): 526 x * (y * (res(x,ev) * z)) = ev.  [para(457(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #322 (T,wt=11): 531 mt(x,res(res(x,ev) * y,ev)) = x.  [para(457(a,1),374(a,1,2,2))].
+
+given #323 (T,wt=11): 533 x * (y * (z * res(x,ev))) = ev.  [para(11(a,1),460(a,1,2))].
+
+given #324 (A,wt=13): 165 mt(x,mt(y v (x v z),u)) = mt(x,u).  [para(85(a,1),8(a,1,1)),flip(a)].
+
+given #325 (T,wt=11): 540 mt(x,res(y * res(x,ev),ev)) = x.  [para(460(a,1),374(a,1,2,2))].
+
+given #326 (T,wt=11): 545 mt(x,res(res(x v y,ev),ev)) = x.  [para(503(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #327 (T,wt=9): 3928 x * res(x v y,ev) = ev.  [para(545(a,1),485(a,1,2,2)),rewrite([12(5),402(6)])].
+
+given #328 (T,wt=9): 3933 x * res(y v x,ev) = ev.  [para(4(a,1),3928(a,1,2,1))].
+
+given #329 (A,wt=15): 166 mt(x,mt(y,z v (mt(x,y) v u))) = mt(x,y).  [para(85(a,1),8(a,1)),flip(a)].
+
+given #330 (T,wt=9): 3951 mt(x,y) * res(x,ev) = ev.  [para(9(a,1),3933(a,1,2,1))].
+
+given #331 (T,wt=9): 3955 mt(x,y) * res(y,ev) = ev.  [para(38(a,1),3933(a,1,2,1))].
+
+given #332 (T,wt=9): 3971 res(ew,x) * res(x,ev) = ev.  [para(651(a,1),3933(a,1,2,1))].
+
+given #333 (T,wt=9): 4029 res(x,ev) * mt(x,y) = ev.  [para(3951(a,1),12(a,1)),flip(a)].
+
+given #334 (A,wt=13): 167 mt(x,mt(y,z v (x v u))) = mt(y,x).  [para(85(a,1),35(a,1,2)),flip(a)].
+
+given #335 (T,wt=9): 4040 res(x,ev) * mt(y,x) = ev.  [para(3955(a,1),12(a,1)),flip(a)].
+
+given #336 (T,wt=9): 4082 res(x,ev) * res(ew,x) = ev.  [para(3971(a,1),12(a,1)),flip(a)].
+
+given #337 (T,wt=11): 547 mt(eo,x v (res(y,y) v z)) = eo.  [para(30(a,1),504(a,1,2))].
+
+given #338 (T,wt=11): 550 mt(eo,res(x,x * res(y,y))) = eo.  [para(48(a,1),504(a,1,2))].
+
+given #339 (A,wt=13): 180 x v (y v mt(y v x,z)) = x v y.  [para(4(a,1),37(a,1,2,2,1))].
+
+given #340 (T,wt=11): 553 ep v (x * res(y v x,ep)) = ep.  [hyper(57,b,28,a),rewrite([12(5)])].
+
+given #341 (T,wt=9): 4216 ep v res(x v eo,ep) = ep.  [para(47(a,1),553(a,1,2))].
+
+given #342 (T,wt=9): 4281 ep v res(eo v x,ep) = ep.  [para(4(a,1),4216(a,1,2,1))].
+
+given #343 (T,wt=11): 554 ep v (x * res(x v y,ep)) = ep.  [hyper(57,b,27,a),rewrite([12(5)])].
+
+given #344 (A,wt=19): 181 x v (y v (z v mt(x v (y v z),u))) = x v (y v z).  [para(37(a,1),5(a,1)),rewrite([5(2),5(4)]),flip(a)].
+
+given #345 (T,wt=11): 576 mt(x,y) v (z v y) = z v y.  [para(28(a,1),73(a,2)),rewrite([72(4)])].
+
+given #346 (T,wt=11): 579 x v (y * res(y,mt(z,x))) = x.  [para(54(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #347 (T,wt=11): 602 mt(x,res(y,(y * x) v z)) = x.  [para(63(a,1),10(a,1,2))].
+
+given #348 (T,wt=9): 4560 mt(eo,res(x,x v y)) = eo.  [para(13(a,1),602(a,1,2,2,1))].
+
+given #349 (A,wt=40): 182 x v mt((y * z) v x,u) != (y * z) v x | z v res(y,x v mt((y * z) v x,u)) = res(y,x v mt((y * z) v x,u)).  [para(37(a,1),15(a,1)),flip(a)].
+
+given #350 (T,wt=9): 4599 mt(eo,res(x,y v x)) = eo.  [para(4(a,1),4560(a,1,2,2))].
+
+given #351 (T,wt=9): 4684 mt(eo,res(mt(x,y),x)) = eo.  [para(9(a,1),4599(a,1,2,2))].
+
+given #352 (T,wt=9): 4685 mt(eo,res(mt(x,y),y)) = eo.  [para(38(a,1),4599(a,1,2,2))].
+
+given #353 (T,wt=9): 4715 mt(eo,res(res(ep,ev),eo)) = eo.  [para(1694(a,1),4599(a,1,2,2))].
+
+given #354 (A,wt=19): 183 mt(x v y,y v mt(x v y,z)) = y v mt(x v y,z).  [para(37(a,1),40(a,1,2)),rewrite([7(5)])].
+
+given #355 (T,wt=11): 620 res(x,y v ((x * ew) v z)) = ew.  [para(30(a,1),603(a,1,2))].
+
+given #356 (T,wt=11): 621 res(x,res(y,y * (x * ew))) = ew.  [para(48(a,1),603(a,1,2))].
+
+given #357 (T,wt=9): 4912 res(res(x,ev),res(x,ev)) = ew.  [para(457(a,1),621(a,1,2,2))].
+
+given #358 (T,wt=9): 4915 ew * res(x,ev) = res(x,ev).  [hyper(67,b,4912,a),rewrite([12(4),4(7),821(7)])].
+
+given #359 (A,wt=17): 184 x v (y v (z v mt(x v z,u))) = y v (x v z).  [para(37(a,1),30(a,1,2)),flip(a)].
+
+given #360 (T,wt=7): 4946 res(res(ep,ev),eo) = ew.  [back_rewrite(1850),rewrite([4920(6),4920(5)])].
+
+given #361 (T,wt=9): 4919 res(x,res(res(x,ev),ev)) = ew.  [back_rewrite(3203),rewrite([4915(6)])].
+
+given #362 (T,wt=9): 4920 res(ew,res(x,ev)) = res(x,ev).  [hyper(905,a,4915,a)].
+
+given #363 (T,wt=9): 4945 res(res(x,ev),res(x,y)) = ew.  [back_rewrite(2373),rewrite([4920(4)])].
+
+given #364 (A,wt=19): 185 x v (y v (z v mt(y v (x v z),u))) = x v (y v z).  [para(30(a,1),37(a,1,2,2,1)),rewrite([5(5)])].
+
+given #365 (T,wt=9): 4948 eo v (res(ep,ev) * x) = eo.  [back_rewrite(1826),rewrite([4920(6)])].
+
+given #366 (T,wt=9): 4949 res(res(res(x,ep),ev),x) = ew.  [back_rewrite(1768),rewrite([4920(6)])].
+
+given #367 (T,wt=9): 5123 eo v (x * res(ep,ev)) = eo.  [para(12(a,1),4948(a,1,2))].
+
+given #368 (T,wt=10): 4947 res(ep,ev) = ew | res(ep,ev) != eo.  [back_rewrite(1838),rewrite([4920(10)])].
+
+given #369 (A,wt=15): 186 x v (y v mt(z,mt(x v y,u))) = x v y.  [para(35(a,1),37(a,1,2,2))].
+
+given #370 (T,wt=11): 624 res(x,y v (z v (x * ew))) = ew.  [para(5(a,1),616(a,1,2))].
+
+given #371 (T,wt=9): 5224 res(res(ep,ev),x v eo) = ew.  [para(4948(a,1),624(a,1,2,2))].
+
+given #372 (T,wt=9): 5225 res(res(ep,ev),eo v x) = ew.  [para(4(a,1),5224(a,1,2))].
+
+given #373 (T,wt=9): 5229 res(res(ep,ev),res(x,x)) = ew.  [para(48(a,1),5225(a,1,2)),rewrite([13(5)])].
+
+given #374 (A,wt=21): 187 mt(x v mt(y v x,z),u v (y v x)) = x v mt(y v x,z).  [para(37(a,1),77(a,1,2,2))].
+
+given #375 (T,wt=11): 629 res(x,y v ((ew * x) v z)) = ew.  [para(30(a,1),618(a,1,2))].
+
+given #376 (T,wt=11): 632 res(x,res(y,y * (ew * x))) = ew.  [para(48(a,1),618(a,1,2))].
+
+given #377 (T,wt=11): 634 res(x,y v (z v (ew * x))) = ew.  [para(5(a,1),626(a,1,2))].
+
+given #378 (T,wt=11): 656 x v (res(ew,mt(x,y)) * z) = x.  [para(646(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #379 (A,wt=15): 188 x v (y v mt(mt(x,z) v y,u)) = x v y.  [para(37(a,1),36(a,1,2)),rewrite([36(3)]),flip(a)].
+
+given #380 (T,wt=11): 657 x v (y * (res(ew,x) * z)) = x.  [para(44(a,1),646(a,1,2))].
+
+given #381 (T,wt=9): 5504 res(res(ew,x) * y,x) = ew.  [para(657(a,1),626(a,1,2))].
+
+given #382 (T,wt=9): 5538 res(x * res(ew,y),y) = ew.  [para(12(a,1),5504(a,1,1))].
+
+given #383 (T,wt=11): 663 x v (res(ew,mt(y,x)) * z) = x.  [para(646(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #384 (A,wt=13): 197 mt(x,y) v mt(y,mt(x,z)) = mt(y,x).  [para(7(a,1),39(a,1,1))].
+
+given #385 (T,wt=11): 665 x v (y * res(ew,res(y,x))) = x.  [hyper(55,b,651,a),rewrite([4(5)])].
+
+given #386 (T,wt=11): 666 x v (res(ew,x) v y) = x v y.  [para(651(a,1),5(a,1,1)),flip(a)].
+
+given #387 (T,wt=11): 671 x v (y v res(ew,x)) = y v x.  [para(651(a,1),30(a,1,2)),flip(a)].
+
+given #388 (T,wt=11): 672 mt(res(ew,x),y v x) = res(ew,x).  [para(651(a,1),77(a,1,2,2))].
+
+given #389 (A,wt=13): 198 mt(x,y) v mt(y,mt(z,x)) = mt(x,y).  [para(7(a,1),39(a,1,2)),rewrite([8(3)])].
+
+given #390 (T,wt=11): 688 res(ew,x) v res(y,x) = res(y,x).  [hyper(49,a,650,a)].
+
+given #391 (T,wt=11): 691 x v (y * (z * res(ew,x))) = x.  [para(11(a,1),650(a,1,2))].
+
+given #392 (T,wt=11): 696 x v (y * res(ew,mt(x,z))) = x.  [para(650(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #393 (T,wt=11): 701 x v (y * res(ew,mt(z,x))) = x.  [para(650(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #394 (A,wt=19): 199 mt(x,mt(y,z)) v mt(x,mt(y,mt(z,u))) = mt(x,mt(y,z)).  [para(8(a,1),39(a,1,1)),rewrite([8(5),8(8)])].
+
+given #395 (T,wt=11): 707 mt(x v y,res(ew,x)) = res(ew,x).  [para(670(a,1),42(a,2)),rewrite([704(5)])].
+
+given #396 (T,wt=11): 716 mt(x,res(y,z v (y * x))) = x.  [para(70(a,1),10(a,1,2))].
+
+given #397 (T,wt=9): 6262 mt(x,res(mt(y,eo),x)) = x.  [para(1990(a,1),716(a,1,2,2))].
+
+given #398 (T,wt=9): 6263 mt(x,res(mt(eo,y),x)) = x.  [para(2039(a,1),716(a,1,2,2))].
+
+given #399 (A,wt=17): 200 mt(x,y) v (z v mt(x,mt(y,u))) = z v mt(x,y).  [para(39(a,1),30(a,1,2)),flip(a)].
+
+given #400 (T,wt=9): 6266 mt(x,res(res(ew,eo),x)) = x.  [para(2106(a,1),716(a,1,2,2))].
+
+given #401 (T,wt=9): 6267 mt(x,res(res(ep,ev),x)) = x.  [para(2118(a,1),716(a,1,2,2))].
+
+given #402 (T,wt=11): 738 x v res(ew,mt(y,mt(x,z))) = x.  [para(35(a,1),673(a,1,2,2))].
+
+given #403 (T,wt=11): 749 x v res(ew,mt(y,mt(z,x))) = x.  [para(8(a,1),680(a,1,2,2))].
+
+given #404 (A,wt=19): 203 mt(x,mt(y,z)) v mt(y,mt(x,mt(z,u))) = mt(y,mt(x,z)).  [para(35(a,1),39(a,1,1)),rewrite([8(4)])].
+
+given #405 (T,wt=11): 760 res(x,x) v res(ew,eo) = res(x,x).  [para(375(a,1),680(a,1,2,2))].
+
+given #406 (T,wt=10): 6612 eo = ew | res(ew,eo) != res(x,x).  [para(760(a,1),17(b,1)),rewrite([2554(3),59(3)]),flip(a),flip(b)].
+
+given #407 (T,wt=8): 6637 eo = ew | res(ew,eo) != ew.  [para(119(a,1),6612(b,2))].
+
+given #408 (T,wt=8): 6638 eo = ew | res(ew,eo) != eo.  [para(333(a,1),6612(b,2))].
+
+given #409 (A,wt=15): 204 mt(x,y) v mt(x,mt(z,mt(y,u))) = mt(x,y).  [para(35(a,1),39(a,1,2,2))].
+
+given #410 (T,wt=11): 778 res(ew * x,(ew * x) v y) = ew.  [para(681(a,1),618(a,1,2,1))].
+
+given #411 (T,wt=11): 779 res(ew * x,y v (ew * x)) = ew.  [para(681(a,1),626(a,1,2,2))].
+
+given #412 (T,wt=11): 790 res(x * ew,(x * ew) v y) = ew.  [para(682(a,1),618(a,1,2,1))].
+
+given #413 (T,wt=11): 791 res(x * ew,y v (x * ew)) = ew.  [para(682(a,1),626(a,1,2,2))].
+
+given #414 (A,wt=17): 205 mt(x,mt(y,mt(z,u v mt(x,y)))) = mt(x,mt(y,z)).  [para(39(a,1),77(a,1,2,2)),rewrite([8(5),8(4)])].
+
+given #415 (T,wt=11): 809 res(ew,x) v (y v x) = y v x.  [para(651(a,1),72(a,1,2,2)),rewrite([651(7)])].
+
+given #416 (T,wt=11): 817 x v mt(y,mt(z,res(ew,x))) = x.  [para(8(a,1),706(a,1,2))].
+
+given #417 (T,wt=11): 820 x v mt(y,res(ew,mt(x,z))) = x.  [para(706(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #418 (T,wt=11): 827 x v mt(y,res(ew,mt(z,x))) = x.  [para(706(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #419 (A,wt=13): 222 mt(x v y,y v (x v z)) = y v x.  [para(4(a,1),41(a,1,1))].
+
+given #420 (T,wt=11): 839 x v res(ew,res(ew,mt(x,y))) = x.  [para(745(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #421 (T,wt=11): 845 x v res(ew,res(ew,mt(y,x))) = x.  [para(745(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #422 (T,wt=11): 869 mt(x,mt(ew * x,y)) = mt(x,y).  [para(849(a,1),8(a,1,1)),flip(a)].
+
+given #423 (T,wt=11): 871 mt(ew * x,mt(y,x)) = mt(y,x).  [para(849(a,1),8(a,2,2)),rewrite([7(4)])].
+
+given #424 (A,wt=13): 223 mt(x v y,y v (z v x)) = x v y.  [para(4(a,1),41(a,1,2)),rewrite([5(3)])].
+
+given #425 (T,wt=11): 873 mt(x,mt(y,ew * x)) = mt(y,x).  [para(849(a,1),35(a,1,2)),flip(a)].
+
+given #426 (T,wt=11): 874 (ew * x) v mt(y,x) = ew * x.  [para(849(a,1),75(a,1,2,2))].
+
+given #427 (T,wt=11): 878 (ew * x) v res(ew,x) = ew * x.  [para(849(a,1),680(a,1,2,2))].
+
+given #428 (T,wt=11): 881 mt(x,mt(x * ew,y)) = mt(x,y).  [para(872(a,1),8(a,1,1)),flip(a)].
+
+given #429 (A,wt=19): 224 mt(x v (y v z),x v (y v (z v u))) = x v (y v z).  [para(5(a,1),41(a,1,1)),rewrite([5(5),5(8)])].
+
+given #430 (T,wt=11): 882 mt(x * ew,mt(y,x)) = mt(y,x).  [para(872(a,1),8(a,2,2)),rewrite([7(4)])].
+
+given #431 (T,wt=11): 884 mt(x,mt(y,x * ew)) = mt(y,x).  [para(872(a,1),35(a,1,2)),flip(a)].
+
+given #432 (T,wt=11): 885 (x * ew) v mt(y,x) = x * ew.  [para(872(a,1),75(a,1,2,2))].
+
+given #433 (T,wt=11): 887 (x * ew) v res(ew,x) = x * ew.  [para(872(a,1),680(a,1,2,2))].
+
+given #434 (A,wt=17): 225 mt(x v y,mt(x v (y v z),u)) = mt(x v y,u).  [para(41(a,1),8(a,1,1)),flip(a)].
+
+given #435 (T,wt=11): 914 x v mt(y,mt(res(ew,x),z)) = x.  [para(35(a,1),816(a,1,2))].
+
+given #436 (T,wt=11): 916 x v mt(res(ew,mt(x,y)),z) = x.  [para(816(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #437 (T,wt=11): 921 x v mt(res(ew,mt(y,x)),z) = x.  [para(816(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #438 (T,wt=11): 923 ep v (x * res(ew * x,ep)) = ep.  [hyper(57,b,821,a),rewrite([12(6)])].
+
+given #439 (A,wt=19): 227 mt(x v (y v z),y v (x v (z v u))) = y v (x v z).  [para(30(a,1),41(a,1,1)),rewrite([5(4)])].
+
+given #440 (T,wt=11): 934 ep v (x * res(x * ew,ep)) = ep.  [hyper(57,b,825,a),rewrite([12(6)])].
+
+given #441 (T,wt=11): 942 mt(x v y,mt(z,y)) = mt(z,y).  [para(33(a,1),78(a,2)),rewrite([103(4)])].
+
+given #442 (T,wt=11): 950 mt(x,res(y,y * z v x)) = x.  [para(329(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #443 (T,wt=11): 951 mt(x,res(y,z v x * y)) = x.  [para(374(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #444 (A,wt=15): 228 mt(x v y,x v (z v (y v u))) = x v y.  [para(30(a,1),41(a,1,2,2))].
+
+given #445 (T,wt=11): 952 mt(x,res(res(y v x,ev),ev)) = x.  [para(503(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #446 (T,wt=11): 958 mt(x v y,res(ew,y)) = res(ew,y).  [para(670(a,1),78(a,2)),rewrite([704(5)])].
+
+given #447 (T,wt=11): 970 mt(x,ew * y v (x v z)) = x.  [para(30(a,1),875(a,1,2,2))].
+
+given #448 (T,wt=11): 973 mt(x,ew * res(y,y * x)) = x.  [para(48(a,1),875(a,1,2,2))].
+
+given #449 (A,wt=17): 229 mt(x v y,mt(z,x v (y v u))) = mt(z,x v y).  [para(41(a,1),35(a,1,2)),flip(a)].
+
+given #450 (T,wt=11): 978 mt(x,ew * y v (z v x)) = x.  [para(72(a,1),875(a,1,2,2))].
+
+given #451 (T,wt=11): 983 mt(x,y v (z v (ew * x))) = x.  [para(5(a,1),929(a,1,2))].
+
+given #452 (T,wt=11): 987 mt(x,y v (ew * x v z)) = x.  [para(929(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #453 (T,wt=11): 990 mt(x,y v (ew * z v x)) = x.  [para(929(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #454 (A,wt=17): 230 x v (y v (z v mt(u,x v y))) = x v (y v z).  [para(41(a,1),75(a,1,2,2)),rewrite([5(5),5(4)])].
+
+given #455 (T,wt=11): 1010 mt(x,y v (z v (x * ew))) = x.  [para(5(a,1),937(a,1,2))].
+
+given #456 (T,wt=11): 1031 mt(ew * x,res(ew,x)) = res(ew,x).  [para(651(a,1),965(a,1,2,2)),rewrite([7(5)])].
+
+given #457 (T,wt=11): 1046 mt(x,y v ((ew * x) v z)) = x.  [para(30(a,1),982(a,1,2))].
+
+given #458 (T,wt=11): 1049 mt(x,(ew * x v y) v z) = x.  [para(982(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #459 (A,wt=15): 240 mt(x,y) v mt(z,mt(x,mt(y,u))) = mt(x,y).  [para(8(a,1),120(a,1,2,2))].
+
+given #460 (T,wt=11): 1051 mt(x,res(y,y * (ew * x))) = x.  [para(48(a,1),982(a,1,2))].
+
+given #461 (T,wt=11): 1056 mt(x,(ew * y v x) v z) = x.  [para(982(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #462 (T,wt=11): 1071 mt(x,y v ((x * ew) v z)) = x.  [para(30(a,1),1009(a,1,2))].
+
+given #463 (T,wt=11): 1074 mt(x,res(y,y * (x * ew))) = x.  [para(48(a,1),1009(a,1,2))].
+
+given #464 (A,wt=32): 241 mt(x,mt(y * z,u)) != y * z | z v res(y,mt(x,mt(y * z,u))) = res(y,mt(x,mt(y * z,u))).  [para(120(a,1),15(a,1)),flip(a)].
+
+given #465 (T,wt=11): 1266 x v mt(y * res(y,x),z) = x.  [para(54(a,1),153(a,1,2)),rewrite([4(4),54(7)])].
+
+given #466 (T,wt=11): 1271 ep v mt(res(res(x,x),ep),y) = ep.  [para(551(a,1),153(a,1,2)),rewrite([4(6),551(11)])].
+
+given #467 (T,wt=11): 1272 x v mt(res(ew,x) * y,z) = x.  [para(646(a,1),153(a,1,2)),rewrite([4(5),646(9)])].
+
+given #468 (T,wt=11): 1273 x v mt(y * res(ew,x),z) = x.  [para(650(a,1),153(a,1,2)),rewrite([4(5),650(9)])].
+
+given #469 (A,wt=13): 242 x v (y v mt(z,mt(x,u))) = y v x.  [para(120(a,1),30(a,1,2)),flip(a)].
+
+given #470 (T,wt=11): 1274 x v mt(res(ew,res(ew,x)),y) = x.  [para(745(a,1),153(a,1,2)),rewrite([4(6),745(11)])].
+
+given #471 (T,wt=11): 1294 x v (y * res(y,res(ew,x))) = x.  [para(670(a,1),156(a,1,2,2,2))].
+
+given #472 (T,wt=11): 1306 res(res(ew,mt(x,mt(y,z))),y) = ew.  [para(35(a,1),1293(a,1,1,2))].
+
+given #473 (T,wt=11): 1321 res(res(ew,mt(x,mt(y,z))),z) = ew.  [para(8(a,1),1303(a,1,1,2))].
+
+given #474 (A,wt=17): 250 mt(x,mt(y,mt(mt(x,y) v z,u))) = mt(x,mt(y,u)).  [para(42(a,1),8(a,1)),rewrite([8(2)]),flip(a)].
+
+given #475 (T,wt=11): 1325 res(res(ew,x),y v (z v x)) = ew.  [para(77(a,1),1303(a,1,1,2))].
+
+given #476 (T,wt=11): 1326 res(res(ew,x),y v (x v z)) = ew.  [para(85(a,1),1303(a,1,1,2))].
+
+given #477 (T,wt=11): 1330 res(res(ew,x),res(y,y * x)) = ew.  [para(329(a,1),1303(a,1,1,2))].
+
+given #478 (T,wt=11): 1332 res(res(ew,x),res(y,x * y)) = ew.  [para(374(a,1),1303(a,1,1,2))].
+
+given #479 (A,wt=15): 251 mt(x,y) v mt(x v z,y) = mt(x v z,y).  [para(42(a,1),38(a,1,2)),rewrite([4(4)])].
+
+given #480 (T,wt=11): 1333 res(res(ew,eo),x v res(y,y)) = ew.  [para(393(a,1),1303(a,1,1,2))].
+
+given #481 (T,wt=11): 1334 res(res(ew,x),res(res(x,ev),ev)) = ew.  [para(503(a,1),1303(a,1,1,2))].
+
+given #482 (T,wt=11): 1335 res(res(ew,eo),res(x,x) v y) = ew.  [para(504(a,1),1303(a,1,1,2))].
+
+given #483 (T,wt=11): 1339 res(res(ew,x),ew * x v y) = ew.  [para(875(a,1),1303(a,1,1,2))].
+
+given #484 (A,wt=15): 253 mt(x,mt(y,mt(x v z,u))) = mt(y,mt(x,u)).  [para(42(a,1),35(a,1,2)),flip(a)].
+
+given #485 (T,wt=11): 1340 res(res(ew,x),y v (ew * x)) = ew.  [para(929(a,1),1303(a,1,1,2))].
+
+given #486 (T,wt=11): 1343 res(res(ew,x),y v (x * ew)) = ew.  [para(937(a,1),1303(a,1,1,2))].
+
+given #487 (T,wt=11): 1344 res(res(ew,x),ew * y v x) = ew.  [para(965(a,1),1303(a,1,1,2))].
+
+given #488 (T,wt=11): 1345 res(res(ew,x),(ew * x) v y) = ew.  [para(982(a,1),1303(a,1,1,2))].
+
+given #489 (A,wt=17): 254 mt(x v y,z) v mt(u,mt(x,z)) = mt(x v y,z).  [para(42(a,1),75(a,1,2,2))].
+
+given #490 (T,wt=11): 1346 res(res(ew,x),(x * ew) v y) = ew.  [para(1009(a,1),1303(a,1,1,2))].
+
+given #491 (T,wt=11): 1357 mt(res(x,x),mt(y,eo)) = mt(y,eo).  [para(375(a,1),103(a,1,2,2)),rewrite([375(7)])].
+
+given #492 (T,wt=11): 1373 x v (res(ew,res(ew,x)) * y) = x.  [para(1307(a,1),17(b,1,2)),rewrite([4(6),21(9),1307(13)]),xx(b)].
+
+given #493 (T,wt=11): 1375 res(ew,mt(x,mt(y,mt(ep,z)))) = ev.  [para(8(a,1),1310(a,1,2))].
+
+given #494 (A,wt=13): 282 mt(x,mt(y,mt(y,x) v z)) = mt(x,y).  [para(7(a,1),43(a,1,2,2,1))].
+
+given #495 (T,wt=11): 1380 res(ew,mt(x,mt(y,mt(z,ep)))) = ev.  [para(103(a,1),1310(a,1,2,2))].
+
+given #496 (T,wt=11): 1387 res(res(ew,mt(x,y)),z v x) = ew.  [para(153(a,1),1322(a,1,2))].
+
+given #497 (T,wt=11): 1392 x v mt(y,z * res(z,x)) = x.  [para(38(a,1),104(a,1,2)),rewrite([54(3)]),flip(a)].
+
+given #498 (T,wt=11): 1415 x v res(ew,y * res(y,x)) = x.  [para(651(a,1),104(a,1,2)),rewrite([54(3)]),flip(a)].
+
+given #499 (A,wt=19): 283 mt(x,mt(y,mt(z,mt(x,mt(y,z)) v u))) = mt(x,mt(y,z)).  [para(43(a,1),8(a,1)),rewrite([8(2),8(4)]),flip(a)].
+
+NOTE: Back_subsumption disabled, ratio of kept to back_subsumed is 86 (0.00 of 0.83 sec).
+
+given #500 (T,wt=11): 1437 res(res(ew,x * res(x,y)),y) = ew.  [para(54(a,1),1323(a,1,2))].
+
+given #501 (T,wt=11): 1440 res(res(ew,res(res(x,x),ep)),ep) = ew.  [para(551(a,1),1323(a,1,2))].
+
+given #502 (T,wt=9): 11066 res(ew,res(res(x,x),ep)) = ev.  [para(1440(a,1),20(a,1,1)),rewrite([23(3)]),flip(a)].
+
+given #503 (T,wt=10): 11069 res(res(x,x),ep) = ew | ev != ew.  [para(11066(a,1),67(b,1)),rewrite([674(3),59(5)]),flip(a)].
+
+given #504 (A,wt=19): 284 mt(x,y) v mt(y,mt(x,y) v z) = mt(y,mt(x,y) v z).  [para(43(a,1),38(a,1,2)),rewrite([4(5)])].
+
+given #505 (T,wt=11): 1442 res(res(ew,res(ew,x) * y),x) = ew.  [para(646(a,1),1323(a,1,2))].
+
+given #506 (T,wt=11): 1443 res(res(ew,x * res(ew,y)),y) = ew.  [para(650(a,1),1323(a,1,2))].
+
+given #507 (T,wt=11): 1444 res(res(ew,res(ew,mt(x,y))),x) = ew.  [para(673(a,1),1323(a,1,2))].
+
+given #508 (T,wt=11): 1445 res(res(ew,res(ew,mt(x,y))),y) = ew.  [para(680(a,1),1323(a,1,2))].
+
+given #509 (A,wt=17): 285 mt(x,mt(y,mt(z,mt(x,z) v u))) = mt(y,mt(x,z)).  [para(43(a,1),35(a,1,2)),flip(a)].
+
+given #510 (T,wt=11): 1446 res(res(ew,mt(x,res(ew,y))),y) = ew.  [para(706(a,1),1323(a,1,2))].
+
+given #511 (T,wt=11): 1447 res(res(ew,res(ew,res(ew,x))),x) = ew.  [para(745(a,1),1323(a,1,2))].
+
+given #512 (T,wt=11): 1449 res(res(ew,mt(res(ew,x),y)),x) = ew.  [para(816(a,1),1323(a,1,2))].
+
+given #513 (T,wt=11): 1537 res(x * res(ew * x,y),y) = ew.  [para(106(a,1),626(a,1,2))].
+
+given #514 (A,wt=19): 286 mt(x,mt(y,mt(z,mt(y,mt(x,z)) v u))) = mt(x,mt(y,z)).  [para(35(a,1),43(a,1,2,2,1)),rewrite([8(5)])].
+
+given #515 (T,wt=8): 11416 ev != ep | res(ep,ev) = eo.  [back_rewrite(7969),rewrite([11409(5),11409(10),1694(8),11409(10)]),flip(b)].
+
+given #516 (T,wt=9): 11409 x * res(ew * x,ep) = ev.  [para(1537(a,1),20(a,1,1)),rewrite([23(3)]),flip(a)].
+
+given #517 (T,wt=9): 11549 x * res(x * ew,ep) = ev.  [para(12(a,1),11409(a,1,2,1))].
+
+given #518 (T,wt=9): 11553 res(ew * x,ep) = res(x,ev).  [para(11409(a,1),48(a,1,2,2)),rewrite([4(7),462(7),11409(9)])].
+
+given #519 (A,wt=21): 287 mt(x,mt(y,x) v z) v mt(u,mt(y,x)) = mt(x,mt(y,x) v z).  [para(43(a,1),75(a,1,2,2))].
+
+given #520 (T,wt=9): 11560 res(x * ew,ep) = res(x,ev).  [para(11549(a,1),48(a,1,2,2)),rewrite([4(7),538(7),11549(9)])].
+
+given #521 (T,wt=9): 11562 res(res(x,ev),ep) = ew * x.  [para(11553(a,1),20(a,1,1))].
+
+given #522 (T,wt=9): 11568 res(res(x,ev),ev) = ew * x.  [para(4915(a,1),11553(a,1,1)),rewrite([11562(4)]),flip(a)].
+
+given #523 (T,wt=10): 11570 ew * ep = ep | res(ep,ev) != eo.  [back_rewrite(1712),rewrite([11562(5)])].
+
+given #524 (A,wt=15): 288 mt(x,mt(y,mt(x v z,y) v u)) = mt(x,y).  [para(43(a,1),42(a,1,2)),rewrite([42(3)]),flip(a)].
+
+given #525 (T,wt=10): 11750 res(x,ev) = ev | ew * x != ew.  [para(11568(a,1),67(b,1)),rewrite([12(4),4915(4),4(4),402(4)])].
+
+given #526 (T,wt=10): 11843 res(x,ev) = ev | x * ew != ew.  [para(12(a,1),11750(b,1))].
+
+given #527 (T,wt=11): 1563 res(res(ew,mt(x,y)),mt(y,x)) = ew.  [para(202(a,1),1323(a,1,2))].
+
+given #528 (T,wt=11): 1572 res(res(ew,x v y),y v x) = ew.  [para(226(a,1),1303(a,1,1,2))].
+
+given #529 (A,wt=20): 303 (x * (y * z)) v u != u | (x * z) v res(y,u) = res(y,u).  [para(44(a,1),15(a,1,1))].
+
+given #530 (T,wt=11): 1577 mt(x,res(y,y * x) v z) = x.  [para(329(a,1),252(a,1,2)),rewrite([7(4),329(7)])].
+
+given #531 (T,wt=9): 12031 mt(x,res(y,ew * x)) = x.  [para(688(a,1),1577(a,1,2))].
+
+given #532 (T,wt=9): 12051 mt(x,res(y,x * ew)) = x.  [para(12(a,1),12031(a,1,2,2))].
+
+given #533 (T,wt=11): 1578 mt(x,res(y,x * y) v z) = x.  [para(374(a,1),252(a,1,2)),rewrite([7(4),374(7)])].
+
+given #534 (A,wt=21): 326 x v res(y,res(z,z * (y * x))) = res(y,res(z,z * (y * x))).  [hyper(15,a,48,a)].
+
+Low Water (keep): wt=64.000, iters=6716
+
+given #535 (T,wt=11): 1587 res(res(ew,mt(x,y)),y v z) = ew.  [para(252(a,1),1293(a,1,1,2))].
+
+given #536 (T,wt=11): 1591 mt(x,y v res(z,x * z)) = x.  [para(12(a,1),338(a,1,2,2,2))].
+
+given #537 (T,wt=11): 1614 res(x * y,y * (x * ew)) = ew.  [para(12(a,1),347(a,1,1))].
+
+given #538 (T,wt=11): 1615 res(x * y,y * (ew * x)) = ew.  [para(12(a,1),347(a,1,2)),rewrite([11(4)])].
+
+given #539 (A,wt=17): 327 x v (res(y,y * x) v z) = res(y,y * x) v z.  [para(48(a,1),5(a,1,1)),flip(a)].
+
+Low Water (keep): wt=56.000, iters=6841
+
+given #540 (T,wt=11): 1626 (x * ew) v (x * y) = x * ew.  [para(349(a,1),4(a,1)),flip(a)].
+
+given #541 (T,wt=11): 1627 mt(x * y,x * ew) = x * y.  [para(349(a,1),10(a,1,2))].
+
+given #542 (T,wt=11): 1629 (x * y) v (y * ew) = y * ew.  [para(12(a,1),349(a,1,1))].
+
+given #543 (T,wt=11): 1636 res(res(ew,x * y),x * ew) = ew.  [para(349(a,1),1322(a,1,2))].
+
+given #544 (A,wt=21): 330 x v res(y * z,y * (z * x)) = res(y * z,y * (z * x)).  [para(11(a,1),48(a,1,2,2)),rewrite([11(8)])].
+
+Low Water (keep): wt=40.000, iters=6695
+
+given #545 (T,wt=11): 1643 (ew * x) v (x * y) = ew * x.  [para(350(a,1),4(a,1)),flip(a)].
+
+Low Water (keep): wt=38.000, iters=6710
+
+given #546 (T,wt=11): 1644 mt(x * y,ew * x) = x * y.  [para(350(a,1),10(a,1,2))].
+
+given #547 (T,wt=11): 1645 (x * y) v (ew * y) = ew * y.  [para(12(a,1),350(a,1,1))].
+
+given #548 (T,wt=11): 1653 res(res(ew,x * y),ew * x) = ew.  [para(350(a,1),1322(a,1,2))].
+
+given #549 (A,wt=17): 335 x v (y v res(z,z * x)) = y v res(z,z * x).  [para(48(a,1),30(a,1,2)),flip(a)].
+
+given #550 (T,wt=11): 1658 res(x * y,ew * (y * x)) = ew.  [para(12(a,1),352(a,1,2)),rewrite([11(4)])].
+
+given #551 (T,wt=11): 1677 res(ew,mt(x,y * res(y,ep))) = ev.  [para(109(a,1),1310(a,1,2,2))].
+
+given #552 (T,wt=11): 1706 eo v (res(ep,ev) v x) = eo v x.  [para(1694(a,1),5(a,1,1)),flip(a)].
+
+given #553 (T,wt=11): 1709 eo v (x v res(ep,ev)) = x v eo.  [para(1694(a,1),30(a,1,2)),flip(a)].
+
+given #554 (A,wt=15): 337 mt(x,y) v res(z,z * x) = res(z,z * x).  [para(48(a,1),36(a,2)),rewrite([335(5)])].
+
+Low Water (keep): wt=32.000, iters=6685
+
+given #555 (T,wt=11): 1710 mt(res(ep,ev),x v eo) = res(ep,ev).  [para(1694(a,1),77(a,1,2,2))].
+
+given #556 (T,wt=11): 1713 res(ep,ev) v (x v eo) = x v eo.  [para(1694(a,1),72(a,1,2,2)),rewrite([1694(11)])].
+
+given #557 (T,wt=11): 1752 x v res(res(mt(x,y),ep),ev) = x.  [para(1690(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #558 (T,wt=11): 1758 x v res(res(mt(y,x),ep),ev) = x.  [para(1690(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #559 (A,wt=15): 340 mt(x v y,x v res(z,z * y)) = x v y.  [para(48(a,1),41(a,1,2,2))].
+
+Low Water (keep): wt=29.000, iters=6694
+
+given #560 (T,wt=11): 1766 x v mt(res(res(x,ep),ev),y) = x.  [para(1690(a,1),153(a,1,2)),rewrite([4(6),1690(11)])].
+
+given #561 (T,wt=11): 1773 eo v (x * res(x,res(ep,ev))) = eo.  [para(1708(a,1),156(a,1,2,2,2))].
+
+given #562 (T,wt=11): 1774 eo v mt(x,mt(y,res(ep,ev))) = eo.  [para(1708(a,1),159(a,1,2,2,2))].
+
+given #563 (T,wt=11): 1777 eo v mt(x,mt(res(ep,ev),y)) = eo.  [para(35(a,1),1718(a,1,2))].
+
+given #564 (A,wt=13): 341 mt(x,mt(res(y,y * x),z)) = mt(x,z).  [para(48(a,1),42(a,1,2,1))].
+
+given #565 (T,wt=11): 1785 res(res(ew,mt(res(ep,ev),x)),eo) = ew.  [para(1718(a,1),1323(a,1,2))].
+
+given #566 (T,wt=11): 1836 res(res(ew,mt(x,res(ep,ev))),eo) = ew.  [para(1771(a,1),1323(a,1,2))].
+
+given #567 (T,wt=11): 1941 res(x,x) v mt(eo,y) = res(x,x).  [para(380(a,1),120(a,1,2))].
+
+Low Water (keep): wt=28.000, iters=6712
+
+Low Water (keep): wt=27.000, iters=6697
+
+given #568 (T,wt=11): 1943 mt(eo,res(x,res(y,y) * x)) = eo.  [para(374(a,1),380(a,1,2)),rewrite([375(3)]),flip(a)].
+
+given #569 (A,wt=15): 343 mt(x,mt(y,res(z,z * mt(x,y)))) = mt(x,y).  [para(48(a,1),43(a,1,2,2))].
+
+given #570 (T,wt=11): 1946 mt(res(x,x),res(ew,eo)) = res(ew,eo).  [para(670(a,1),380(a,2)),rewrite([704(7)])].
+
+given #571 (T,wt=11): 1962 mt(res(x,x),res(ep,ev)) = res(ep,ev).  [para(1708(a,1),380(a,2)),rewrite([1769(7)])].
+
+given #572 (T,wt=11): 1976 mt(x,eo) v res(y,y) = res(y,y).  [hyper(361,a,382,a)].
+
+given #573 (T,wt=11): 1983 res(res(ew,mt(x,eo)),res(y,y)) = ew.  [para(382(a,1),1323(a,1,2))].
+
+given #574 (A,wt=12): 346 ep v (ep * x) = ep | x v eo != eo.  [para(345(a,1),17(b,1,2)),rewrite([4(4),345(11)])].
+
+given #575 (T,wt=11): 1988 x v (x * mt(y,mt(z,eo))) = x.  [para(8(a,1),1977(a,1,2,2))].
+
+given #576 (T,wt=11): 1995 x v (mt(x,y) * mt(z,eo)) = x.  [para(1977(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #577 (T,wt=11): 2000 x v (mt(y,x) * mt(z,eo)) = x.  [para(1977(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #578 (T,wt=11): 2007 x v mt(x * mt(y,eo),z) = x.  [para(1977(a,1),153(a,1,2)),rewrite([4(5),1977(9)])].
+
+given #579 (A,wt=24): 357 x v (y v (z * u)) != x v y | u v res(z,x v y) = res(z,x v y).  [para(5(a,1),49(a,1))].
+
+given #580 (T,wt=11): 2008 res(res(ew,x * mt(y,eo)),x) = ew.  [para(1977(a,1),1323(a,1,2))].
+
+given #581 (T,wt=9): 14015 res(ew,ep * mt(x,eo)) = ev.  [para(2008(a,1),20(a,1,1)),rewrite([23(3)]),flip(a)].
+
+given #582 (T,wt=9): 14025 res(ew,ep * mt(eo,x)) = ev.  [para(7(a,1),14015(a,1,2,2))].
+
+given #583 (T,wt=9): 14035 res(ew,ep * res(ew,eo)) = ev.  [para(670(a,1),14025(a,1,2,2))].
+
+given #584 (A,wt=22): 358 x v (y * (z * u)) != x | u v res(y * z,x) = res(y * z,x).  [para(11(a,1),49(a,1,2))].
+
+Low Water (keep): wt=26.000, iters=6698
+
+given #585 (T,wt=10): 14029 ep * mt(x,eo) = ew | ev != ew.  [para(14015(a,1),67(b,1)),rewrite([674(3),59(6)]),flip(a)].
+
+given #586 (T,wt=10): 14034 ep * mt(eo,x) = ew | ev != ew.  [para(14025(a,1),67(b,1)),rewrite([674(3),59(6)]),flip(a)].
+
+given #587 (T,wt=10): 14040 ep * res(ew,eo) = ew | ev != ew.  [para(14035(a,1),67(b,1)),rewrite([674(3),59(7)]),flip(a)].
+
+given #588 (T,wt=11): 2035 mt(eo,x) v res(y,y) = res(y,y).  [hyper(49,a,1987,a)].
+
+given #589 (A,wt=16): 359 x v (y * z) != x | y v res(z,x) = res(z,x).  [para(12(a,1),49(a,1,2))].
+
+given #590 (T,wt=11): 2043 x v (x * mt(y,mt(eo,z))) = x.  [para(35(a,1),1987(a,1,2,2))].
+
+Low Water (keep): wt=25.000, iters=6696
+
+given #591 (T,wt=11): 2045 x v (mt(x,y) * mt(eo,z)) = x.  [para(1987(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #592 (T,wt=11): 2050 x v (mt(y,x) * mt(eo,z)) = x.  [para(1987(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #593 (T,wt=11): 2058 x v mt(x * mt(eo,y),z) = x.  [para(1987(a,1),153(a,1,2)),rewrite([4(5),1987(9)])].
+
+given #594 (A,wt=14): 360 x v y != x | eo v res(y,x) = res(y,x).  [para(13(a,1),49(a,1,2))].
+
+given #595 (T,wt=11): 2059 res(res(ew,x * mt(eo,y)),x) = ew.  [para(1987(a,1),1323(a,1,2))].
+
+given #596 (T,wt=11): 2060 x v (x * (y * res(y,eo))) = x.  [para(109(a,1),1987(a,1,2,2))].
+
+given #597 (T,wt=11): 2067 x v (mt(y,mt(z,eo)) * x) = x.  [para(8(a,1),1990(a,1,2,1))].
+
+given #598 (T,wt=11): 2072 x v (mt(y,eo) * mt(x,z)) = x.  [para(1990(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #599 (A,wt=20): 362 x v (y * (z * u)) != x | (y * u) v res(z,x) = res(z,x).  [para(44(a,1),49(a,1,2))].
+
+given #600 (T,wt=11): 2078 x v (mt(y,eo) * mt(z,x)) = x.  [para(1990(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #601 (T,wt=11): 2086 x v mt(mt(y,eo) * x,z) = x.  [para(1990(a,1),153(a,1,2)),rewrite([4(5),1990(9)])].
+
+given #602 (T,wt=11): 2088 res(res(ew,mt(x,eo) * y),y) = ew.  [para(1990(a,1),1323(a,1,2))].
+
+given #603 (T,wt=11): 2097 x v (mt(y,mt(eo,z)) * x) = x.  [para(35(a,1),2039(a,1,2,1))].
+
+given #604 (A,wt=13): 373 mt(x,res(y * z,y * (z * x))) = x.  [para(11(a,1),329(a,1,2,2))].
+
+given #605 (T,wt=11): 2099 x v (mt(eo,y) * mt(x,z)) = x.  [para(2039(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+Low Water (keep): wt=24.000, iters=6675
+
+given #606 (T,wt=11): 2105 x v (mt(eo,y) * mt(z,x)) = x.  [para(2039(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #607 (T,wt=11): 2114 x v mt(mt(eo,y) * x,z) = x.  [para(2039(a,1),153(a,1,2)),rewrite([4(5),2039(9)])].
+
+Low Water (keep): wt=23.000, iters=6667
+
+given #608 (T,wt=11): 2116 res(res(ew,mt(eo,x) * y),y) = ew.  [para(2039(a,1),1323(a,1,2))].
+
+given #609 (A,wt=13): 376 mt(x,mt(y,res(z,z * x))) = mt(y,x).  [para(329(a,1),35(a,1,2)),flip(a)].
+
+given #610 (T,wt=11): 2117 x v (y * (res(y,eo) * x)) = x.  [para(109(a,1),2039(a,1,2,1)),rewrite([11(4)])].
+
+given #611 (T,wt=9): 15056 res(res(ew,eo) * x,x) = ew.  [para(2117(a,1),626(a,1,2))].
+
+given #612 (T,wt=7): 15108 ep * res(ew,eo) = ev.  [para(15056(a,1),20(a,1,1)),rewrite([23(3),12(6)]),flip(a)].
+
+given #613 (T,wt=9): 15106 res(x * res(ew,eo),x) = ew.  [para(12(a,1),15056(a,1,1))].
+
+given #614 (A,wt=15): 377 res(x,x * y) v mt(z,y) = res(x,x * y).  [para(329(a,1),75(a,1,2,2))].
+
+given #615 (T,wt=9): 15110 ep * (res(ew,eo) * x) = ev.  [para(15108(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #616 (T,wt=9): 15112 ep * (x * res(ew,eo)) = ev.  [para(15108(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #617 (T,wt=9): 15116 mt(ep,res(res(ew,eo),ev)) = ep.  [para(15108(a,1),374(a,1,2,2))].
+
+given #618 (T,wt=9): 15199 res(res(ew,eo),res(ep,ev)) = ew.  [para(15110(a,1),621(a,1,2,2))].
+
+given #619 (A,wt=15): 379 mt(x * y,res(z,x * (z * y))) = x * y.  [para(44(a,1),329(a,1,2,2))].
+
+given #620 (T,wt=9): 15248 res(ep,res(res(ew,eo),ev)) = ew.  [para(15116(a,1),2759(a,1,1)),rewrite([4915(8)])].
+
+given #621 (T,wt=9): 15296 res(x * res(ep,ev),eo) = ew.  [back_rewrite(5162),rewrite([15286(6)])].
+
+given #622 (T,wt=9): 15297 res(x * res(ep,ev),x) = ew.  [back_rewrite(2181),rewrite([15286(6)])].
+
+given #623 (T,wt=9): 15308 res(res(ep,ev) * x,eo) = ew.  [para(12(a,1),15296(a,1,1))].
+
+given #624 (A,wt=26): 383 mt(x,y * z) != y * z | z v res(y,mt(y * z,x)) = res(y,mt(y * z,x)).  [para(7(a,1),50(a,1))].
+
+given #625 (T,wt=9): 15312 res(res(ep,ev) * x,x) = ew.  [para(12(a,1),15297(a,1,1))].
+
+given #626 (T,wt=10): 15317 mt(x,y) != y | mt(y,x) = y.  [para(47(a,1),383(a,1,2)),rewrite([47(3),47(5),333(5),9(4),47(5),333(5)]),flip(b)].
+
+given #627 (T,wt=11): 2121 res(ew,eo) v res(x,x) = res(x,x).  [hyper(49,a,2051,a)].
+
+given #628 (T,wt=11): 2129 x v (mt(x,y) * res(ew,eo)) = x.  [para(2051(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #629 (A,wt=38): 384 mt(x * (y * z),u) != x * (y * z) | z v res(x * y,mt(x * (y * z),u)) = res(x * y,mt(x * (y * z),u)).  [para(11(a,1),50(a,1,1)),rewrite([11(5),11(9),11(15)])].
+
+given #630 (T,wt=11): 2134 x v (mt(y,x) * res(ew,eo)) = x.  [para(2051(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #631 (T,wt=11): 2141 x v mt(x * res(ew,eo),y) = x.  [para(2051(a,1),153(a,1,2)),rewrite([4(6),2051(11)])].
+
+given #632 (T,wt=11): 2142 res(res(ew,x * res(ew,eo)),x) = ew.  [para(2051(a,1),1323(a,1,2))].
+
+given #633 (T,wt=11): 2160 res(ep,ev) v res(x,x) = res(x,x).  [hyper(49,a,2061,a)].
+
+given #634 (A,wt=26): 385 mt(x * y,z) != y * x | x v res(y,mt(y * x,z)) = res(y,mt(y * x,z)).  [para(12(a,1),50(a,1,1))].
+
+given #635 (T,wt=11): 2168 x v (mt(x,y) * res(ep,ev)) = x.  [para(2061(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #636 (T,wt=11): 2173 x v (mt(y,x) * res(ep,ev)) = x.  [para(2061(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #637 (T,wt=11): 2180 x v mt(x * res(ep,ev),y) = x.  [para(2061(a,1),153(a,1,2)),rewrite([4(6),2061(11)])].
+
+given #638 (T,wt=11): 2191 x v (res(ew,eo) * mt(x,y)) = x.  [para(2106(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #639 (A,wt=26): 386 mt(x * y,z) != y * x | y v res(x,mt(x * y,z)) = res(x,mt(x * y,z)).  [para(12(a,1),50(a,2))].
+
+given #640 (T,wt=11): 2197 x v (res(ew,eo) * mt(y,x)) = x.  [para(2106(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #641 (T,wt=11): 2205 x v mt(res(ew,eo) * x,y) = x.  [para(2106(a,1),153(a,1,2)),rewrite([4(6),2106(11)])].
+
+given #642 (T,wt=11): 2207 res(res(ew,res(ew,eo) * x),x) = ew.  [para(2106(a,1),1323(a,1,2))].
+
+given #643 (T,wt=11): 2217 x v (res(ep,ev) * mt(x,y)) = x.  [para(2118(a,1),36(a,1,2)),rewrite([9(2)]),flip(a)].
+
+given #644 (A,wt=18): 387 mt(x,y) != x | eo v res(x,mt(x,y)) = res(x,mt(x,y)).  [para(13(a,1),50(a,1,1)),rewrite([13(3),13(5),13(8)])].
+
+given #645 (T,wt=11): 2223 x v (res(ep,ev) * mt(y,x)) = x.  [para(2118(a,1),73(a,1,2)),rewrite([38(2)]),flip(a)].
+
+given #646 (T,wt=11): 2231 x v mt(res(ep,ev) * x,y) = x.  [para(2118(a,1),153(a,1,2)),rewrite([4(6),2118(11)])].
+
+given #647 (T,wt=11): 2233 res(res(ew,res(ep,ev) * x),x) = ew.  [para(2118(a,1),1323(a,1,2))].
+
+given #648 (T,wt=11): 2236 x * (y * res(y * x,ev)) = ev.  [para(12(a,1),458(a,1,2,2,1))].
+
+given #649 (A,wt=32): 388 mt(x,mt(y * z,u)) != y * z | z v res(y,mt(y * z,mt(x,u))) = res(y,mt(y * z,mt(x,u))).  [para(35(a,1),50(a,1))].
+
+given #650 (T,wt=11): 2362 res(x,y) v res(x,ev) = res(x,y).  [para(459(a,1),4(a,1)),flip(a)].
+
+given #651 (T,wt=11): 2364 mt(res(x,ev),res(x,y)) = res(x,ev).  [para(459(a,1),10(a,1,2))].
+
+given #652 (T,wt=11): 2382 ep v (res(x,ep) * mt(y,x)) = ep.  [para(20(a,1),485(a,1,2,2,2))].
+
+given #653 (T,wt=11): 2391 (x * y) v (y * x) = x * y.  [para(374(a,1),485(a,1,2,2))].
+
+given #654 (A,wt=36): 389 mt(x * (y * z),u) != y * (x * z) | (x * z) v res(y,mt(y * (x * z),u)) = res(y,mt(y * (x * z),u)).  [para(44(a,1),50(a,1,1))].
+
+given #655 (T,wt=11): 2489 x * mt(y,mt(z,res(x,ev))) = ev.  [para(8(a,1),2387(a,1,2))].
+
+given #656 (T,wt=9): 16224 res(ew,eo) * mt(x,ep) = ev.  [para(15116(a,1),2489(a,1,2,2))].
+
+given #657 (T,wt=9): 16227 res(ew,eo) * mt(ep,x) = ev.  [para(7(a,1),16224(a,1,2))].
+
+given #658 (T,wt=9): 16230 mt(x,ep) * res(ew,eo) = ev.  [para(16224(a,1),12(a,1)),flip(a)].
+
+given #659 (A,wt=36): 390 mt(x * (y * z),u) != y * (x * z) | (y * z) v res(x,mt(x * (y * z),u)) = res(x,mt(x * (y * z),u)).  [para(44(a,1),50(a,2))].
+
+Low Water (keep): wt=22.000, iters=6732
+
+given #660 (T,wt=9): 16247 mt(ep,x) * res(ew,eo) = ev.  [para(16227(a,1),12(a,1)),flip(a)].
+
+given #661 (T,wt=11): 2490 x * (mt(y,res(x,ev)) * z) = ev.  [para(2387(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+Low Water (keep): wt=21.000, iters=6673
+
+given #662 (T,wt=11): 2493 x * (y * mt(z,res(x,ev))) = ev.  [para(2387(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #663 (T,wt=9): 16345 res(ew,eo) * (x * ep) = ev.  [para(15116(a,1),2493(a,1,2,2))].
+
+given #664 (A,wt=13): 391 eo v (res(x,x) v y) = res(x,x) v y.  [para(332(a,1),5(a,1,1)),flip(a)].
+
+given #665 (T,wt=11): 2496 mt(x,res(mt(y,res(x,ev)),ev)) = x.  [para(2387(a,1),374(a,1,2,2))].
+
+given #666 (T,wt=11): 2499 res(mt(x,mt(y,res(ew,z))),z) = ew.  [para(8(a,1),2396(a,1,1))].
+
+given #667 (T,wt=11): 2500 x v (mt(y,res(ew,x)) * z) = x.  [para(2396(a,1),17(b,1,2)),rewrite([4(5),21(8),2396(11)]),xx(b)].
+
+given #668 (T,wt=11): 2501 res(mt(x,ew * y),ew * y) = ew.  [para(771(a,1),2396(a,1,1,2))].
+
+given #669 (A,wt=13): 392 eo v (x v res(y,y)) = x v res(y,y).  [para(332(a,1),30(a,1,2)),flip(a)].
+
+given #670 (T,wt=11): 2502 res(mt(x,y * ew),y * ew) = ew.  [para(783(a,1),2396(a,1,1,2))].
+
+given #671 (T,wt=11): 2504 x * (mt(res(x,ev),y) * z) = ev.  [para(2488(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #672 (T,wt=11): 2507 x * mt(y,mt(res(x,ev),z)) = ev.  [para(35(a,1),2488(a,1,2))].
+
+given #673 (T,wt=11): 2508 x * (y * mt(res(x,ev),z)) = ev.  [para(2488(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #674 (A,wt=13): 394 mt(x v eo,x v res(y,y)) = x v eo.  [para(332(a,1),41(a,1,2,2))].
+
+given #675 (T,wt=11): 2511 mt(x,res(mt(res(x,ev),y),ev)) = x.  [para(2488(a,1),374(a,1,2,2))].
+
+given #676 (T,wt=11): 2513 x * (y * res(y,res(x,ev))) = ev.  [para(109(a,1),2488(a,1,2))].
+
+given #677 (T,wt=9): 16718 res(x,res(y,ew * x)) = ew.  [back_rewrite(4918),rewrite([16619(5),11568(4)])].
+
+given #678 (T,wt=9): 16747 res(x,res(y,x * ew)) = ew.  [para(12(a,1),16718(a,1,2,2))].
+
+given #679 (A,wt=14): 412 x * y != ev | y v res(x,ev) = res(x,ev).  [para(402(a,1),49(a,1))].
+
+given #680 (T,wt=8): 16766 ev != ew | eo v x = ev.  [para(2553(a,1),412(a,1)),rewrite([480(8),4(7),30(7),402(6),480(8)]),flip(a)].
+
+given #681 (T,wt=8): 16767 ev != ew | res(x,x) = ev.  [para(2554(a,1),412(a,1)),rewrite([480(7),4(6),402(6),480(7)]),flip(a)].
+
+given #682 (T,wt=8): 16768 ev != ew | x v eo = ev.  [para(2570(a,1),412(a,1)),rewrite([480(8),4(7),402(7),480(8)]),flip(a)].
+
+given #683 (T,wt=10): 16769 ev != ew | x v (eo v y) = ev.  [para(2573(a,1),412(a,1)),rewrite([480(9),4(8),402(8),480(9)]),flip(a)].
+
+given #684 (A,wt=29): 414 x v res(y * z,res(u,u * (y * (z * x)))) = res(y * z,res(u,u * (y * (z * x)))).  [hyper(51,a,48,a)].
+
+given #685 (T,wt=10): 16770 ev != ew | res(x,x v y) = ev.  [para(2577(a,1),412(a,1)),rewrite([480(8),4(7),402(7),480(8)]),flip(a)].
+
+given #686 (T,wt=10): 16771 ev != ew | res(x,y v x) = ev.  [para(2578(a,1),412(a,1)),rewrite([480(8),4(7),402(7),480(8)]),flip(a)].
+
+given #687 (T,wt=10): 16772 ev != ew | x v (y v eo) = ev.  [para(2579(a,1),412(a,1)),rewrite([480(9),4(8),402(8),480(9)]),flip(a)].
+
+given #688 (T,wt=10): 16773 ev != ew | x v res(y,y) = ev.  [para(2827(a,1),412(a,1)),rewrite([480(8),4(7),402(7),480(8)]),flip(a)].
+
+given #689 (A,wt=25): 415 x v res(y * z,u v (y * (z * x))) = res(y * z,u v (y * (z * x))).  [hyper(51,a,28,a)].
+
+given #690 (T,wt=10): 16774 ev != ew | res(mt(x,y),x) = ev.  [para(2906(a,1),412(a,1)),rewrite([480(8),4(7),402(7),480(8)]),flip(a)].
+
+given #691 (T,wt=10): 16775 ev != ew | res(mt(x,y),y) = ev.  [para(2909(a,1),412(a,1)),rewrite([480(8),4(7),402(7),480(8)]),flip(a)].
+
+given #692 (T,wt=10): 16776 ev != ew | res(x,x) v y = ev.  [para(3204(a,1),412(a,1)),rewrite([480(8),4(7),402(7),480(8)]),flip(a)].
+
+given #693 (T,wt=11): 2515 x v (mt(res(ew,x),y) * z) = x.  [para(2498(a,1),17(b,1,2)),rewrite([4(5),21(8),2498(11)]),xx(b)].
+
+given #694 (A,wt=25): 416 x v res(y * z,(y * (z * x)) v u) = res(y * z,(y * (z * x)) v u).  [hyper(51,a,27,a)].
+
+given #695 (T,wt=11): 2516 res(mt(x,mt(res(ew,y),z)),y) = ew.  [para(35(a,1),2498(a,1,1))].
+
+given #696 (T,wt=11): 2517 res(mt(ew * x,y),ew * x) = ew.  [para(771(a,1),2498(a,1,1,1))].
+
+given #697 (T,wt=11): 2518 res(mt(x * ew,y),x * ew) = ew.  [para(783(a,1),2498(a,1,1,1))].
+
+given #698 (T,wt=11): 2524 res(x * res(x,res(ew,y)),y) = ew.  [para(109(a,1),2498(a,1,1))].
+
+given #699 (A,wt=28): 417 (x * (y * (z * u))) v w != w | u v res(x * (y * z),w) = res(x * (y * z),w).  [para(11(a,1),51(a,1,1,2))].
+
+given #700 (T,wt=11): 2550 res(x,ew * y v (x v z)) = ew.  [para(30(a,1),2503(a,1,2,2))].
+
+given #701 (T,wt=11): 2552 res(x,ew * res(y,y * x)) = ew.  [para(48(a,1),2503(a,1,2,2))].
+
+given #702 (T,wt=11): 2557 res(x,ew * y v (z v x)) = ew.  [para(72(a,1),2503(a,1,2,2))].
+
+given #703 (T,wt=11): 2558 res(mt(x,y),ew * z v x) = ew.  [para(153(a,1),2503(a,1,2,2))].
+
+given #704 (A,wt=22): 418 (x * (y * z)) v u != u | y v res(x * z,u) = res(x * z,u).  [para(12(a,1),51(a,1,1,2))].
+
+given #705 (T,wt=11): 2566 res(res(x,ev),ew * res(x,y)) = ew.  [para(459(a,1),2503(a,1,2,2))].
+
+given #706 (T,wt=11): 2571 ew * (eo v x * y) = ew * y.  [para(2553(a,1),11(a,1,1)),flip(a)].
+
+given #707 (T,wt=11): 2574 ew * (x * eo v y) = x * ew.  [para(2553(a,1),44(a,1,2)),flip(a)].
+
+given #708 (T,wt=11): 2587 ew * (res(x,x) * y) = ew * y.  [para(2554(a,1),11(a,1,1)),flip(a)].
+
+given #709 (A,wt=22): 419 (x * (y * z)) v u != u | y v res(z * x,u) = res(z * x,u).  [para(12(a,1),51(a,1,1)),rewrite([11(2)])].
+
+given #710 (T,wt=11): 2589 ew * (x * res(y,y)) = x * ew.  [para(2554(a,1),44(a,1,2)),flip(a)].
+
+given #711 (T,wt=11): 2598 ew * (x v eo * y) = ew * y.  [para(2570(a,1),11(a,1,1)),flip(a)].
+
+given #712 (T,wt=11): 2600 ew * (x * y v eo) = x * ew.  [para(2570(a,1),44(a,1,2)),flip(a)].
+
+given #713 (T,wt=11): 2762 res(x * res(x,y),ew * y) = ew.  [para(54(a,1),2547(a,1,2,2))].
+
+given #714 (A,wt=38): 420 mt(x,y * (z * u)) != y * (z * u) | u v res(y * z,mt(x,y * (z * u))) = res(y * z,mt(x,y * (z * u))).  [para(38(a,1),51(a,1)),flip(a)].
+
+given #715 (T,wt=11): 2763 res(mt(x,mt(y,z)),ew * z) = ew.  [para(75(a,1),2547(a,1,2,2))].
+
+given #716 (T,wt=11): 2767 res(mt(x,mt(y,z)),ew * y) = ew.  [para(120(a,1),2547(a,1,2,2))].
+
+given #717 (T,wt=11): 2768 res(res(res(x,x),ep),ew * ep) = ew.  [para(551(a,1),2547(a,1,2,2))].
+
+given #718 (T,wt=11): 2770 res(res(ew,x) * y,ew * x) = ew.  [para(646(a,1),2547(a,1,2,2))].
+
+given #719 (A,wt=30): 421 x v ((y * (z * u)) v w) != x v w | u v res(y * z,x v w) = res(y * z,x v w).  [para(30(a,1),51(a,1))].
+
+given #720 (T,wt=11): 2771 res(x * res(ew,y),ew * y) = ew.  [para(650(a,1),2547(a,1,2,2))].
+
+given #721 (T,wt=11): 2772 res(res(ew,mt(x,y)),ew * x) = ew.  [para(673(a,1),2547(a,1,2,2))].
+
+given #722 (T,wt=11): 2773 res(res(ew,mt(x,y)),ew * y) = ew.  [para(680(a,1),2547(a,1,2,2))].
+
+given #723 (T,wt=11): 2774 res(mt(x,res(ew,y)),ew * y) = ew.  [para(706(a,1),2547(a,1,2,2))].
+
+given #724 (A,wt=44): 422 x * res(x,y * (z * u)) != y * (z * u) | u v res(y * z,x * res(x,y * (z * u))) = res(y * z,x * res(x,y * (z * u))).  [para(54(a,1),51(a,1)),flip(a)].
+
+given #725 (T,wt=11): 2775 res(res(ew,res(ew,x)),ew * x) = ew.  [para(745(a,1),2547(a,1,2,2))].
+
+given #726 (T,wt=11): 2777 res(mt(res(ew,x),y),ew * x) = ew.  [para(816(a,1),2547(a,1,2,2))].
+
+given #727 (T,wt=11): 2788 res(mt(x,y),ew * mt(y,x)) = ew.  [para(202(a,1),2547(a,1,2,2))].
+
+given #728 (T,wt=11): 2793 res(res(res(x,ep),ev),ew * x) = ew.  [para(1690(a,1),2547(a,1,2,2))].
+
+given #729 (A,wt=44): 423 mt(x,mt(y,z * (u * w))) != z * (u * w) | w v res(z * u,mt(x,mt(y,z * (u * w)))) = res(z * u,mt(x,mt(y,z * (u * w)))).  [para(75(a,1),51(a,1)),flip(a)].
+
+given #730 (T,wt=11): 2809 res(x * (y * z),y * ew) = ew.  [para(44(a,1),2562(a,1,1))].
+
+given #731 (T,wt=11): 2816 res(x * (y * z),ew * y) = ew.  [para(44(a,1),2563(a,1,1))].
+
+given #732 (T,wt=11): 2823 ew * x v (y v (eo v z)) = ew.  [para(5(a,1),2573(a,1,2))].
+
+given #733 (T,wt=11): 2830 ew * x v res(y,y v z) = ew.  [para(63(a,1),2573(a,1,2,2)),rewrite([13(3)])].
+
+given #734 (A,wt=46): 424 mt(x * (y * z),u) v w != (x * (y * z)) v w | z v res(x * y,mt(x * (y * z),u) v w) = res(x * y,mt(x * (y * z),u) v w).  [para(36(a,1),51(a,1)),flip(a)].
+
+given #735 (T,wt=11): 2831 ew * x v res(y,z v y) = ew.  [para(70(a,1),2573(a,1,2,2)),rewrite([13(3)])].
+
+given #736 (T,wt=11): 2832 ew * x v (y v (z v eo)) = ew.  [para(72(a,1),2573(a,1,2,2))].
+
+given #737 (T,wt=11): 2891 ew * res(x,y v (x v z)) = ew.  [para(30(a,1),2577(a,1,2,2))].
+
+given #738 (T,wt=11): 2893 ew * res(x,res(y,y * x)) = ew.  [para(48(a,1),2577(a,1,2,2))].
+
+given #739 (A,wt=52): 425 x v mt((y * (z * u)) v x,w) != (y * (z * u)) v x | u v res(y * z,x v mt((y * (z * u)) v x,w)) = res(y * z,x v mt((y * (z * u)) v x,w)).  [para(37(a,1),51(a,1)),flip(a)].
+
+given #740 (T,wt=11): 2898 ew * res(x,y v (z v x)) = ew.  [para(72(a,1),2577(a,1,2,2))].
+
+given #741 (T,wt=11): 2902 ew * res(mt(x,y),z v x) = ew.  [para(153(a,1),2577(a,1,2,2))].
+
+given #742 (T,wt=11): 2911 ew * res(x * res(x,y),y) = ew.  [para(54(a,1),2578(a,1,2,2))].
+
+given #743 (T,wt=11): 2912 ew * res(mt(x,mt(y,z)),z) = ew.  [para(75(a,1),2578(a,1,2,2))].
+
+given #744 (A,wt=44): 426 mt(x,mt(y * (z * u),w)) != y * (z * u) | u v res(y * z,mt(x,mt(y * (z * u),w))) = res(y * z,mt(x,mt(y * (z * u),w))).  [para(120(a,1),51(a,1)),flip(a)].
+
+given #745 (T,wt=11): 2916 ew * res(mt(x,mt(y,z)),y) = ew.  [para(120(a,1),2578(a,1,2,2))].
+
+given #746 (T,wt=11): 2935 ew * res(mt(x,y),mt(y,x)) = ew.  [para(202(a,1),2578(a,1,2,2))].
+
+given #747 (T,wt=11): 2940 ew * res(mt(res(ep,ev),x),eo) = ew.  [para(1718(a,1),2578(a,1,2,2))].
+
+given #748 (T,wt=11): 2942 ew * res(mt(x,res(ep,ev)),eo) = ew.  [para(1771(a,1),2578(a,1,2,2))].
+
+given #749 (A,wt=26): 427 (x * (y * (z * u))) v w != w | (y * u) v res(x * z,w) = res(x * z,w).  [para(44(a,1),51(a,1,1,2))].
+
+given #750 (T,wt=11): 2944 ew * res(mt(x,eo),res(y,y)) = ew.  [para(382(a,1),2578(a,1,2,2))].
+
+given #751 (T,wt=11): 2945 ew * res(x * mt(y,eo),x) = ew.  [para(1977(a,1),2578(a,1,2,2))].
+
+given #752 (T,wt=11): 2947 ew * res(x * mt(eo,y),x) = ew.  [para(1987(a,1),2578(a,1,2,2))].
+
+given #753 (T,wt=11): 2948 ew * res(mt(x,eo) * y,y) = ew.  [para(1990(a,1),2578(a,1,2,2))].
+
+given #754 (A,wt=22): 428 (x * (y * z)) v u != u | z v res(y * x,u) = res(y * x,u).  [para(44(a,1),51(a,1,1))].
+
+given #755 (T,wt=11): 2949 ew * res(mt(eo,x) * y,y) = ew.  [para(2039(a,1),2578(a,1,2,2))].
+
+given #756 (T,wt=11): 2968 res(x v (y v (eo v z)),ev) = ev.  [para(5(a,1),2675(a,1,1))].
+
+given #757 (T,wt=11): 2972 res(x v res(y,y v z),ev) = ev.  [para(63(a,1),2675(a,1,1,2)),rewrite([13(2)])].
+
+given #758 (T,wt=11): 2973 res(x v res(y,z v y),ev) = ev.  [para(70(a,1),2675(a,1,1,2)),rewrite([13(2)])].
+
+given #759 (A,wt=21): 438 x v res(y,res(z,z * (x * y))) = res(y,res(z,z * (x * y))).  [hyper(52,a,48,a)].
+
+given #760 (T,wt=11): 2974 res(x v (y v (z v eo)),ev) = ev.  [para(72(a,1),2675(a,1,1,2))].
+
+given #761 (T,wt=11): 3065 res(res(x,y v (x v z)),ev) = ev.  [para(30(a,1),2677(a,1,1,2))].
+
+given #762 (T,wt=11): 3066 res(res(x,res(y,y * x)),ev) = ev.  [para(48(a,1),2677(a,1,1,2))].
+
+given #763 (T,wt=11): 3070 res(res(x,y v (z v x)),ev) = ev.  [para(72(a,1),2677(a,1,1,2))].
+
+given #764 (A,wt=17): 439 x v res(y,z v (x * y)) = res(y,z v (x * y)).  [hyper(52,a,28,a)].
+
+Low Water (keep): wt=19.000, iters=6669
+
+given #765 (T,wt=11): 3071 res(res(mt(x,y),z v x),ev) = ev.  [para(153(a,1),2677(a,1,1,2))].
+
+given #766 (T,wt=11): 3077 res(res(x * res(x,y),y),ev) = ev.  [para(54(a,1),2678(a,1,1,2))].
+
+given #767 (T,wt=11): 3078 res(res(mt(x,mt(y,z)),z),ev) = ev.  [para(75(a,1),2678(a,1,1,2))].
+
+given #768 (T,wt=11): 3082 res(res(mt(x,mt(y,z)),y),ev) = ev.  [para(120(a,1),2678(a,1,1,2))].
+
+given #769 (A,wt=17): 440 x v res(y,(x * y) v z) = res(y,(x * y) v z).  [hyper(52,a,27,a)].
+
+given #770 (T,wt=11): 3096 res(res(mt(x,y),mt(y,x)),ev) = ev.  [para(202(a,1),2678(a,1,1,2))].
+
+given #771 (T,wt=11): 3100 res(res(mt(res(ep,ev),x),eo),ev) = ev.  [para(1718(a,1),2678(a,1,1,2))].
+
+given #772 (T,wt=11): 3102 res(res(mt(x,res(ep,ev)),eo),ev) = ev.  [para(1771(a,1),2678(a,1,1,2))].
+
+given #773 (T,wt=11): 3104 res(res(mt(x,eo),res(y,y)),ev) = ev.  [para(382(a,1),2678(a,1,1,2))].
+
+given #774 (A,wt=13): 441 x v res(y,x * y) = res(y,x * y).  [hyper(52,a,3,a)].
+
+given #775 (T,wt=11): 3105 res(res(x * mt(y,eo),x),ev) = ev.  [para(1977(a,1),2678(a,1,1,2))].
+
+given #776 (T,wt=11): 3107 res(res(x * mt(eo,y),x),ev) = ev.  [para(1987(a,1),2678(a,1,1,2))].
+
+given #777 (T,wt=11): 3108 res(res(mt(x,eo) * y,y),ev) = ev.  [para(1990(a,1),2678(a,1,1,2))].
+
+given #778 (T,wt=11): 3109 res(res(mt(eo,x) * y,y),ev) = ev.  [para(2039(a,1),2678(a,1,1,2))].
+
+given #779 (A,wt=26): 442 mt(x * y,z) != x * y | x v res(y,mt(x * y,z)) = res(y,mt(x * y,z)).  [para(9(a,1),52(a,1)),flip(a)].
+
+given #780 (T,wt=11): 3125 res(mt(x,y),ew * y v z) = ew.  [para(252(a,1),2757(a,1,1))].
+
+given #781 (T,wt=11): 3202 res(x,ew * res(y,x * y)) = ew.  [para(374(a,1),2759(a,1,1))].
+
+given #782 (T,wt=11): 3206 res(x,ew * y v (ew * x)) = ew.  [para(929(a,1),2759(a,1,1))].
+
+given #783 (T,wt=11): 3208 res(x,ew * y v (x * ew)) = ew.  [para(937(a,1),2759(a,1,1))].
+
+given #784 (A,wt=20): 443 (x * (y * z)) v u != u | (x * y) v res(z,u) = res(z,u).  [para(11(a,1),52(a,1,1))].
+
+given #785 (T,wt=11): 3209 res(x,ew * (ew * x) v y) = ew.  [para(982(a,1),2759(a,1,1))].
+
+given #786 (T,wt=11): 3210 res(x,ew * (x * ew) v y) = ew.  [para(1009(a,1),2759(a,1,1))].
+
+given #787 (T,wt=11): 3216 res(x v y,ew * y v x) = ew.  [para(226(a,1),2759(a,1,1))].
+
+given #788 (T,wt=11): 3231 res(x * (y * z),z * ew) = ew.  [para(11(a,1),2808(a,1,1))].
+
+given #789 (A,wt=26): 444 mt(x,y * z) != y * z | y v res(z,mt(x,y * z)) = res(z,mt(x,y * z)).  [para(38(a,1),52(a,1)),flip(a)].
+
+given #790 (T,wt=11): 3243 res(x * (y * z),ew * z) = ew.  [para(11(a,1),2815(a,1,1))].
+
+given #791 (T,wt=11): 3252 ew * x v (y v res(z,z)) = ew.  [para(5(a,1),2827(a,1,2))].
+
+given #792 (T,wt=11): 3326 ew * res(mt(x,y),y v z) = ew.  [para(252(a,1),2906(a,1,2,1))].
+
+given #793 (T,wt=11): 3336 ew * res(x,res(y,x * y)) = ew.  [para(374(a,1),2909(a,1,2,1))].
+
+given #794 (A,wt=24): 445 x v ((y * z) v u) != x v u | y v res(z,x v u) = res(z,x v u).  [para(30(a,1),52(a,1))].
+
+given #795 (T,wt=11): 3347 ew * res(x v y,y v x) = ew.  [para(226(a,1),2909(a,1,2,1))].
+
+given #796 (T,wt=11): 3370 res(x v (y v res(z,z)),ev) = ev.  [para(5(a,1),2970(a,1,1))].
+
+given #797 (T,wt=11): 3402 (ew * x) v mt(x,y) = ew * x.  [para(821(a,1),154(a,1,1)),rewrite([4(6),10(7),4(6)]),flip(a)].
+
+given #798 (T,wt=11): 3403 (x * ew) v mt(x,y) = x * ew.  [para(825(a,1),154(a,1,1)),rewrite([4(6),10(7),4(6)]),flip(a)].
+
+given #799 (A,wt=32): 446 x * res(x,y * z) != y * z | y v res(z,x * res(x,y * z)) = res(z,x * res(x,y * z)).  [para(54(a,1),52(a,1)),flip(a)].
+
+given #800 (T,wt=11): 3443 res(res(mt(x,y),y v z),ev) = ev.  [para(252(a,1),3073(a,1,1,1))].
+
+given #801 (T,wt=11): 3447 res(res(x,res(y,x * y)),ev) = ev.  [para(374(a,1),3075(a,1,1,1))].
+
+given #802 (T,wt=11): 3456 res(res(x v y,y v x),ev) = ev.  [para(226(a,1),3075(a,1,1,1))].
+
+given #803 (T,wt=11): 3471 res(mt(x,mt(y,z)),y * ew) = ew.  [para(35(a,1),3121(a,1,1))].
+
+given #804 (A,wt=32): 447 mt(x,mt(y,z * u)) != z * u | z v res(u,mt(x,mt(y,z * u))) = res(u,mt(x,mt(y,z * u))).  [para(75(a,1),52(a,1)),flip(a)].
+
+given #805 (T,wt=11): 3472 res(mt(x,mt(y,z)),z * ew) = ew.  [para(103(a,1),3121(a,1,1))].
+
+given #806 (T,wt=11): 3476 res(x * res(x,y),y * ew) = ew.  [para(109(a,1),3121(a,1,1))].
+
+given #807 (T,wt=11): 3524 ew * x v (res(y,y) v z) = ew.  [para(30(a,1),3204(a,1,2))].
+
+given #808 (T,wt=11): 3526 ew * res(x,x * res(y,y)) = ew.  [para(48(a,1),3204(a,1,2))].
+
+given #809 (A,wt=34): 448 mt(x * y,z) v u != (x * y) v u | x v res(y,mt(x * y,z) v u) = res(y,mt(x * y,z) v u).  [para(36(a,1),52(a,1)),flip(a)].
+
+given #810 (T,wt=11): 3537 res(x v (res(y,y) v z),ev) = ev.  [para(30(a,1),3369(a,1,1))].
+
+given #811 (T,wt=11): 3538 res(res(x,x * res(y,y)),ev) = ev.  [para(48(a,1),3369(a,1,1))].
+
+given #812 (T,wt=11): 3687 ep v (res(x,ep) * mt(x,y)) = ep.  [para(20(a,1),486(a,1,2,2,1))].
+
+given #813 (T,wt=11): 3738 mt(x,res(y,ew * (x * y))) = x.  [para(821(a,1),501(a,1,2,2,1)),rewrite([11(3)])].
+
+given #814 (A,wt=40): 449 x v mt((y * z) v x,u) != (y * z) v x | y v res(z,x v mt((y * z) v x,u)) = res(z,x v mt((y * z) v x,u)).  [para(37(a,1),52(a,1)),flip(a)].
+
+given #815 (T,wt=11): 3739 mt(x,res(y,x * (ew * y))) = x.  [para(825(a,1),501(a,1,2,2,1)),rewrite([11(3)])].
+
+given #816 (T,wt=11): 3935 x * (res(x v y,ev) * z) = ev.  [para(3928(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #817 (T,wt=11): 3938 x * res(y v (x v z),ev) = ev.  [para(30(a,1),3928(a,1,2,1))].
+
+given #818 (T,wt=11): 3939 x * (y * res(x v z,ev)) = ev.  [para(3928(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #819 (A,wt=32): 450 mt(x,mt(y * z,u)) != y * z | y v res(z,mt(x,mt(y * z,u))) = res(z,mt(x,mt(y * z,u))).  [para(120(a,1),52(a,1)),flip(a)].
+
+given #820 (T,wt=11): 3941 x * res(res(y,y * x),ev) = ev.  [para(48(a,1),3928(a,1,2,1))].
+
+given #821 (T,wt=11): 3947 x * res(y v (z v x),ev) = ev.  [para(72(a,1),3928(a,1,2,1))].
+
+given #822 (T,wt=11): 3948 mt(x,y) * res(z v x,ev) = ev.  [para(153(a,1),3928(a,1,2,1))].
+
+given #823 (T,wt=11): 3950 res(x,ev) * res(res(x,y),ev) = ev.  [para(459(a,1),3928(a,1,2,1))].
+
+given #824 (A,wt=14): 451 x * y != ev | x v res(y,ev) = res(y,ev).  [para(408(a,1),52(a,1))].
+
+given #825 (T,wt=10): 20148 ew * x != ev | res(x,ev) = ew.  [para(681(a,1),451(a,1)),rewrite([16619(9),480(8),59(8),16619(9),480(8)]),flip(b)].
+
+given #826 (T,wt=10): 20149 x * ew != ev | res(x,ev) = ew.  [para(682(a,1),451(a,1)),rewrite([16619(9),4920(9),59(8),16619(9),4920(9)]),flip(b)].
+
+given #827 (T,wt=10): 20150 res(x,ev) != ev | ew * x = ew.  [para(4915(a,1),451(a,1)),rewrite([11568(9),59(8),11568(9)]),flip(b)].
+
+given #828 (T,wt=11): 3952 x * (res(y v x,ev) * z) = ev.  [para(3933(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #829 (A,wt=15): 462 res(x,ev) v res(y * x,z) = res(y * x,z).  [para(411(a,1),51(a,1,1,2)),rewrite([437(2),402(2)]),xx(a)].
+
+given #830 (T,wt=11): 3957 x * (res(x,y) * res(y,ev)) = ev.  [para(54(a,1),3933(a,1,2,1)),rewrite([11(5)])].
+
+given #831 (T,wt=11): 3958 mt(x,mt(y,z)) * res(z,ev) = ev.  [para(75(a,1),3933(a,1,2,1))].
+
+given #832 (T,wt=11): 3962 mt(x,mt(y,z)) * res(y,ev) = ev.  [para(120(a,1),3933(a,1,2,1))].
+
+given #833 (T,wt=11): 3963 x * (y * res(z v x,ev)) = ev.  [para(3933(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #834 (A,wt=13): 463 x v res(res(x,ev),y) = res(res(x,ev),y).  [para(411(a,1),52(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #835 (T,wt=9): 20523 mt(x,res(res(x,ev),y)) = x.  [para(463(a,1),10(a,1,2))].
+
+given #836 (T,wt=9): 20529 res(x,res(res(x,ev),y)) = ew.  [para(463(a,1),603(a,1,2)),rewrite([16619(4),4920(4)])].
+
+given #837 (T,wt=9): 20590 res(x,ev) * (y * x) = ev.  [para(20523(a,1),2493(a,1,2,2))].
+
+given #838 (T,wt=11): 3968 res(ep,ev) * res(res(x,x),ep) = ev.  [para(551(a,1),3933(a,1,2,1)),rewrite([12(7)])].
+
+given #839 (A,wt=17): 464 eo v res(x,res(y,y * x)) = res(x,res(y,y * x)).  [hyper(53,a,48,a)].
+
+given #840 (T,wt=11): 3970 res(ew,x) * (y * res(x,ev)) = ev.  [para(646(a,1),3933(a,1,2,1)),rewrite([11(6)])].
+
+given #841 (T,wt=11): 3972 res(ew,mt(x,y)) * res(x,ev) = ev.  [para(673(a,1),3933(a,1,2,1))].
+
+given #842 (T,wt=11): 3973 res(ew,mt(x,y)) * res(y,ev) = ev.  [para(680(a,1),3933(a,1,2,1))].
+
+given #843 (T,wt=11): 3974 mt(x,res(ew,y)) * res(y,ev) = ev.  [para(706(a,1),3933(a,1,2,1))].
+
+given #844 (A,wt=13): 465 eo v res(x,y v x) = res(x,y v x).  [hyper(53,a,28,a)].
+
+given #845 (T,wt=11): 3975 res(ew,res(ew,x)) * res(x,ev) = ev.  [para(745(a,1),3933(a,1,2,1))].
+
+given #846 (T,wt=11): 3977 mt(res(ew,x),y) * res(x,ev) = ev.  [para(816(a,1),3933(a,1,2,1))].
+
+given #847 (T,wt=11): 3986 mt(x,y) * res(mt(y,x),ev) = ev.  [para(202(a,1),3933(a,1,2,1))].
+
+given #848 (T,wt=11): 4028 mt(x,y) * (res(x,ev) * z) = ev.  [para(3951(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #849 (A,wt=13): 466 eo v res(x,x v y) = res(x,x v y).  [hyper(53,a,27,a)].
+
+given #850 (T,wt=11): 4031 mt(x,y) * (z * res(x,ev)) = ev.  [para(3951(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #851 (T,wt=11): 4035 mt(x,y) * res(y v z,ev) = ev.  [para(252(a,1),3951(a,1,1))].
+
+given #852 (T,wt=11): 4037 mt(ew * x,y) * res(x,ev) = ev.  [para(2294(a,1),3951(a,1,2))].
+
+given #853 (T,wt=11): 4039 mt(x,y) * (res(y,ev) * z) = ev.  [para(3955(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #854 (A,wt=20): 467 x v (y v z) != z | eo v res(x v y,z) = res(x v y,z).  [para(5(a,1),53(a,1))].
+
+given #855 (T,wt=11): 4044 mt(x,y) * (z * res(y,ev)) = ev.  [para(3955(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #856 (T,wt=11): 4048 x * res(res(y,x * y),ev) = ev.  [para(374(a,1),3955(a,1,1))].
+
+given #857 (T,wt=11): 4051 x * res(y v (ew * x),ev) = ev.  [para(929(a,1),3955(a,1,1))].
+
+given #858 (T,wt=11): 4053 x * res(y v (x * ew),ev) = ev.  [para(937(a,1),3955(a,1,1))].
+
+given #859 (A,wt=12): 468 ew != x | eo v res(ew,x) = res(ew,x).  [para(59(a,1),53(a,1))].
+
+given #860 (T,wt=11): 4054 x * res((ew * x) v y,ev) = ev.  [para(982(a,1),3955(a,1,1))].
+
+given #861 (T,wt=11): 4055 x * res((x * ew) v y,ev) = ev.  [para(1009(a,1),3955(a,1,1))].
+
+given #862 (T,wt=11): 4060 x v y * res(y v x,ev) = ev.  [para(226(a,1),3955(a,1,1))].
+
+given #863 (T,wt=11): 4081 res(ew,x) * (res(x,ev) * y) = ev.  [para(3971(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #864 (A,wt=18): 469 mt(x,y) != y | eo v res(y,mt(x,y)) = res(y,mt(x,y)).  [para(38(a,1),53(a,1)),flip(a)].
+
+Low Water (keep): wt=18.000, iters=6681
+
+given #865 (T,wt=11): 4090 res(x,ev) * (mt(x,y) * z) = ev.  [para(4029(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #866 (T,wt=11): 4091 res(x,ev) * mt(y,mt(x,z)) = ev.  [para(35(a,1),4029(a,1,2))].
+
+given #867 (T,wt=11): 4092 res(x,ev) * (y * mt(x,z)) = ev.  [para(4029(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #868 (T,wt=11): 4094 res(x,ev) * mt(y,mt(z,x)) = ev.  [para(103(a,1),4029(a,1,2))].
+
+given #869 (A,wt=22): 470 x v (y v z) != x v z | eo v res(y,x v z) = res(y,x v z).  [para(30(a,1),53(a,1))].
+
+given #870 (T,wt=11): 4095 res(x v y,ev) * mt(z,x) = ev.  [para(252(a,1),4029(a,1,2))].
+
+given #871 (T,wt=11): 4097 res(x,ev) * (y * res(y,x)) = ev.  [para(109(a,1),4029(a,1,2))].
+
+given #872 (T,wt=11): 4098 res(x,ev) * mt(ew * x,y) = ev.  [para(2294(a,1),4029(a,1,1))].
+
+given #873 (T,wt=11): 4099 res(x,ev) * mt(x * ew,y) = ev.  [para(2299(a,1),4029(a,1,1))].
+
+given #874 (A,wt=24): 471 x * res(x,y) != y | eo v res(y,x * res(x,y)) = res(y,x * res(x,y)).  [para(54(a,1),53(a,1)),flip(a)].
+
+given #875 (T,wt=11): 4126 res(x,ev) * (mt(y,x) * z) = ev.  [para(4040(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #876 (T,wt=11): 4128 res(x,ev) * (y * mt(z,x)) = ev.  [para(4040(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #877 (T,wt=11): 4135 res(x,ev) * (res(ew,x) * y) = ev.  [para(4082(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+Low Water (keep): wt=17.000, iters=6696
+
+given #878 (T,wt=11): 4136 res(x,ev) * (y * res(ew,x)) = ev.  [para(4082(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #879 (A,wt=24): 472 mt(x,mt(y,z)) != z | eo v res(z,mt(x,mt(y,z))) = res(z,mt(x,mt(y,z))).  [para(75(a,1),53(a,1)),flip(a)].
+
+given #880 (T,wt=11): 4214 ep v (mt(x,y) * res(x,ep)) = ep.  [para(9(a,1),553(a,1,2,2,1))].
+
+given #881 (T,wt=11): 4217 ep v (mt(x,y) * res(y,ep)) = ep.  [para(38(a,1),553(a,1,2,2,1))].
+
+given #882 (T,wt=11): 4232 ep v (res(ew,x) * res(x,ep)) = ep.  [para(651(a,1),553(a,1,2,2,1))].
+
+given #883 (T,wt=11): 4283 ep v res(x v (y v eo),ep) = ep.  [para(5(a,1),4216(a,1,2,1))].
+
+given #884 (A,wt=26): 473 mt(x,y) v z != x v z | eo v res(x,mt(x,y) v z) = res(x,mt(x,y) v z).  [para(36(a,1),53(a,1)),flip(a)].
+
+given #885 (T,wt=11): 4296 ep v mt(res(x v eo,ep),y) = ep.  [para(4216(a,1),153(a,1,2)),rewrite([4(7),4216(13)])].
+
+given #886 (T,wt=11): 4297 res(res(ew,res(x v eo,ep)),ep) = ew.  [para(4216(a,1),1323(a,1,2))].
+
+given #887 (T,wt=9): 21606 res(ew,res(x v eo,ep)) = ev.  [para(4297(a,1),20(a,1,1)),rewrite([23(3)]),flip(a)].
+
+given #888 (T,wt=9): 21607 res(ew,res(eo v x,ep)) = ev.  [para(4(a,1),21606(a,1,2,1))].
+
+given #889 (A,wt=32): 474 x v mt(y v x,z) != y v x | eo v res(y,x v mt(y v x,z)) = res(y,x v mt(y v x,z)).  [para(37(a,1),53(a,1)),flip(a)].
+
+given #890 (T,wt=10): 21609 res(x v eo,ep) = ew | ev != ew.  [para(21606(a,1),67(b,1)),rewrite([674(3),59(6)]),flip(a)].
+
+given #891 (T,wt=10): 21612 res(eo v x,ep) = ew | ev != ew.  [para(21607(a,1),67(b,1)),rewrite([674(3),59(6)]),flip(a)].
+
+given #892 (T,wt=11): 4301 res(res(x v eo,ep),ew * ep) = ew.  [para(4216(a,1),2547(a,1,2,2))].
+
+given #893 (T,wt=11): 4305 res(ep,ev) * res(x v eo,ep) = ev.  [para(4216(a,1),3933(a,1,2,1)),rewrite([12(8)])].
+
+given #894 (A,wt=30): 475 mt(x,mt(y,z)) != mt(x,y) | eo v res(mt(x,y),mt(x,mt(y,z))) = res(mt(x,y),mt(x,mt(y,z))).  [para(39(a,1),53(a,1)),flip(a)].
+
+given #895 (T,wt=11): 4310 ep v res(x v (eo v y),ep) = ep.  [para(30(a,1),4281(a,1,2,1))].
+
+given #896 (T,wt=11): 4314 ep v res(res(x,x v y),ep) = ep.  [para(63(a,1),4281(a,1,2,1)),rewrite([13(3)])].
+
+given #897 (T,wt=11): 4315 ep v res(res(x,y v x),ep) = ep.  [para(70(a,1),4281(a,1,2,1)),rewrite([13(3)])].
+
+given #898 (T,wt=11): 4322 ep v mt(res(eo v x,ep),y) = ep.  [para(4281(a,1),153(a,1,2)),rewrite([4(7),4281(13)])].
+
+given #899 (A,wt=24): 476 mt(x,mt(y,z)) != y | eo v res(y,mt(x,mt(y,z))) = res(y,mt(x,mt(y,z))).  [para(120(a,1),53(a,1)),flip(a)].
+
+given #900 (T,wt=11): 4327 res(res(eo v x,ep),ew * ep) = ew.  [para(4281(a,1),2547(a,1,2,2))].
+
+given #901 (T,wt=11): 4331 res(ep,ev) * res(eo v x,ep) = ev.  [para(4281(a,1),3933(a,1,2,1)),rewrite([12(8)])].
+
+given #902 (T,wt=11): 4421 ep v mt(x,res(res(y,y),ep)) = ep.  [para(551(a,1),576(a,1,2)),rewrite([4(6),551(11)])].
+
+given #903 (T,wt=11): 4422 x v mt(y,res(ew,x) * z) = x.  [para(646(a,1),576(a,1,2)),rewrite([4(5),646(9)])].
+
+given #904 (A,wt=12): 477 ev != x | eo v res(x,ev) = res(x,ev).  [para(408(a,1),53(a,1)),flip(a)].
+
+given #905 (T,wt=11): 4423 x v mt(y,z * res(ew,x)) = x.  [para(650(a,1),576(a,1,2)),rewrite([4(5),650(9)])].
+
+given #906 (T,wt=11): 4424 x v mt(y,res(ew,res(ew,x))) = x.  [para(745(a,1),576(a,1,2)),rewrite([4(6),745(11)])].
+
+given #907 (T,wt=11): 4437 res(res(ew,mt(x,y)),z v y) = ew.  [para(576(a,1),1322(a,1,2))].
+
+given #908 (T,wt=11): 4443 x v mt(y,res(res(x,ep),ev)) = x.  [para(1690(a,1),576(a,1,2)),rewrite([4(6),1690(11)])].
+
+given #909 (A,wt=13): 482 x v (y * mt(z,mt(res(y,x),u))) = x.  [hyper(55,b,120,a),rewrite([4(5)])].
+
+given #910 (T,wt=11): 4449 x v mt(y,x * mt(z,eo)) = x.  [para(1977(a,1),576(a,1,2)),rewrite([4(5),1977(9)])].
+
+given #911 (T,wt=11): 4451 x v mt(y,x * mt(eo,z)) = x.  [para(1987(a,1),576(a,1,2)),rewrite([4(5),1987(9)])].
+
+given #912 (T,wt=11): 4452 x v mt(y,mt(z,eo) * x) = x.  [para(1990(a,1),576(a,1,2)),rewrite([4(5),1990(9)])].
+
+given #913 (T,wt=11): 4453 x v mt(y,mt(eo,z) * x) = x.  [para(2039(a,1),576(a,1,2)),rewrite([4(5),2039(9)])].
+
+given #914 (A,wt=13): 483 x v (y * mt(z,mt(u,res(y,x)))) = x.  [hyper(55,b,75,a),rewrite([4(5)])].
+
+given #915 (T,wt=11): 4454 x v mt(y,x * res(ew,eo)) = x.  [para(2051(a,1),576(a,1,2)),rewrite([4(6),2051(11)])].
+
+given #916 (T,wt=11): 4455 x v mt(y,x * res(ep,ev)) = x.  [para(2061(a,1),576(a,1,2)),rewrite([4(6),2061(11)])].
+
+given #917 (T,wt=11): 4456 x v mt(y,res(ew,eo) * x) = x.  [para(2106(a,1),576(a,1,2)),rewrite([4(6),2106(11)])].
+
+given #918 (T,wt=11): 4457 x v mt(y,res(ep,ev) * x) = x.  [para(2118(a,1),576(a,1,2)),rewrite([4(6),2118(11)])].
+
+given #919 (A,wt=13): 484 x v (y * (z * res(z,res(y,x)))) = x.  [hyper(55,b,54,a),rewrite([4(5)])].
+
+given #920 (T,wt=11): 4462 res(mt(x,y),ew * z v y) = ew.  [para(576(a,1),2503(a,1,2,2))].
+
+given #921 (T,wt=11): 4464 ew * res(mt(x,y),z v y) = ew.  [para(576(a,1),2577(a,1,2,2))].
+
+Low Water (displace): id=5116, wt=84.000
+
+Low Water (displace): id=9033, wt=78.000
+
+Low Water (displace): id=5099, wt=72.000
+
+Low Water (displace): id=5477, wt=70.000
+
+Low Water (displace): id=9023, wt=66.000
+
+Low Water (displace): id=22587, wt=15.000
+
+given #922 (T,wt=11): 4467 res(res(mt(x,y),z v y),ev) = ev.  [para(576(a,1),2677(a,1,1,2))].
+
+given #923 (T,wt=11): 4478 mt(x,y) * res(z v y,ev) = ev.  [para(576(a,1),3928(a,1,2,1))].
+
+Low Water (displace): id=22769, wt=13.000
+
+given #924 (A,wt=14): 487 ep v (res(x,ep) * y) = ep | x v y != x.  [para(20(a,1),55(b,1,1)),rewrite([4(5),20(12)])].
+
+given #925 (T,wt=11): 4484 ep v mt(x,res(y v eo,ep)) = ep.  [para(4216(a,1),576(a,1,2)),rewrite([4(7),4216(13)])].
+
+given #926 (T,wt=11): 4485 ep v mt(x,res(eo v y,ep)) = ep.  [para(4281(a,1),576(a,1,2)),rewrite([4(7),4281(13)])].
+
+given #927 (T,wt=11): 4559 mt(x,res(y,(x * y) v z)) = x.  [para(12(a,1),602(a,1,2,2,1))].
+
+given #928 (T,wt=9): 23011 mt(ep,res(res(ew,eo),x)) = ep.  [para(15108(a,1),4559(a,1,2,2,1)),rewrite([402(6)])].
+
+given #929 (A,wt=20): 488 x v (y * res(y,x) v z) = x | res(y,x) v z != res(y,x).  [para(27(a,1),55(b,1)),rewrite([4(4)])].
+
+given #930 (T,wt=7): 23088 x * res(x,x) = x.  [hyper(488,b,1941,a),rewrite([1941(4),4163(3)])].
+
+given #931 (T,wt=9): 23100 mt(x,res(res(x,x),x)) = x.  [para(23088(a,1),374(a,1,2,2))].
+
+given #932 (T,wt=10): 23112 ev != x | res(x,ev) = res(x,x).  [para(23088(a,1),412(a,1)),rewrite([2362(6)]),flip(a),flip(b)].
+
+given #933 (T,wt=11): 4574 mt(x,res(y,ew * (y * x))) = x.  [para(821(a,1),602(a,1,2,2))].
+
+given #934 (A,wt=20): 489 x v (y * z v res(y,x)) = x | z v res(y,x) != res(y,x).  [para(28(a,1),55(b,1)),rewrite([4(4)])].
+
+given #935 (T,wt=11): 4602 mt(eo,res(x,y v (x v z))) = eo.  [para(30(a,1),4560(a,1,2,2))].
+
+given #936 (T,wt=11): 4605 mt(eo,res(x,res(y,y * x))) = eo.  [para(48(a,1),4560(a,1,2,2))].
+
+given #937 (T,wt=11): 4610 mt(eo,res(x,y v (z v x))) = eo.  [para(72(a,1),4560(a,1,2,2))].
+
+given #938 (T,wt=11): 4613 mt(eo,res(mt(x,y),z v x)) = eo.  [para(153(a,1),4560(a,1,2,2))].
+
+given #939 (A,wt=20): 490 (x * y v z) v u = u | y v (res(x,u) v z) != res(x,u).  [para(30(a,1),55(b,1))].
+
+given #940 (T,wt=11): 4614 res(res(ew,eo),res(x,x v y)) = ew.  [para(4560(a,1),1303(a,1,1,2))].
+
+given #941 (T,wt=11): 4616 mt(eo,res(x,x v y) v z) = eo.  [para(4560(a,1),252(a,1,2)),rewrite([7(5),4560(9)])].
+
+given #942 (T,wt=11): 4623 mt(eo,res(mt(x,y),z v y)) = eo.  [para(576(a,1),4560(a,1,2,2))].
+
+given #943 (T,wt=11): 4687 mt(eo,res(x * res(x,y),y)) = eo.  [para(54(a,1),4599(a,1,2,2))].
+
+given #944 (A,wt=22): 491 x v (y * mt(res(y,x),z) v u) = x | res(y,x) v u != res(y,x).  [para(36(a,1),55(b,1)),rewrite([4(5)])].
+
+given #945 (T,wt=11): 4690 mt(eo,res(mt(x,mt(y,z)),z)) = eo.  [para(75(a,1),4599(a,1,2,2))].
+
+given #946 (T,wt=11): 4694 mt(eo,res(mt(x,mt(y,z)),y)) = eo.  [para(120(a,1),4599(a,1,2,2))].
+
+given #947 (T,wt=11): 4707 res(res(ew,eo),res(x,y v x)) = ew.  [para(4599(a,1),1303(a,1,1,2))].
+
+given #948 (T,wt=11): 4713 mt(eo,res(mt(x,y),mt(y,x))) = eo.  [para(202(a,1),4599(a,1,2,2))].
+
+given #949 (A,wt=24): 492 x v (y * z v mt(res(y,x) v z,u)) = x | res(y,x) v z != res(y,x).  [para(37(a,1),55(b,1)),rewrite([4(6)])].
+
+given #950 (T,wt=11): 4714 mt(eo,res(x,y v x) v z) = eo.  [para(4599(a,1),252(a,1,2)),rewrite([7(5),4599(9)])].
+
+given #951 (T,wt=11): 4718 mt(eo,res(mt(res(ep,ev),x),eo)) = eo.  [para(1718(a,1),4599(a,1,2,2))].
+
+given #952 (T,wt=11): 4721 mt(eo,res(mt(x,res(ep,ev)),eo)) = eo.  [para(1771(a,1),4599(a,1,2,2))].
+
+given #953 (T,wt=11): 4724 mt(eo,res(mt(x,eo),res(y,y))) = eo.  [para(382(a,1),4599(a,1,2,2))].
+
+given #954 (A,wt=24): 493 x v (y * res(z,z * res(y,x))) = x | res(z,z * res(y,x)) != res(y,x).  [para(48(a,1),55(b,1)),rewrite([4(5)])].
+
+given #955 (T,wt=10): 24159 x * ew = x | res(x,x) != ew.  [para(2554(a,1),493(b,1,2)),rewrite([2554(4),119(3),825(3),119(6)]),flip(b)].
+
+given #956 (T,wt=11): 4725 mt(eo,res(x * mt(y,eo),x)) = eo.  [para(1977(a,1),4599(a,1,2,2))].
+
+given #957 (T,wt=11): 4727 mt(eo,res(x * mt(eo,y),x)) = eo.  [para(1987(a,1),4599(a,1,2,2))].
+
+given #958 (T,wt=11): 4728 mt(eo,res(mt(x,eo) * y,y)) = eo.  [para(1990(a,1),4599(a,1,2,2))].
+
+given #959 (A,wt=12): 494 ep v (ep * x) = ep | eo v x != eo.  [para(345(a,1),55(b,1,1)),rewrite([4(4),345(11)])].
+
+given #960 (T,wt=11): 4729 mt(eo,res(mt(eo,x) * y,y)) = eo.  [para(2039(a,1),4599(a,1,2,2))].
+
+given #961 (T,wt=11): 4759 res(res(ew,eo),res(mt(x,y),x)) = ew.  [para(4684(a,1),1303(a,1,1,2))].
+
+given #962 (T,wt=11): 4761 mt(eo,res(mt(x,y),x) v z) = eo.  [para(4684(a,1),252(a,1,2)),rewrite([7(5),4684(9)])].
+
+given #963 (T,wt=11): 4762 mt(eo,res(mt(x,y),y v z)) = eo.  [para(252(a,1),4684(a,1,2,1))].
+
+given #964 (A,wt=13): 496 mt(x,mt(res(y,x * y),z)) = mt(x,z).  [para(374(a,1),8(a,1,1)),flip(a)].
+
+given #965 (T,wt=11): 4775 mt(eo,res(x,res(y,x * y))) = eo.  [para(374(a,1),4685(a,1,2,1))].
+
+given #966 (T,wt=11): 4786 res(res(ew,eo),res(mt(x,y),y)) = ew.  [para(4685(a,1),1303(a,1,1,2))].
+
+given #967 (T,wt=11): 4789 mt(eo,res(x v y,y v x)) = eo.  [para(226(a,1),4685(a,1,2,1))].
+
+given #968 (T,wt=11): 4790 mt(eo,res(mt(x,y),y) v z) = eo.  [para(4685(a,1),252(a,1,2)),rewrite([7(5),4685(9)])].
+
+given #969 (A,wt=15): 497 mt(x,mt(y,res(z,mt(x,y) * z))) = mt(x,y).  [para(374(a,1),8(a,1)),flip(a)].
+
+given #970 (T,wt=11): 4909 res(x,res(y,x * (ew * y))) = ew.  [para(12(a,1),621(a,1,2,2)),rewrite([11(3)])].
+
+given #971 (T,wt=11): 4911 res(x,res(y,x * (y * ew))) = ew.  [para(44(a,1),621(a,1,2,2))].
+
+given #972 (T,wt=11): 4937 res(res(x,ev) * y,res(x,ev)) = ew.  [para(4915(a,1),2563(a,1,2))].
+
+given #973 (T,wt=11): 4938 res(mt(res(x,ev),y),res(x,ev)) = ew.  [para(4915(a,1),2757(a,1,2))].
+
+given #974 (A,wt=15): 498 mt(x * y,res(z,x * (y * z))) = x * y.  [para(11(a,1),374(a,1,2,2))].
+
+given #975 (T,wt=11): 4939 res(mt(x,res(y,ev)),res(y,ev)) = ew.  [para(4915(a,1),2759(a,1,2))].
+
+given #976 (T,wt=11): 4940 res(x * res(y,ev),res(y,ev)) = ew.  [para(4915(a,1),2815(a,1,2))].
+
+given #977 (T,wt=11): 5019 mt(res(x,y),res(x,ev)) = res(x,ev).  [para(4945(a,1),109(a,1,2,2)),rewrite([12(5),4915(5),4945(10),12(8),4915(8)])].
+
+given #978 (T,wt=11): 5022 res(res(x,ev),res(x * ew,y)) = ew.  [para(2299(a,1),4945(a,1,1))].
+
+given #979 (A,wt=13): 499 mt(x,mt(y,res(z,x * z))) = mt(y,x).  [para(374(a,1),35(a,1,2)),flip(a)].
+
+given #980 (T,wt=11): 5127 eo v (x * (res(ep,ev) * y)) = eo.  [para(44(a,1),4948(a,1,2))].
+
+given #981 (T,wt=11): 5134 eo v mt(res(ep,ev) * x,y) = eo.  [para(4948(a,1),153(a,1,2)),rewrite([4(7),4948(13)])].
+
+given #982 (T,wt=11): 5135 res(res(ew,res(ep,ev) * x),eo) = ew.  [para(4948(a,1),1323(a,1,2))].
+
+given #983 (T,wt=11): 5144 eo v mt(x,res(ep,ev) * y) = eo.  [para(4948(a,1),576(a,1,2)),rewrite([4(7),4948(13)])].
+
+given #984 (A,wt=15): 500 res(x,y * x) v mt(z,y) = res(x,y * x).  [para(374(a,1),75(a,1,2,2))].
+
+given #985 (T,wt=11): 5148 x v (res(res(x,ep),ev) * y) = x.  [para(4949(a,1),17(b,1,2)),rewrite([4(6),21(9),4949(13)]),xx(b)].
+
+given #986 (T,wt=11): 5149 res(ep,ev) v res(x,eo) = res(x,eo).  [hyper(49,a,5123,a)].
+
+given #987 (T,wt=7): 24903 res(ep,ev) = res(ew,eo).  [back_rewrite(13721),rewrite([24900(6),13694(6)]),flip(a)].
+
+given #988 (T,wt=8): 25025 ev != ep | res(ew,eo) = eo.  [back_rewrite(11416),rewrite([24903(6)])].
+
+given #989 (A,wt=13): 502 mt(x,res(y * z,y * (x * z))) = x.  [para(44(a,1),374(a,1,2,2))].
+
+given #990 (T,wt=8): 25041 ev = ep | res(ew,eo) != eo.  [back_rewrite(1707),rewrite([24903(6)])].
+
+given #991 (T,wt=9): 24907 res(res(ew,eo),res(x,eo)) = ew.  [back_rewrite(24876),rewrite([24903(3)])].
+
+given #992 (T,wt=9): 25045 ep * mt(x,res(ew,eo)) = ev.  [para(24903(a,1),485(a,1,2,2,2)),rewrite([402(8)])].
+
+given #993 (T,wt=9): 25046 ep * mt(res(ew,eo),x) = ev.  [para(24903(a,1),2488(a,1,2,1))].
+
+given #994 (A,wt=13): 506 mt(eo,mt(x v res(y,y),z)) = mt(eo,z).  [para(393(a,1),8(a,1,1)),flip(a)].
+
+given #995 (T,wt=9): 25047 ew * res(ew,eo) = res(ew,eo).  [para(24903(a,1),4915(a,1,2)),rewrite([24903(8)])].
+
+given #996 (T,wt=9): 25048 res(ew,res(ew,eo)) = res(ew,eo).  [para(24903(a,1),4920(a,1,2)),rewrite([24903(8)])].
+
+given #997 (T,wt=9): 25049 res(res(ew,eo),res(ep,x)) = ew.  [para(24903(a,1),4945(a,1,1))].
+
+given #998 (T,wt=9): 25050 res(res(ew,eo),ep) = ew * ep.  [para(24903(a,1),11562(a,1,1))].
+
+given #999 (A,wt=13): 507 mt(eo,mt(x,y v res(z,z))) = mt(x,eo).  [para(393(a,1),35(a,1,2)),flip(a)].
+
+given #1000 (T,wt=9): 25051 res(res(ew,eo),ev) = ew * ep.  [para(24903(a,1),11568(a,1,1))].
+
+given #1001 (T,wt=9): 25062 res(ep,res(res(ew,eo),x)) = ew.  [para(24903(a,1),20529(a,1,2,1))].
+
+given #1002 (T,wt=10): 25024 ew * ep = ep | res(ew,eo) != eo.  [back_rewrite(11570),rewrite([24903(8)])].
+
+given #1003 (T,wt=10): 25032 res(ew,eo) = ew | res(ew,eo) != eo.  [back_rewrite(4947),rewrite([24903(3),24903(8)])].
+
+given #1004 (A,wt=20): 513 (x * y v z) v u = u | z v (res(x,u) v y) != res(x,u).  [para(4(a,1),56(b,1)),rewrite([5(7)])].
+
+given #1005 (T,wt=10): 25044 ew * ep = ev | res(ew,eo) != ew.  [para(24903(a,1),67(b,1)),rewrite([12(3),4(5),402(5)])].
+
+given #1006 (T,wt=10): 25061 res(ew,eo) != ev | ew * ep = ew.  [para(24903(a,1),20150(a,1))].
+
+given #1007 (T,wt=10): 25068 ew * ep != ep | res(ew,eo) = eo.  [back_rewrite(21123),rewrite([25051(5),25047(10)])].
+
+given #1008 (T,wt=10): 25188 res(ew,eo) = ev | ew * ep != ew.  [para(25051(a,1),67(b,1)),rewrite([12(5),25047(5),4(5),402(5)])].
+
+given #1009 (A,wt=24): 514 (x * y v (z v u)) v w = w | y v (z v (u v res(x,w))) != res(x,w).  [para(5(a,1),56(b,1,2))].
+
+given #1010 (T,wt=10): 25201 ew * ep != ev | res(ew,eo) = ew.  [para(25051(a,1),20150(a,1)),rewrite([25047(10)])].
+
+given #1011 (T,wt=11): 5356 res(x,res(y,ew * (x * y))) = ew.  [para(12(a,1),632(a,1,2,2)),rewrite([11(3)])].
+
+given #1012 (T,wt=11): 5359 res(x,res(y,ew * (y * x))) = ew.  [para(44(a,1),632(a,1,2,2))].
+
+given #1013 (T,wt=11): 5374 res(mt(x,res(ew,y)),z v y) = ew.  [para(485(a,1),634(a,1,2,2))].
+
+given #1014 (A,wt=18): 515 ep v (res(x,ep) * y v z) = ep | y v (z v x) != x.  [para(20(a,1),56(b,1,2,2)),rewrite([4(6),20(14)])].
+
+given #1015 (T,wt=11): 5376 res(mt(res(ew,x),y),z v x) = ew.  [para(486(a,1),634(a,1,2,2))].
+
+given #1016 (T,wt=11): 5537 res(res(ew,x) * y,z v x) = ew.  [para(657(a,1),634(a,1,2,2))].
+
+given #1017 (T,wt=11): 5539 res(x * (res(ew,y) * z),y) = ew.  [para(44(a,1),5504(a,1,1))].
+
+given #1018 (T,wt=11): 5540 res(x * (y * res(ew,z)),z) = ew.  [para(11(a,1),5538(a,1,1))].
+
+given #1019 (A,wt=14): 516 ep v (ew * x v y) = ep | x v y != ev.  [para(23(a,1),56(b,1,2,2)),rewrite([4(5),408(9),23(11)])].
+
+given #1020 (T,wt=8): 25678 ep = ew | res(x,x) != ev.  [para(332(a,1),516(b,1)),rewrite([332(5),2554(4),4(3),59(3)]),flip(a)].
+
+given #1021 (T,wt=6): 25688 ep = ew | ev != eo.  [para(333(a,1),25678(b,1)),flip(b)].
+
+given #1022 (T,wt=10): 25683 ep = ew | res(x,x) v y != ev.  [para(391(a,1),516(b,1)),rewrite([391(6),3204(5),4(3),59(3)]),flip(a)].
+
+given #1023 (T,wt=8): 25691 ep = ew | eo v x != ev.  [para(333(a,1),25683(b,1,1))].
+
+given #1024 (A,wt=20): 517 x v (y * res(y,x) v z) = x | z v res(y,x) != res(y,x).  [para(28(a,1),56(b,1)),rewrite([4(4)])].
+
+given #1025 (T,wt=8): 25703 ep = ew | x v eo != ev.  [para(4(a,1),25691(b,1))].
+
+given #1026 (T,wt=10): 25684 ep = ew | x v res(y,y) != ev.  [para(392(a,1),516(b,1)),rewrite([392(6),2827(5),4(3),59(3)]),flip(a)].
+
+given #1027 (T,wt=10): 25686 ep = ew | res(x,y v x) != ev.  [para(465(a,1),516(b,1)),rewrite([465(6),2578(5),4(3),59(3)]),flip(a)].
+
+given #1028 (T,wt=10): 25687 ep = ew | res(x,x v y) != ev.  [para(466(a,1),516(b,1)),rewrite([466(6),2577(5),4(3),59(3)]),flip(a)].
+
+given #1029 (A,wt=20): 518 (x * y v z) v u = u | z v (y v res(x,u)) != res(x,u).  [para(30(a,1),56(b,1))].
+
+given #1030 (T,wt=10): 25704 ep = ew | x v (eo v y) != ev.  [para(30(a,1),25691(b,1))].
+
+given #1031 (T,wt=10): 25705 ep = ew | x v (y v eo) != ev.  [para(72(a,1),25691(b,1))].
+
+given #1032 (T,wt=10): 25706 x v y = x | y v x != x.  [para(333(a,1),517(b,1,2)),rewrite([333(3),47(3),27(2),333(5)])].
+
+given #1033 (T,wt=10): 25710 ep = ew | res(mt(x,y),x) != ev.  [para(9(a,1),25686(b,1,2))].
+
+given #1034 (A,wt=16): 520 ep v (ep * x v y) = ep | x v (y v eo) != eo.  [para(345(a,1),56(b,1,2,2)),rewrite([4(5),345(13)])].
+
+given #1035 (T,wt=10): 25711 ep = ew | res(mt(x,y),y) != ev.  [para(38(a,1),25686(b,1,2))].
+
+given #1036 (T,wt=11): 5652 ep v (res(x,ep) * res(ew,x)) = ep.  [para(20(a,1),665(a,1,2,2,2))].
+
+given #1037 (T,wt=11): 5694 res(res(ew,res(ew,x)),y v x) = ew.  [para(665(a,1),634(a,1,2,2))].
+
+given #1038 (T,wt=11): 5695 mt(res(ew,x),x v y) = res(ew,x).  [para(666(a,1),85(a,1,2))].
+
+given #1039 (A,wt=18): 522 x v (x * y v eo) = x | y v res(x,x) != res(x,x).  [para(332(a,1),56(b,1,2)),rewrite([4(4)])].
+
+given #1040 (T,wt=11): 5704 x v (y * res(ew,res(ew,x))) = x.  [para(650(a,1),666(a,1,2)),rewrite([651(3)]),flip(a)].
+
+given #1041 (T,wt=11): 5706 x v res(ew,mt(res(ew,x),y)) = x.  [para(673(a,1),666(a,1,2)),rewrite([651(3)]),flip(a)].
+
+given #1042 (T,wt=11): 5707 x v res(ew,mt(y,res(ew,x))) = x.  [para(680(a,1),666(a,1,2)),rewrite([651(3)]),flip(a)].
+
+given #1043 (T,wt=11): 5709 x v res(ew,res(ew,res(ew,x))) = x.  [para(745(a,1),666(a,1,2)),rewrite([651(3)]),flip(a)].
+
+given #1044 (A,wt=12): 523 ew * x v y = ev | x v y != ev.  [para(480(a,1),56(b,1,2,2)),rewrite([4(5),402(5),408(7),480(9)])].
+
+given #1045 (T,wt=8): 26176 ev = ew | res(x,x) != ev.  [para(332(a,1),523(b,1)),rewrite([332(4),2554(3)]),flip(a)].
+
+given #1046 (T,wt=6): 26184 ev = ew | ev != eo.  [para(333(a,1),26176(b,1)),flip(b)].
+
+given #1047 (T,wt=10): 26179 ev = ew | res(x,x) v y != ev.  [para(391(a,1),523(b,1)),rewrite([391(5),3204(4)]),flip(a)].
+
+given #1048 (T,wt=8): 26187 ev = ew | eo v x != ev.  [para(333(a,1),26179(b,1,1))].
+
+given #1049 (A,wt=13): 525 (res(x,ev) * y) v res(x,z) = res(x,z).  [para(457(a,1),15(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #1050 (T,wt=8): 26199 ev = ew | x v eo != ev.  [para(4(a,1),26187(b,1))].
+
+given #1051 (T,wt=10): 26180 ev = ew | x v res(y,y) != ev.  [para(392(a,1),523(b,1)),rewrite([392(5),2827(4)]),flip(a)].
+
+given #1052 (T,wt=10): 26182 ev = ew | res(x,y v x) != ev.  [para(465(a,1),523(b,1)),rewrite([465(5),2578(4)]),flip(a)].
+
+given #1053 (T,wt=10): 26183 ev = ew | res(x,x v y) != ev.  [para(466(a,1),523(b,1)),rewrite([466(5),2577(4)]),flip(a)].
+
+given #1054 (A,wt=15): 528 mt(res(x,ev),res(x,ev) * y) = res(x,ev) * y.  [para(457(a,1),329(a,1,2,2)),rewrite([7(6)])].
+
+given #1055 (T,wt=10): 26200 ev = ew | x v (eo v y) != ev.  [para(30(a,1),26187(b,1))].
+
+given #1056 (T,wt=10): 26201 ev = ew | x v (y v eo) != ev.  [para(72(a,1),26187(b,1))].
+
+given #1057 (T,wt=10): 26227 ev = ew | res(mt(x,y),x) != ev.  [para(9(a,1),26182(b,1,2))].
+
+given #1058 (T,wt=10): 26228 ev = ew | res(mt(x,y),y) != ev.  [para(38(a,1),26182(b,1,2))].
+
+given #1059 (A,wt=17): 529 (res(x,ev) * y) v res(z * x,u) = res(z * x,u).  [para(457(a,1),51(a,1,1,2)),rewrite([437(2),402(2)]),xx(a)].
+
+given #1060 (T,wt=11): 5727 x v res(res(res(ew,x),ep),ev) = x.  [para(1690(a,1),666(a,1,2)),rewrite([651(3)]),flip(a)].
+
+given #1061 (T,wt=11): 5865 res(ew,x) * res(y v x,ev) = ev.  [para(672(a,1),3955(a,1,1))].
+
+given #1062 (T,wt=11): 5977 res(x,y) v res(ew,y) = res(x,y).  [para(688(a,1),4(a,1)),flip(a)].
+
+given #1063 (T,wt=11): 5979 mt(res(ew,x),res(y,x)) = res(ew,x).  [para(688(a,1),10(a,1,2))].
+
+given #1064 (A,wt=17): 530 x v res(res(x,ev) * y,z) = res(res(x,ev) * y,z).  [para(457(a,1),52(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #1065 (T,wt=11): 5990 res(res(ew,res(ew,x)),res(y,x)) = ew.  [para(688(a,1),1322(a,1,2))].
+
+given #1066 (T,wt=11): 5994 res(res(ew,x),ew * res(y,x)) = ew.  [para(688(a,1),2503(a,1,2,2))].
+
+given #1067 (T,wt=11): 5995 ew * res(res(ew,x),res(y,x)) = ew.  [para(688(a,1),2577(a,1,2,2))].
+
+given #1068 (T,wt=11): 5997 res(res(res(ew,x),res(y,x)),ev) = ev.  [para(688(a,1),2677(a,1,1,2))].
+
+given #1069 (A,wt=13): 534 (x * res(y,ev)) v res(y,z) = res(y,z).  [para(460(a,1),15(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #1070 (T,wt=11): 6003 res(ew,x) * res(res(y,x),ev) = ev.  [para(688(a,1),3928(a,1,2,1))].
+
+given #1071 (T,wt=11): 6005 mt(eo,res(res(ew,x),res(y,x))) = eo.  [para(688(a,1),4560(a,1,2,2))].
+
+given #1072 (T,wt=11): 6052 res(x * res(ew,y),z v y) = ew.  [para(691(a,1),634(a,1,2,2))].
+
+given #1073 (T,wt=11): 6226 mt(x * ew,res(ew,x)) = res(ew,x).  [para(825(a,1),707(a,1,1))].
+
+given #1074 (A,wt=17): 537 (x * res(y,ev)) v res(z * y,u) = res(z * y,u).  [para(460(a,1),51(a,1,1,2)),rewrite([437(2),402(2)]),xx(a)].
+
+given #1075 (T,wt=11): 6228 res(res(ew,res(ew,x)),x v y) = ew.  [para(707(a,1),1293(a,1,1,2))].
+
+given #1076 (T,wt=11): 6236 res(ew,x) * res(x v y,ev) = ev.  [para(707(a,1),3951(a,1,1))].
+
+given #1077 (T,wt=11): 6247 mt(x,res(y,z v (x * y))) = x.  [para(12(a,1),716(a,1,2,2,2))].
+
+given #1078 (T,wt=9): 26862 mt(x,res(res(x,y),y)) = x.  [para(54(a,1),6247(a,1,2,2))].
+
+Low Water (displace): id=26931, wt=11.000
+
+given #1079 (A,wt=15): 538 res(x,ev) v res(x * y,z) = res(x * y,z).  [para(460(a,1),51(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #1080 (T,wt=11): 6264 mt(res(ew,eo),res(x,x)) = res(ew,eo).  [para(2051(a,1),716(a,1,2,2))].
+
+given #1081 (T,wt=11): 6287 mt(x,res(mt(y,mt(z,eo)),x)) = x.  [para(8(a,1),6262(a,1,2,1))].
+
+given #1082 (T,wt=11): 6290 mt(x,res(mt(y,eo),x v z)) = x.  [para(6262(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #1083 (T,wt=11): 6292 mt(x,res(mt(y,eo),z v x)) = x.  [para(6262(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #1084 (A,wt=17): 539 x v res(y * res(x,ev),z) = res(y * res(x,ev),z).  [para(460(a,1),52(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #1085 (T,wt=11): 6295 res(res(ew,x),res(mt(y,eo),x)) = ew.  [para(6262(a,1),1303(a,1,1,2))].
+
+given #1086 (T,wt=11): 6297 mt(x,res(mt(y,eo),x) v z) = x.  [para(6262(a,1),252(a,1,2)),rewrite([7(5),6262(9)])].
+
+given #1087 (T,wt=11): 6303 res(x,ew * res(mt(y,eo),x)) = ew.  [para(6262(a,1),2759(a,1,1))].
+
+given #1088 (T,wt=11): 6304 ew * res(x,res(mt(y,eo),x)) = ew.  [para(6262(a,1),2909(a,1,2,1))].
+
+given #1089 (A,wt=13): 546 mt(eo,mt(res(x,x) v y,z)) = mt(eo,z).  [para(504(a,1),8(a,1,1)),flip(a)].
+
+given #1090 (T,wt=11): 6305 res(res(x,res(mt(y,eo),x)),ev) = ev.  [para(6262(a,1),3075(a,1,1,1))].
+
+given #1091 (T,wt=11): 6307 x * res(res(mt(y,eo),x),ev) = ev.  [para(6262(a,1),3955(a,1,1))].
+
+given #1092 (T,wt=11): 6310 mt(eo,res(x,res(mt(y,eo),x))) = eo.  [para(6262(a,1),4685(a,1,2,1))].
+
+given #1093 (T,wt=11): 6317 mt(x,res(mt(y,mt(eo,z)),x)) = x.  [para(35(a,1),6263(a,1,2,1))].
+
+given #1094 (A,wt=13): 548 mt(eo,mt(x,res(y,y) v z)) = mt(x,eo).  [para(504(a,1),35(a,1,2)),flip(a)].
+
+given #1095 (T,wt=11): 6319 mt(x,res(mt(eo,y),x v z)) = x.  [para(6263(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #1096 (T,wt=11): 6321 mt(x,res(mt(eo,y),z v x)) = x.  [para(6263(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #1097 (T,wt=11): 6324 res(res(ew,x),res(mt(eo,y),x)) = ew.  [para(6263(a,1),1303(a,1,1,2))].
+
+given #1098 (T,wt=11): 6326 mt(x,res(mt(eo,y),x) v z) = x.  [para(6263(a,1),252(a,1,2)),rewrite([7(5),6263(9)])].
+
+given #1099 (A,wt=15): 549 res(x,x) v (y v mt(z,eo)) = res(x,x) v y.  [para(504(a,1),75(a,1,2,2)),rewrite([5(5)])].
+
+given #1100 (T,wt=11): 6327 mt(x,res(y * res(y,eo),x)) = x.  [para(109(a,1),6263(a,1,2,1))].
+
+given #1101 (T,wt=11): 6330 mt(eo,res(mt(eo,x),res(y,y))) = eo.  [para(6263(a,1),380(a,1,2)),rewrite([375(3)]),flip(a)].
+
+given #1102 (T,wt=11): 6334 res(x,ew * res(mt(eo,y),x)) = ew.  [para(6263(a,1),2759(a,1,1))].
+
+given #1103 (T,wt=11): 6335 ew * res(x,res(mt(eo,y),x)) = ew.  [para(6263(a,1),2909(a,1,2,1))].
+
+given #1104 (A,wt=13): 552 ep v (x * res(res(y,y * x),ep)) = ep.  [hyper(57,b,48,a),rewrite([12(6)])].
+
+given #1105 (T,wt=11): 6336 res(res(x,res(mt(eo,y),x)),ev) = ev.  [para(6263(a,1),3075(a,1,1,1))].
+
+given #1106 (T,wt=11): 6338 x * res(res(mt(eo,y),x),ev) = ev.  [para(6263(a,1),3955(a,1,1))].
+
+given #1107 (T,wt=11): 6341 mt(eo,res(x,res(mt(eo,y),x))) = eo.  [para(6263(a,1),4685(a,1,2,1))].
+
+given #1108 (T,wt=11): 6390 mt(x,res(res(ew,eo),x v y)) = x.  [para(6266(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #1109 (A,wt=16): 555 ep v (x * res(mt(x,y),ep)) = ep | mt(x,y) != x.  [para(9(a,1),57(b,1)),rewrite([12(5)]),flip(b)].
+
+given #1110 (T,wt=10): 27822 ep v (x * ew) = ep | ev != x.  [para(410(a,1),555(b,1)),rewrite([410(3),512(4)])].
+
+given #1111 (T,wt=11): 6392 mt(x,res(res(ew,eo),y v x)) = x.  [para(6266(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #1112 (T,wt=11): 6395 res(res(ew,x),res(res(ew,eo),x)) = ew.  [para(6266(a,1),1303(a,1,1,2))].
+
+given #1113 (T,wt=11): 6397 mt(x,res(res(ew,eo),x) v y) = x.  [para(6266(a,1),252(a,1,2)),rewrite([7(6),6266(11)])].
+
+given #1114 (A,wt=12): 556 ep v (ew * res(x,ep)) = ep | ew != x.  [para(59(a,1),57(b,1)),rewrite([12(5)])].
+
+given #1115 (T,wt=11): 6403 res(x,ew * res(res(ew,eo),x)) = ew.  [para(6266(a,1),2759(a,1,1))].
+
+given #1116 (T,wt=11): 6404 ew * res(x,res(res(ew,eo),x)) = ew.  [para(6266(a,1),2909(a,1,2,1))].
+
+given #1117 (T,wt=11): 6405 res(res(x,res(res(ew,eo),x)),ev) = ev.  [para(6266(a,1),3075(a,1,1,1))].
+
+given #1118 (T,wt=11): 6407 x * res(res(res(ew,eo),x),ev) = ev.  [para(6266(a,1),3955(a,1,1))].
+
+given #1119 (A,wt=16): 557 ep v (x * res(mt(y,x),ep)) = ep | mt(y,x) != x.  [para(38(a,1),57(b,1)),rewrite([12(5)]),flip(b)].
+
+given #1120 (T,wt=11): 6410 mt(eo,res(x,res(res(ew,eo),x))) = eo.  [para(6266(a,1),4685(a,1,2,1))].
+
+given #1121 (T,wt=11): 6677 res(x * ew,(ew * x) v y) = ew.  [para(12(a,1),778(a,1,1))].
+
+given #1122 (T,wt=11): 6678 res(ew * x,(x * ew) v y) = ew.  [para(12(a,1),778(a,1,2,1))].
+
+given #1123 (T,wt=11): 6683 res(x * ew,y v (ew * x)) = ew.  [para(12(a,1),779(a,1,1))].
+
+given #1124 (A,wt=20): 558 ep v (res(x v y,ep) * z) = ep | x v (z v y) != x v y.  [para(30(a,1),57(b,1))].
+
+given #1125 (T,wt=11): 6684 res(ew * x,y v (x * ew)) = ew.  [para(12(a,1),779(a,1,2,2))].
+
+given #1126 (T,wt=11): 6690 res(ew * mt(x,res(ew,y)),y) = ew.  [para(485(a,1),779(a,1,2))].
+
+given #1127 (T,wt=11): 6691 res(ew * mt(res(ew,x),y),x) = ew.  [para(486(a,1),779(a,1,2))].
+
+given #1128 (T,wt=11): 6759 x v res(ew,res(ew,x) * y) = x.  [para(646(a,1),809(a,1,2)),rewrite([4(6),646(10)])].
+
+given #1129 (A,wt=20): 559 ep v (x * res(y * res(y,x),ep)) = ep | y * res(y,x) != x.  [para(54(a,1),57(b,1)),rewrite([12(6)]),flip(b)].
+
+given #1130 (T,wt=11): 6760 x v res(ew,y * res(ew,x)) = x.  [para(650(a,1),809(a,1,2)),rewrite([4(6),650(10)])].
+
+given #1131 (T,wt=11): 6776 x v res(ew,x * mt(y,eo)) = x.  [para(1977(a,1),809(a,1,2)),rewrite([4(6),1977(10)])].
+
+given #1132 (T,wt=11): 6778 x v res(ew,x * mt(eo,y)) = x.  [para(1987(a,1),809(a,1,2)),rewrite([4(6),1987(10)])].
+
+given #1133 (T,wt=11): 6779 x v res(ew,mt(y,eo) * x) = x.  [para(1990(a,1),809(a,1,2)),rewrite([4(6),1990(10)])].
+
+given #1134 (A,wt=20): 560 ep v (x * res(mt(y,mt(z,x)),ep)) = ep | mt(y,mt(z,x)) != x.  [para(75(a,1),57(b,1)),rewrite([12(6)]),flip(b)].
+
+given #1135 (T,wt=11): 6780 x v res(ew,mt(eo,y) * x) = x.  [para(2039(a,1),809(a,1,2)),rewrite([4(6),2039(10)])].
+
+given #1136 (T,wt=11): 6783 x v res(ew,res(ew,eo) * x) = x.  [para(2106(a,1),809(a,1,2)),rewrite([4(7),2106(12)])].
+
+given #1137 (T,wt=11): 7161 mt(x,ew * (ew * x) v y) = x.  [para(875(a,1),869(a,1,2)),rewrite([849(3)]),flip(a)].
+
+given #1138 (T,wt=11): 7163 mt(x,ew * y v (ew * x)) = x.  [para(965(a,1),869(a,1,2)),rewrite([849(3)]),flip(a)].
+
+given #1139 (A,wt=22): 561 ep v (x * res(mt(x,y) v z,ep)) = ep | mt(x,y) v z != x v z.  [para(36(a,1),57(b,1)),rewrite([12(6)]),flip(b)].
+
+given #1140 (T,wt=11): 7214 mt(x,ew * res(y,x * y)) = x.  [para(374(a,1),871(a,1,2)),rewrite([7(5),374(8)])].
+
+given #1141 (T,wt=11): 7217 mt(x,ew * y v (x * ew)) = x.  [para(937(a,1),871(a,1,2)),rewrite([7(6),937(10)])].
+
+given #1142 (T,wt=11): 7218 mt(x,ew * (x * ew) v y) = x.  [para(1009(a,1),871(a,1,2)),rewrite([7(6),1009(10)])].
+
+given #1143 (T,wt=11): 7255 mt(x,ew * res(mt(y,eo),x)) = x.  [para(6262(a,1),871(a,1,2)),rewrite([7(6),6262(10)])].
+
+given #1144 (A,wt=26): 562 ep v (x * res(y v mt(x v y,z),ep)) = ep | y v mt(x v y,z) != x v y.  [para(37(a,1),57(b,1)),rewrite([12(7)]),flip(b)].
+
+given #1145 (T,wt=11): 7256 mt(x,ew * res(mt(eo,y),x)) = x.  [para(6263(a,1),871(a,1,2)),rewrite([7(6),6263(10)])].
+
+given #1146 (T,wt=11): 7259 mt(x,ew * res(res(ew,eo),x)) = x.  [para(6266(a,1),871(a,1,2)),rewrite([7(7),6266(12)])].
+
+given #1147 (T,wt=11): 7612 res(res(ew,mt(x,y)),y * ew) = ew.  [para(882(a,1),1293(a,1,1,2))].
+
+given #1148 (T,wt=11): 7695 res(res(ew,res(ew,x)),x * ew) = ew.  [para(887(a,1),1323(a,1,2))].
+
+given #1149 (A,wt=24): 563 ep v (mt(x,y) * res(mt(x,mt(y,z)),ep)) = ep | mt(x,mt(y,z)) != mt(x,y).  [para(39(a,1),57(b,1)),rewrite([12(7)]),flip(b)].
+
+given #1150 (T,wt=11): 8141 res(x v y,ev) * mt(z,y) = ev.  [para(942(a,1),4029(a,1,2))].
+
+given #1151 (T,wt=11): 8150 mt(eo,x v res(y,y v z)) = eo.  [para(4560(a,1),942(a,1,2)),rewrite([7(5),4560(9)])].
+
+given #1152 (T,wt=11): 8151 mt(eo,x v res(y,z v y)) = eo.  [para(4599(a,1),942(a,1,2)),rewrite([7(5),4599(9)])].
+
+given #1153 (T,wt=11): 8152 mt(eo,x v res(mt(y,z),y)) = eo.  [para(4684(a,1),942(a,1,2)),rewrite([7(5),4684(9)])].
+
+given #1154 (A,wt=20): 564 ep v (x * res(mt(y,mt(x,z)),ep)) = ep | mt(y,mt(x,z)) != x.  [para(120(a,1),57(b,1)),rewrite([12(6)]),flip(b)].
+
+given #1155 (T,wt=11): 8153 mt(eo,x v res(mt(y,z),z)) = eo.  [para(4685(a,1),942(a,1,2)),rewrite([7(5),4685(9)])].
+
+given #1156 (T,wt=11): 8174 mt(x,y v res(mt(z,eo),x)) = x.  [para(6262(a,1),942(a,1,2)),rewrite([7(5),6262(9)])].
+
+given #1157 (T,wt=11): 8175 mt(x,y v res(mt(eo,z),x)) = x.  [para(6263(a,1),942(a,1,2)),rewrite([7(5),6263(9)])].
+
+given #1158 (T,wt=11): 8179 mt(x,y v res(res(ew,eo),x)) = x.  [para(6266(a,1),942(a,1,2)),rewrite([7(6),6266(11)])].
+
+given #1159 (A,wt=13): 565 ep v (res(res(x,x),ep) v y) = ep v y.  [para(551(a,1),5(a,1,1)),flip(a)].
+
+given #1160 (T,wt=11): 9360 mt(x,res(y,x * (y * ew))) = x.  [para(44(a,1),1074(a,1,2,2))].
+
+given #1161 (T,wt=11): 9774 res(res(ew,mt(x,y)),x v z) = ew.  [para(42(a,1),1306(a,1,1,2))].
+
+given #1162 (T,wt=11): 9778 res(res(ew,mt(eo,x)),res(y,y)) = ew.  [para(380(a,1),1306(a,1,1,2))].
+
+given #1163 (T,wt=11): 9786 res(res(ew,mt(x,y)),x * ew) = ew.  [para(881(a,1),1306(a,1,1,2))].
+
+given #1164 (A,wt=13): 567 mt(ep,res(res(x,x),ep)) = res(res(x,x),ep).  [para(551(a,1),40(a,1,2)),rewrite([7(5)])].
+
+given #1165 (T,wt=11): 10015 res(res(res(x,ep),ev),y v x) = ew.  [para(1690(a,1),1325(a,1,2,2)),rewrite([4920(6)])].
+
+given #1166 (T,wt=11): 10100 res(res(x,ev),y v res(x,z)) = ew.  [para(459(a,1),1326(a,1,2,2)),rewrite([4920(4)])].
+
+given #1167 (T,wt=11): 10119 res(res(x v y,ev),res(x,ev)) = ew.  [para(3928(a,1),1330(a,1,2,2)),rewrite([4920(5)])].
+
+given #1168 (T,wt=11): 10120 res(res(x v y,ev),res(y,ev)) = ew.  [para(3933(a,1),1330(a,1,2,2)),rewrite([4920(5)])].
+
+given #1169 (A,wt=13): 568 ep v (x v res(res(y,y),ep)) = x v ep.  [para(551(a,1),30(a,1,2)),flip(a)].
+
+given #1170 (T,wt=11): 10121 res(res(x,ev),res(mt(x,y),ev)) = ew.  [para(3951(a,1),1330(a,1,2,2)),rewrite([4920(4)])].
+
+given #1171 (T,wt=11): 10122 res(res(x,ev),res(mt(y,x),ev)) = ew.  [para(3955(a,1),1330(a,1,2,2)),rewrite([4920(4)])].
+
+given #1172 (T,wt=11): 10123 res(res(x,ev),res(res(ew,x),ev)) = ew.  [para(3971(a,1),1330(a,1,2,2)),rewrite([4920(4)])].
+
+given #1173 (T,wt=11): 11038 res(x * ew,ew * x v y) = ew.  [para(2503(a,1),1437(a,1,1,2,2)),rewrite([783(4)])].
+
+given #1174 (A,wt=15): 569 mt(res(res(x,x),ep),y v ep) = res(res(x,x),ep).  [para(551(a,1),77(a,1,2,2))].
+
+given #1175 (T,wt=11): 11040 res(x * ew,ew * y v x) = ew.  [para(2547(a,1),1437(a,1,1,2,2)),rewrite([783(4)])].
+
+given #1176 (T,wt=11): 11043 res(ew * mt(x,y),x * ew) = ew.  [para(3121(a,1),1437(a,1,1,2,2)),rewrite([12(4),771(5)])].
+
+given #1177 (T,wt=11): 11044 res(ew * mt(x,y),y * ew) = ew.  [para(3197(a,1),1437(a,1,1,2,2)),rewrite([12(4),771(5)])].
+
+given #1178 (T,wt=11): 11407 res(x * res(x * ew,y),y) = ew.  [para(12(a,1),1537(a,1,1,2,1))].
+
+given #1179 (A,wt=24): 570 res(res(x,x),ep) != ep | eo v res(ep,res(res(x,x),ep)) = res(ep,res(res(x,x),ep)).  [para(551(a,1),53(a,1)),flip(a)].
+
+given #1180 (T,wt=11): 11756 res(ew * x,res(res(x,ev),y)) = ew.  [para(11568(a,1),4945(a,1,1))].
+
+given #1181 (T,wt=11): 12054 mt(x,res(y,ew * x v z)) = x.  [para(12031(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+
+given #1182 (T,wt=11): 12060 mt(x,res(y,ew * z v x)) = x.  [para(12031(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+
+given #1183 (T,wt=11): 12063 res(res(ew,x),res(y,ew * x)) = ew.  [para(12031(a,1),1303(a,1,1,2))].
+
+given #1184 (A,wt=20): 571 ep v (res(x,x) * y v ep) = ep | res(res(x,x),ep) != y v ep.  [para(551(a,1),56(b,1,2)),rewrite([4(6)]),flip(b)].
+
+given #1185 (T,wt=10): 29775 ep = ew | res(res(x,x),ep) != ew.  [para(59(a,1),571(b,2)),rewrite([59(5),12(4),2554(4),4(3),59(3)]),flip(a)].
+
+given #1186 (T,wt=11): 12065 mt(x,res(y,ew * x) v z) = x.  [para(12031(a,1),252(a,1,2)),rewrite([7(5),12031(9)])].
+
+given #1187 (T,wt=11): 12070 (ew * x) v (y * x) = ew * x.  [para(12031(a,1),485(a,1,2,2))].
+
+given #1188 (T,wt=11): 12072 res(x,ew * res(y,ew * x)) = ew.  [para(12031(a,1),2759(a,1,1))].
+
+given #1189 (A,wt=18): 572 x v (y v z) != x v y | z v (x v y) = x v y.  [para(5(a,1),361(a,1))].
+
+given #1190 (T,wt=11): 12076 x * res(res(y,ew * x),ev) = ev.  [para(12031(a,1),3955(a,1,1))].
+
+given #1191 (T,wt=11): 12087 mt(x,ew * res(y,ew * x)) = x.  [para(12031(a,1),871(a,1,2)),rewrite([7(6),12031(10)])].
+
+given #1192 (T,wt=11): 12091 mt(x,y v res(z,ew * x)) = x.  [para(12031(a,1),942(a,1,2)),rewrite([7(5),12031(9)])].
+
+given #1193 (T,wt=11): 12108 res(res(ew,x),res(y,x * ew)) = ew.  [para(12051(a,1),1303(a,1,1,2))].
+
+given #1194 (A,wt=14): 573 x v (y v z) != y | x v (z v y) = y.  [para(30(a,1),361(a,1)),rewrite([5(5)])].
+
+given #1195 (T,wt=11): 12110 mt(x,res(y,x * ew) v z) = x.  [para(12051(a,1),252(a,1,2)),rewrite([7(5),12051(9)])].
+
+given #1196 (T,wt=11): 12115 (x * ew) v (y * x) = x * ew.  [para(12051(a,1),485(a,1,2,2))].
+
+given #1197 (T,wt=11): 12116 res(x,ew * res(y,x * ew)) = ew.  [para(12051(a,1),2759(a,1,1))].
+
+given #1198 (T,wt=11): 12119 x * res(res(y,x * ew),ev) = ev.  [para(12051(a,1),3955(a,1,1))].
+
+given #1199 (A,wt=17): 574 x v (y v (mt(z,x v y) v u)) = x v (y v u).  [para(73(a,1),5(a,1)),rewrite([5(2)]),flip(a)].
+
+given #1200 (T,wt=11): 12129 mt(x,ew * res(y,x * ew)) = x.  [para(12051(a,1),871(a,1,2)),rewrite([7(6),12051(10)])].
+
+given #1201 (T,wt=11): 12132 mt(x,y v res(z,x * ew)) = x.  [para(12051(a,1),942(a,1,2)),rewrite([7(5),12051(9)])].
+
+given #1202 (T,wt=11): 12497 ep v res(res(x,x) v y,ep) = ep.  [para(327(a,1),4281(a,1,2,1)),rewrite([13(3)])].
+
+given #1203 (T,wt=11): 12559 mt(x * ew,x * y) = x * y.  [para(1627(a,1),7(a,1)),flip(a)].
+
+given #1204 (A,wt=34): 575 mt(x,y * z) v u != (y * z) v u | z v res(y,mt(x,y * z) v u) = res(y,mt(x,y * z) v u).  [para(73(a,1),15(a,1)),flip(a)].
+
+given #1205 (T,wt=11): 12562 mt(x * y,y * ew) = y * x.  [para(12(a,1),1627(a,1,1))].
+
+given #1206 (T,wt=11): 12603 res(res(ew,x * y),y * ew) = ew.  [para(1629(a,1),1322(a,1,2))].
+
+given #1207 (T,wt=11): 12744 mt(ew * x,x * y) = x * y.  [para(1644(a,1),7(a,1)),flip(a)].
+
+given #1208 (T,wt=11): 12745 mt(x * y,ew * y) = y * x.  [para(12(a,1),1644(a,1,1))].
+
+given #1209 (A,wt=15): 577 mt(x v y,mt(z,x) v y) = mt(z,x) v y.  [para(73(a,1),40(a,1,2)),rewrite([7(4)])].
+
+given #1210 (T,wt=11): 12783 res(res(ew,x * y),ew * y) = ew.  [para(1645(a,1),1322(a,1,2))].
+
+given #1211 (T,wt=11): 12857 ep v res(x v res(y,y),ep) = ep.  [para(335(a,1),4281(a,1,2,1)),rewrite([13(3)])].
+
+given #1212 (T,wt=11): 12917 res(ew,mt(x * res(x,ep),y)) = ev.  [para(7(a,1),1677(a,1,2))].
+
+given #1213 (T,wt=11): 13151 res(res(res(mt(x,y),ep),ev),x) = ew.  [para(1752(a,1),1323(a,1,2)),rewrite([4920(7)])].
+
+given #1214 (A,wt=15): 578 x v (y v (mt(z,x) v u)) = y v (x v u).  [para(73(a,1),30(a,1,2)),flip(a)].
+
+given #1215 (T,wt=11): 13222 res(res(res(mt(x,y),ep),ev),y) = ew.  [para(1758(a,1),1323(a,1,2)),rewrite([4920(7)])].
+
+given #1216 (T,wt=11): 13591 ew * res(mt(eo,x),res(y,y)) = ew.  [para(1941(a,1),2578(a,1,2,2))].
+
+given #1217 (T,wt=11): 13593 res(res(mt(eo,x),res(y,y)),ev) = ev.  [para(1941(a,1),2678(a,1,1,2))].
+
+given #1218 (T,wt=11): 13623 ew * res(x,res(y,y) * x) = ew.  [para(1943(a,1),2759(a,1,1)),rewrite([333(7)])].
+
+given #1219 (A,wt=17): 580 mt(x,y) v (mt(x,mt(z,y)) v u) = mt(x,y) v u.  [para(35(a,1),73(a,1,2,1))].
+
+given #1220 (T,wt=11): 13624 res(res(x,res(y,y) * x),ev) = ev.  [para(1943(a,1),3075(a,1,1,1)),rewrite([333(5)])].
+
+given #1221 (T,wt=11): 14026 res(ew,ep * mt(x,mt(y,eo))) = ev.  [para(8(a,1),14015(a,1,2,2))].
+
+given #1222 (T,wt=11): 14032 res(ew,ep * mt(x,mt(eo,y))) = ev.  [para(35(a,1),14025(a,1,2,2))].
+
+given #1223 (T,wt=11): 14037 res(ew,ep * (x * res(x,eo))) = ev.  [para(109(a,1),14025(a,1,2,2))].
+
+given #1224 (A,wt=17): 581 mt(mt(x,y) v z,u v (y v z)) = mt(x,y) v z.  [para(73(a,1),77(a,1,2,2))].
+
+given #1225 (T,wt=11): 14115 x v (x * mt(y,res(ew,eo))) = x.  [para(670(a,1),2043(a,1,2,2,2))].
+
+given #1226 (T,wt=11): 14432 x v (y * (x * res(y,eo))) = x.  [para(44(a,1),2060(a,1,2))].
+
+given #1227 (T,wt=11): 14763 x v (mt(y,res(ew,eo)) * x) = x.  [para(670(a,1),2097(a,1,2,1,2))].
+
+given #1228 (T,wt=11): 15077 res(res(ew,eo) * x,y v x) = ew.  [para(2117(a,1),634(a,1,2,2))].
+
+given #1229 (A,wt=17): 582 x v (y v (z v (x v u))) = y v (z v (x v u)).  [para(77(a,1),73(a,1,2,1)),rewrite([30(4),5(3),5(2),5(7),5(6)])].
+
+given #1230 (T,wt=11): 15107 x v (res(ew,eo) * (x * y)) = x.  [para(15056(a,1),17(b,1,2)),rewrite([11(5),4(6),21(9),15056(13)]),xx(b)].
+
+given #1231 (T,wt=11): 15111 res(ew,eo) v res(ep,x) = res(ep,x).  [para(15108(a,1),15(a,1,1)),rewrite([402(2)]),xx(a)].
+
+given #1232 (T,wt=11): 15118 mt(res(ew,eo),res(ep,x)) = res(ew,eo).  [para(15108(a,1),602(a,1,2,2,1)),rewrite([402(6)])].
+
+given #1233 (T,wt=11): 15132 x v (x * (res(ew,eo) * y)) = x.  [para(15106(a,1),17(b,1,2)),rewrite([11(5),4(6),21(9),15106(13)]),xx(b)].
+
+given #1234 (A,wt=15): 583 x v (y v mt(mt(z,x) v y,u)) = x v y.  [para(37(a,1),73(a,1,2)),rewrite([73(3)]),flip(a)].
+
+given #1235 (T,wt=11): 15192 ep * (x * (res(ew,eo) * y)) = ev.  [para(15110(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #1236 (T,wt=11): 15214 ep * (x * (y * res(ew,eo))) = ev.  [para(11(a,1),15112(a,1,2))].
+
+given #1237 (T,wt=11): 16048 res(res(x,ev),res(x,y) v z) = ew.  [para(2364(a,1),1587(a,1,1,2)),rewrite([4920(4)])].
+
+given #1238 (T,wt=11): 16100 ep v res(res(mt(x,y),x),ep) = ep.  [para(4684(a,1),2382(a,1,2,2)),rewrite([12(7),47(7)])].
+
+given #1239 (A,wt=19): 584 mt(x,y) v (mt(x v z,y) v u) = mt(x v z,y) v u.  [para(42(a,1),73(a,1,2,1)),rewrite([30(5)])].
+
+given #1240 (T,wt=11): 16101 ep v res(res(mt(x,y),y),ep) = ep.  [para(4685(a,1),2382(a,1,2,2)),rewrite([12(7),47(7)])].
+
+given #1241 (T,wt=11): 16163 mt(x * y,y * x) = x * y.  [para(2391(a,1),40(a,1,2))].
+
+given #1242 (T,wt=11): 16175 res(res(ew,x * y),y * x) = ew.  [para(2391(a,1),1323(a,1,2))].
+
+given #1243 (T,wt=11): 16180 ew * res(x * y,y * x) = ew.  [para(2391(a,1),2578(a,1,2,2))].
+
+given #1244 (A,wt=23): 585 mt(x,y) v (mt(y,mt(x,y) v z) v u) = mt(y,mt(x,y) v z) v u.  [para(43(a,1),73(a,1,2,1)),rewrite([30(6)])].
+
+given #1245 (T,wt=11): 16181 res(res(x * y,y * x),ev) = ev.  [para(2391(a,1),2678(a,1,1,2))].
+
+given #1246 (T,wt=11): 16183 mt(eo,res(x * y,y * x)) = eo.  [para(2391(a,1),4599(a,1,2,2))].
+
+given #1247 (T,wt=11): 16228 res(ew,eo) * mt(x,mt(y,ep)) = ev.  [para(8(a,1),16224(a,1,2))].
+
+given #1248 (T,wt=11): 16229 res(ew,eo) * (mt(x,ep) * y) = ev.  [para(16224(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #1249 (A,wt=15): 586 mt(x,y) v res(z,z * y) = res(z,z * y).  [para(48(a,1),73(a,2)),rewrite([335(5)])].
+
+given #1250 (T,wt=11): 16232 res(ew,eo) * (x * mt(y,ep)) = ev.  [para(16224(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #1251 (T,wt=11): 16246 res(ew,eo) * (mt(ep,x) * y) = ev.  [para(16227(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #1252 (T,wt=11): 16249 res(ew,eo) * mt(x,mt(ep,y)) = ev.  [para(35(a,1),16227(a,1,2))].
+
+given #1253 (T,wt=11): 16250 res(ew,eo) * (x * mt(ep,y)) = ev.  [para(16227(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #1254 (A,wt=34): 588 mt(x,y * z) v u != (y * z) v u | y v res(z,mt(x,y * z) v u) = res(z,mt(x,y * z) v u).  [para(73(a,1),52(a,1)),flip(a)].
+
+given #1255 (T,wt=11): 16255 res(ew,eo) * (x * res(x,ep)) = ev.  [para(109(a,1),16227(a,1,2))].
+
+given #1256 (T,wt=11): 16270 mt(x,mt(y,ep)) * res(ew,eo) = ev.  [para(8(a,1),16230(a,1,1))].
+
+given #1257 (T,wt=11): 16271 mt(x,ep) * (res(ew,eo) * y) = ev.  [para(16230(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #1258 (T,wt=11): 16272 mt(x,ep) * (y * res(ew,eo)) = ev.  [para(16230(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #1259 (A,wt=26): 589 mt(x,y) v z != y v z | eo v res(y,mt(x,y) v z) = res(y,mt(x,y) v z).  [para(73(a,1),53(a,1)),flip(a)].
+
+given #1260 (T,wt=11): 16285 mt(ep,x) * (res(ew,eo) * y) = ev.  [para(16247(a,1),11(a,1,1)),rewrite([454(2)]),flip(a)].
+
+given #1261 (T,wt=11): 16286 mt(x,mt(ep,y)) * res(ew,eo) = ev.  [para(35(a,1),16247(a,1,1))].
+
+given #1262 (T,wt=11): 16287 mt(ep,x) * (y * res(ew,eo)) = ev.  [para(16247(a,1),44(a,1,2)),rewrite([437(2)]),flip(a)].
+
+given #1263 (T,wt=11): 16289 x * (res(x,ep) * res(ew,eo)) = ev.  [para(109(a,1),16247(a,1,1)),rewrite([11(7)])].
+
+given #1264 (A,wt=22): 590 x v (y * mt(z,res(y,x)) v u) = x | res(y,x) v u != res(y,x).  [para(73(a,1),55(b,1)),rewrite([4(5)])].
+
+given #1265 (T,wt=11): 16330 res(x,ev) * (y * (z * x)) = ev.  [para(531(a,1),2493(a,1,2,2)),rewrite([11(5)])].
+
+given #1266 (T,wt=11): 16347 res(ew,eo) * (x * (ep * y)) = ev.  [para(16345(a,1),11(a,1,1)),rewrite([454(2),11(7)]),flip(a)].
+
+given #1267 (T,wt=11): 16348 res(ew,eo) * (x * (y * ep)) = ev.  [para(11(a,1),16345(a,1,2))].
+
+given #1268 (T,wt=11): 16389 res(x,res(mt(y,res(x,ev)),ev)) = ew.  [para(2496(a,1),2759(a,1,1)),rewrite([4915(7)])].
+
+given #1269 (A,wt=17): 591 x v (res(y,x * y) v z) = res(y,x * y) v z.  [para(374(a,1),73(a,1,2,1)),rewrite([30(4)])].
+
+given #1270 (T,wt=11): 16398 mt(x,res(y,ev)) * mt(z,y) = ev.  [para(2496(a,1),2489(a,1,2,2))].
+
+given #1271 (T,wt=11): 16399 mt(x,res(y,ev)) * (z * y) = ev.  [para(2496(a,1),2493(a,1,2,2))].
+
+given #1272 (T,wt=11): 16409 res(mt(x,y),(ew * y) v z) = ew.  [para(602(a,1),2499(a,1,1,2))].
+
+given #1273 (T,wt=11): 16411 res(mt(x,y),z v (ew * y)) = ew.  [para(716(a,1),2499(a,1,1,2))].
+
+given #1274 (A,wt=17): 592 eo v (x v (res(y,y) v z)) = x v (res(y,y) v z).  [para(393(a,1),73(a,1,2,1)),rewrite([30(5),5(4),5(8)])].
+
+given #1275 (T,wt=11): 16423 x v (y * mt(z,res(ew,x))) = x.  [para(12(a,1),2500(a,1,2))].
+
+given #1276 (T,wt=11): 16582 res(x,res(mt(res(x,ev),y),ev)) = ew.  [para(2511(a,1),2759(a,1,1)),rewrite([4915(7)])].
+
+given #1277 (T,wt=11): 16591 mt(res(x,ev),y) * mt(z,x) = ev.  [para(2511(a,1),2489(a,1,2,2))].
+
+given #1278 (T,wt=11): 16592 mt(res(x,ev),y) * (z * x) = ev.  [para(2511(a,1),2493(a,1,2,2))].
+
+given #1279 (A,wt=22): 594 ep v (x * res(mt(y,x) v z,ep)) = ep | mt(y,x) v z != x v z.  [para(73(a,1),57(b,1)),rewrite([12(6)]),flip(b)].
+
+given #1280 (T,wt=11): 16596 x * (y * res(x,res(y,ev))) = ev.  [para(2513(a,1),44(a,1)),flip(a)].
+
+given #1281 (T,wt=11): 16619 res(x * y,ev) = res(y,res(x,ev)).  [back_rewrite(12234),rewrite([16598(7)])].
+
+given #1282 (T,wt=11): 16749 res(ew * x,res(y,ew * x)) = ew.  [para(681(a,1),16718(a,1,2,2))].
+
+given #1283 (T,wt=11): 16750 res(x * ew,res(y,x * ew)) = ew.  [para(682(a,1),16718(a,1,2,2))].
+
+given #1284 (A,wt=15): 595 ep v (x * res(res(y,(y * x) v z),ep)) = ep.  [hyper(57,b,63,a),rewrite([12(7)])].
+
+given #1285 (T,wt=11): 16755 res(res(x,ev),res(y,res(x,ev))) = ew.  [para(4915(a,1),16718(a,1,2,2))].
+
+given #1286 (T,wt=11): 16758 res(x * ew,res(y,ew * x)) = ew.  [para(16718(a,1),1437(a,1,1,2,2)),rewrite([783(4)])].
+
+given #1287 (T,wt=11): 16842 x v (y * mt(res(ew,x),z)) = x.  [para(12(a,1),2515(a,1,2))].
+
+given #1288 (T,wt=11): 16920 res(mt(x,res(ew,res(ew,y))),y) = ew.  [para(670(a,1),2516(a,1,1,2))].
+
+given #1289 (A,wt=21): 596 eo v res(x,res(y,(y * x) v z)) = res(x,res(y,(y * x) v z)).  [hyper(53,a,63,a)].
+
+given #1290 (T,wt=11): 16965 res(res(res(res(ew,x),ep),ev),x) = ew.  [para(4949(a,1),2524(a,1,1,2)),rewrite([12(8),4915(8)])].
+
+given #1291 (T,wt=11): 16996 res(mt(x,y),ew * x v z) = ew.  [para(36(a,1),2550(a,1,2,2))].
+
+given #1292 (T,wt=11): 17040 res(res(ew,eo),res(mt(x,ep),ev)) = ew.  [para(16230(a,1),2552(a,1,2,2,2)),rewrite([4915(9)])].
+
+given #1293 (T,wt=11): 17041 res(res(ew,eo),res(mt(ep,x),ev)) = ew.  [para(16247(a,1),2552(a,1,2,2,2)),rewrite([4915(9)])].
+
+given #1294 (A,wt=25): 597 x v res(y,res(z,(z * (x * y)) v u)) = res(y,res(z,(z * (x * y)) v u)).  [hyper(52,a,63,a)].
+
+given #1295 (T,wt=11): 17241 res(mt(res(ew,x),y),x * ew) = ew.  [para(887(a,1),2558(a,1,2,2)),rewrite([682(7)])].
+
+given #1296 (T,wt=11): 17253 res(mt(x * y,z),x * ew) = ew.  [para(1626(a,1),2558(a,1,2,2)),rewrite([682(6)])].
+
+given #1297 (T,wt=11): 17254 res(mt(x * y,z),ew * x) = ew.  [para(1643(a,1),2558(a,1,2,2)),rewrite([681(6)])].
+
+given #1298 (T,wt=11): 17316 eo v x * res(y,ev) = res(y,ev).  [para(4915(a,1),2571(a,2)),rewrite([4923(7)])].
+
+given #1299 (A,wt=33): 598 x v res(y * z,res(u,(u * (y * (z * x))) v w)) = res(y * z,res(u,(u * (y * (z * x))) v w)).  [hyper(51,a,63,a)].
+
+given #1300 (T,wt=11): 17348 res(eo v x,res(y,ev)) = res(y,ev).  [para(2574(a,1),11553(a,1,1)),rewrite([11560(4),16619(7)]),flip(a)].
+
+given #1301 (T,wt=11): 17367 res(x,x) * res(y,ev) = res(y,ev).  [para(4915(a,1),2587(a,2)),rewrite([4923(6)])].
+
+given #1302 (T,wt=11): 17428 res(res(x,x),res(y,ev)) = res(y,ev).  [para(2589(a,1),11553(a,1,1)),rewrite([11560(4),16619(6)]),flip(a)].
+
+given #1303 (T,wt=11): 17447 x v eo * res(y,ev) = res(y,ev).  [para(4915(a,1),2598(a,2)),rewrite([4923(7)])].
+
+given #1304 (A,wt=25): 599 x v res(y,res(z,(z * (y * x)) v u)) = res(y,res(z,(z * (y * x)) v u)).  [hyper(15,a,63,a)].
+
+given #1305 (T,wt=11): 17479 res(x v eo,res(y,ev)) = res(y,ev).  [para(2600(a,1),11553(a,1,1)),rewrite([11560(4),16619(7)]),flip(a)].
+
+given #1306 (T,wt=11): 17612 res(mt(x,y * z),y * ew) = ew.  [para(1627(a,1),2763(a,1,1,2)),rewrite([682(6)])].
+
+given #1307 (T,wt=11): 17613 res(mt(x,y * z),ew * y) = ew.  [para(1644(a,1),2763(a,1,1,2)),rewrite([681(6)])].
+
+given #1308 (T,wt=11): 17658 res(res(ew,x) * y,x * ew) = ew.  [para(12(a,1),2770(a,1,2))].
+
+given #1309 (A,wt=21): 600 x v (res(y,(y * x) v z) v u) = res(y,(y * x) v z) v u.  [para(63(a,1),5(a,1,1)),flip(a)].
+
+given #1310 (T,wt=11): 17674 res(x * res(ew,y),y * ew) = ew.  [para(12(a,1),2771(a,1,2))].
+
+given #1311 (T,wt=11): 17765 res(mt(x,res(ew,y)),y * ew) = ew.  [para(12(a,1),2774(a,1,2))].
+
+given #1312 (T,wt=11): 17813 res(res(res(x,ep),ev),x * ew) = ew.  [para(12(a,1),2793(a,1,2))].
+
+given #1313 (T,wt=11): 17860 ew * res(x,x v y) v z = ew.  [para(4(a,1),2830(a,1,2))].
+
+given #1314 (A,wt=23): 601 x v (y v res(z,(z * x v y) v u)) = res(z,(z * x v y) v u).  [para(63(a,1),5(a,1)),flip(a)].
+
+given #1315 (T,wt=11): 17890 ew * res(x,y v x) v z = ew.  [para(4(a,1),2831(a,1,2))].
+
+given #1316 (T,wt=11): 17891 ew * x v res(mt(y,z),y) = ew.  [para(9(a,1),2831(a,1,2,2,2))].
+
+given #1317 (T,wt=11): 17894 ew * x v res(mt(y,z),z) = ew.  [para(38(a,1),2831(a,1,2,2,2))].
+
+given #1318 (T,wt=11): 18013 ew * res(mt(x,y),x v z) = ew.  [para(36(a,1),2891(a,1,2,2))].
+
+given #1319 (A,wt=21): 604 x v (y v res(z,(z * x) v u)) = y v res(z,(z * x) v u).  [para(63(a,1),30(a,1,2)),flip(a)].
+
+given #1320 (T,wt=11): 18500 res(res(x,x v y) v z,ev) = ev.  [para(4(a,1),2972(a,1,1))].
+
+given #1321 (T,wt=11): 18524 res(res(x,y v x) v z,ev) = ev.  [para(4(a,1),2973(a,1,1))].
+
+given #1322 (T,wt=11): 18525 res(x v res(mt(y,z),y),ev) = ev.  [para(9(a,1),2973(a,1,1,2,2))].
+
+given #1323 (T,wt=11): 18527 res(x v res(mt(y,z),z),ev) = ev.  [para(38(a,1),2973(a,1,1,2,2))].
+
+given #1324 (A,wt=19): 606 mt(x,y) v res(z,(z * x) v u) = res(z,(z * x) v u).  [para(63(a,1),36(a,2)),rewrite([604(6)])].
+
+given #1325 (T,wt=11): 18689 res(res(mt(x,y),x v z),ev) = ev.  [para(36(a,1),3065(a,1,1,2))].
+
+given #1326 (T,wt=11): 19200 ew * res(mt(x,y),x) v z = ew.  [para(4684(a,1),3125(a,1,1)),rewrite([333(7)])].
+
+given #1327 (T,wt=11): 19201 ew * res(mt(x,y),y) v z = ew.  [para(4685(a,1),3125(a,1,1)),rewrite([333(7)])].
+
+given #1328 (T,wt=11): 19233 res(mt(x,y * z),z * ew) = ew.  [para(1629(a,1),3125(a,1,2,2)),rewrite([682(6)])].
+
+given #1329 (A,wt=13): 607 mt(x,y v res(z,(z * x) v u)) = x.  [para(63(a,1),85(a,1,2,2))].
+
+given #1330 (T,wt=11): 19235 res(mt(x,y * z),ew * z) = ew.  [para(1645(a,1),3125(a,1,2,2)),rewrite([681(6)])].
+
+given #1331 (T,wt=11): 19557 res(res(mt(x,y),x) v z,ev) = ev.  [para(4684(a,1),3443(a,1,1,1)),rewrite([333(5)])].
+
+given #1332 (T,wt=11): 19558 res(res(mt(x,y),y) v z,ev) = ev.  [para(4685(a,1),3443(a,1,1,1)),rewrite([333(5)])].
+
+given #1333 (T,wt=11): 19868 mt(x,y) * res(x v z,ev) = ev.  [para(36(a,1),3938(a,1,2,1))].
+
+given #1334 (A,wt=17): 608 mt(x v y,x v res(z,(z * y) v u)) = x v y.  [para(63(a,1),41(a,1,2,2))].
+
+given #1335 (T,wt=11): 19948 res(res(x,x * eo v y),ev) = ev.  [para(3941(a,1),2571(a,1,2)),rewrite([437(3),4915(9)]),flip(a)].
+
+given #1336 (T,wt=11): 19949 res(res(x,x * y v eo),ev) = ev.  [para(3941(a,1),2598(a,1,2)),rewrite([437(3),4915(9)]),flip(a)].
+
+given #1337 (T,wt=11): 20049 res(x v y,ev) * mt(y,z) = ev.  [para(3948(a,1),12(a,1)),flip(a)].
+
+given #1338 (T,wt=11): 20105 mt(x * y,z) * res(x,ev) = ev.  [para(1626(a,1),3948(a,1,2,1)),rewrite([16619(6),4920(6)])].
+
+given #1339 (A,wt=15): 609 mt(x,mt(res(y,(y * x) v z),u)) = mt(x,u).  [para(63(a,1),42(a,1,2,1))].
+
+given #1340 (T,wt=11): 20140 res(res(res(x,y),ev),ew * x) = ew.  [para(3950(a,1),1330(a,1,2,2)),rewrite([4920(5),11568(7)])].
+
+given #1341 (T,wt=11): 20141 x * res(res(res(x,ev),y),ev) = ev.  [para(11568(a,1),3950(a,1,1)),rewrite([11(8),4923(8)])].
+
+given #1342 (T,wt=11): 20269 res(res(x,ev),res(y * x,z)) = ew.  [para(462(a,1),1322(a,1,2)),rewrite([4920(4)])].
+
+given #1343 (T,wt=11): 20289 x * (res(y,ev) * res(x,y)) = ev.  [para(12(a,1),3957(a,1,2))].
+
+given #1344 (A,wt=17): 610 mt(x,mt(y,res(z,(z * mt(x,y)) v u))) = mt(x,y).  [para(63(a,1),43(a,1,2,2))].
+
+given #1345 (T,wt=11): 20314 res(ew,x * y) * res(x,ev) = ev.  [para(1636(a,1),3957(a,1,2,1)),rewrite([16619(8),4920(8),4915(7)])].
+
+given #1346 (T,wt=11): 20324 res(eo v x,y) * res(y,ev) = ev.  [para(3957(a,1),2571(a,1,2)),rewrite([437(3),4923(9)]),flip(a)].
+
+given #1347 (T,wt=11): 20325 res(res(x,x),y) * res(y,ev) = ev.  [para(3957(a,1),2587(a,1,2)),rewrite([437(3),4923(8)]),flip(a)].
+
+given #1348 (T,wt=11): 20326 res(x v eo,y) * res(y,ev) = ev.  [para(3957(a,1),2598(a,1,2)),rewrite([437(3),4923(9)]),flip(a)].
+
+given #1349 (A,wt=28): 612 x v (y * res(z,(z * res(y,x)) v u)) = x | res(z,(z * res(y,x)) v u) != res(y,x).  [para(63(a,1),55(b,1)),rewrite([4(6)])].
+
+given #1350 (T,wt=11): 20396 mt(x,y * z) * res(y,ev) = ev.  [para(1627(a,1),3958(a,1,1,2)),rewrite([16619(6),4920(6)])].
+
+given #1351 (T,wt=11): 20525 mt(x,y v res(res(x,ev),z)) = x.  [para(463(a,1),85(a,1,2,2))].
+
+given #1352 (T,wt=11): 20530 mt(x,ew * res(res(x,ev),y)) = x.  [para(463(a,1),875(a,1,2,2))].
+
+given #1353 (T,wt=11): 20531 res(res(ew,x),res(res(x,ev),y)) = ew.  [para(463(a,1),1322(a,1,2))].
+
+given #1354 (A,wt=34): 613 (x * y) v ((x * z v y) v u) = (x * y) v u | z v res(x,(x * y) v u) != res(x,(x * y) v u).  [para(63(a,1),56(b,1,2)),rewrite([30(5)])].
+-------- Proof 1 -------- 
+
+============================== PROOF =================================
+
+% Proof 1 at 3.98 (+ 0.26) seconds.
+% Length of proof is 36.
+% Level of proof is 8.
+% Maximum clause weight is 34.000.
+% Given clauses 1354 (169.250 givens/level).
+
+1 (x * y) v z = z <-> y v res(x,z) = res(x,z) # label(non_clause).  [assumption].
+2 x * y v z = (x * y) v (x * z) # label(non_clause) # label(goal).  [goal].
+3 x v x = x.  [assumption].
+4 x v y = y v x.  [assumption].
+5 (x v y) v z = x v (y v z).  [assumption].
+7 mt(x,y) = mt(y,x).  [assumption].
+8 mt(mt(x,y),z) = mt(x,mt(y,z)).  [assumption].
+9 x v mt(x,y) = x.  [assumption].
+10 mt(x,x v y) = x.  [assumption].
+14 (x * y) v z != z | res(x,z) = y v res(x,z).  [clausify(1)].
+15 (x * y) v z != z | y v res(x,z) = res(x,z).  [copy(14),flip(b)].
+16 (x * y) v z = z | res(x,z) != y v res(x,z).  [clausify(1)].
+17 (x * y) v z = z | y v res(x,z) != res(x,z).  [copy(16),flip(b)].
+24 (c1 * c2) v (c1 * c3) != c1 * c2 v c3.  [deny(2)].
+25 c1 * c2 v c3 != (c1 * c2) v (c1 * c3).  [copy(24),flip(a)].
+27 x v (x v y) = x v y.  [para(3(a,1),5(a,1,1)),flip(a)].
+28 x v (y v x) = y v x.  [para(3(a,1),5(a,2,2)),rewrite([4(2)])].
+30 x v (y v z) = y v (x v z).  [para(4(a,1),5(a,1,1)),rewrite([5(2)])].
+38 x v mt(y,x) = x.  [para(7(a,1),9(a,1,2))].
+40 mt(x,y v x) = x.  [para(4(a,1),10(a,1,2))].
+42 mt(x,mt(x v y,z)) = mt(x,z).  [para(10(a,1),8(a,1,1)),flip(a)].
+48 x v res(y,y * x) = res(y,y * x).  [hyper(15,a,3,a)].
+55 (x * y) v z = z | res(x,z) v y != res(x,z).  [para(4(a,1),17(b,1))].
+56 (x * y v z) v u = u | y v (z v res(x,u)) != res(x,u).  [para(5(a,1),17(b,1))].
+63 x v res(y,(y * x) v z) = res(y,(y * x) v z).  [hyper(15,a,27,a)].
+70 x v res(y,z v (y * x)) = res(y,z v (y * x)).  [hyper(15,a,28,a)].
+78 mt(x,mt(y v x,z)) = mt(x,z).  [para(40(a,1),8(a,1,1)),flip(a)].
+329 mt(x,res(y,y * x)) = x.  [para(48(a,1),10(a,1,2))].
+378 mt(x,res(y,y * x v z)) = x.  [para(329(a,1),42(a,1,2)),rewrite([10(2)]),flip(a)].
+485 x v (y * mt(z,res(y,x))) = x.  [hyper(55,b,38,a),rewrite([4(4)])].
+613 (x * y) v ((x * z v y) v u) = (x * y) v u | z v res(x,(x * y) v u) != res(x,(x * y) v u).  [para(63(a,1),56(b,1,2)),rewrite([30(5)])].
+950 mt(x,res(y,y * z v x)) = x.  [para(329(a,1),78(a,1,2)),rewrite([40(2)]),flip(a)].
+2413 (x * y) v (x * y v z) = x * y v z.  [para(378(a,1),485(a,1,2,2)),rewrite([4(4)])].
+8254 (x * y) v (x * z v y) = x * z v y.  [para(950(a,1),485(a,1,2,2)),rewrite([4(4)])].
+33474 x * y v z = (x * z) v (x * y).  [hyper(613,b,70,a),rewrite([4(5),2413(5),8254(4)])].
+33577 $F.  [back_rewrite(25),rewrite([33474(5),4(7)]),xx(a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=1354. Generated=437431. Kept=33569. proofs=1.
+Usable=1115. Sos=18015. Demods=17206. Limbo=103, Disabled=14354. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=63.
+Forward_subsumed=347850. Back_subsumed=127.
+Sos_limit_deleted=55948. Sos_displaced=8146. Sos_removed=0.
+New_demodulators=30240 (9 lex), Back_demodulated=6061. Back_unit_deleted=0.
+Demod_attempts=6775870. Demod_rewrites=1140223.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=117938. Nonunit_bsub_feature_tests=110621.
+Megabytes=52.91.
+User_CPU=3.98, System_CPU=0.26, Wall_clock=4.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+------ process 602 exit (max_proofs) ------
+
+Process 602 exit (max_proofs) Fri Jul 24 16:31:36 2026

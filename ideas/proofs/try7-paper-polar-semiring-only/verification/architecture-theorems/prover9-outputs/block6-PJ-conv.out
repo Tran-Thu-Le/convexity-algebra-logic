@@ -1,0 +1,342 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2017-11A (CIIRC), November 2017.
+Process 1807 was started by root on vm,
+Fri Jul 24 16:20:23 2026
+The command was "/home/claude/Prover9/bin/prover9 -f prover9-paper-theorems/prover9-inputs/block6-PJ-conv.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file prover9-paper-theorems/prover9-inputs/block6-PJ-conv.in
+
+assign(max_seconds,60).
+op(400,infix,"v").
+op(450,infix,"*").
+
+formulas(assumptions).
+x v x = x.
+(x v y) v z = x v (y v z).
+x v y = y v x.
+x v ev = x.
+(x * y) * z = x * (y * z).
+x * y = y * x.
+x * eo = x.
+x * y v z = (x * y) v (x * z).
+x * ev = ev.
+star(star(x)) = x.
+meet(x,y) = star(star(x) v star(y)).
+plus(x,y) = star(star(x) * star(y)).
+ew = star(ev).
+ep = star(eo).
+meet(x,x v y) = x.
+x v meet(x,y) = x.
+end_of_list.
+
+formulas(goals).
+x v y = y <-> star(y) v star(x) = star(x).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 x v y = y <-> star(y) v star(x) = star(x) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+x v x = x.  [assumption].
+(x v y) v z = x v (y v z).  [assumption].
+x v y = y v x.  [assumption].
+x v ev = x.  [assumption].
+(x * y) * z = x * (y * z).  [assumption].
+x * y = y * x.  [assumption].
+x * eo = x.  [assumption].
+x * y v z = (x * y) v (x * z).  [assumption].
+x * ev = ev.  [assumption].
+star(star(x)) = x.  [assumption].
+meet(x,y) = star(star(x) v star(y)).  [assumption].
+plus(x,y) = star(star(x) * star(y)).  [assumption].
+ew = star(ev).  [assumption].
+ep = star(eo).  [assumption].
+meet(x,x v y) = x.  [assumption].
+x v meet(x,y) = x.  [assumption].
+c1 v c2 = c2 | star(c1) = star(c2) v star(c1).  [deny(1)].
+c1 v c2 != c2 | star(c1) != star(c2) v star(c1).  [deny(1)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (non-Horn, no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ = ]).
+Function symbol precedence:  function_order([ ev, eo, ep, ew, c1, c2, v, *, meet, plus, star ]).
+After inverse_order:  (no changes).
+Unfolding symbols: meet/2 plus/2.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(binary_resolution).  % (non-Horn)
+  % set(neg_ur_resolution).  % (non-Horn, less than 100 clauses)
+
+Auto_process settings:
+  % set(factor).  % (non-Horn)
+  % set(unit_deletion).  % (non-Horn)
+
+kept:      2 x v x = x.  [assumption].
+kept:      3 (x v y) v z = x v (y v z).  [assumption].
+
+% Operation v is commutative; C redundancy checks enabled.
+kept:      4 x v y = y v x.  [assumption].
+kept:      5 x v ev = x.  [assumption].
+kept:      6 (x * y) * z = x * (y * z).  [assumption].
+
+% Operation * is commutative; C redundancy checks enabled.
+kept:      7 x * y = y * x.  [assumption].
+kept:      8 x * eo = x.  [assumption].
+kept:      9 x * y v z = (x * y) v (x * z).  [assumption].
+kept:      10 x * ev = ev.  [assumption].
+kept:      11 star(star(x)) = x.  [assumption].
+kept:      12 meet(x,y) = star(star(x) v star(y)).  [assumption].
+kept:      13 plus(x,y) = star(star(x) * star(y)).  [assumption].
+           14 ew = star(ev).  [assumption].
+kept:      15 star(ev) = ew.  [copy(14),flip(a)].
+           16 ep = star(eo).  [assumption].
+kept:      17 star(eo) = ep.  [copy(16),flip(a)].
+           18 meet(x,x v y) = x.  [assumption].
+kept:      19 star(star(x) v star(x v y)) = x.  [copy(18),rewrite([12(2)])].
+           20 x v meet(x,y) = x.  [assumption].
+kept:      21 x v star(star(x) v star(y)) = x.  [copy(20),rewrite([12(1)])].
+           22 c1 v c2 = c2 | star(c1) = star(c2) v star(c1).  [deny(1)].
+kept:      23 c1 v c2 = c2 | star(c1) v star(c2) = star(c1).  [copy(22),rewrite([4(12)]),flip(b)].
+           24 c1 v c2 != c2 | star(c1) != star(c2) v star(c1).  [deny(1)].
+kept:      25 c1 v c2 != c2 | star(c1) v star(c2) != star(c1).  [copy(24),rewrite([4(12)]),flip(b)].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+2 x v x = x.  [assumption].
+3 (x v y) v z = x v (y v z).  [assumption].
+4 x v y = y v x.  [assumption].
+5 x v ev = x.  [assumption].
+6 (x * y) * z = x * (y * z).  [assumption].
+7 x * y = y * x.  [assumption].
+8 x * eo = x.  [assumption].
+9 x * y v z = (x * y) v (x * z).  [assumption].
+10 x * ev = ev.  [assumption].
+11 star(star(x)) = x.  [assumption].
+12 meet(x,y) = star(star(x) v star(y)).  [assumption].
+13 plus(x,y) = star(star(x) * star(y)).  [assumption].
+15 star(ev) = ew.  [copy(14),flip(a)].
+17 star(eo) = ep.  [copy(16),flip(a)].
+19 star(star(x) v star(x v y)) = x.  [copy(18),rewrite([12(2)])].
+21 x v star(star(x) v star(y)) = x.  [copy(20),rewrite([12(1)])].
+23 c1 v c2 = c2 | star(c1) v star(c2) = star(c1).  [copy(22),rewrite([4(12)]),flip(b)].
+25 c1 v c2 != c2 | star(c1) v star(c2) != star(c1).  [copy(24),rewrite([4(12)]),flip(b)].
+end_of_list.
+
+formulas(demodulators).
+2 x v x = x.  [assumption].
+3 (x v y) v z = x v (y v z).  [assumption].
+4 x v y = y v x.  [assumption].
+        % (lex-dep)
+5 x v ev = x.  [assumption].
+6 (x * y) * z = x * (y * z).  [assumption].
+7 x * y = y * x.  [assumption].
+        % (lex-dep)
+8 x * eo = x.  [assumption].
+9 x * y v z = (x * y) v (x * z).  [assumption].
+10 x * ev = ev.  [assumption].
+11 star(star(x)) = x.  [assumption].
+12 meet(x,y) = star(star(x) v star(y)).  [assumption].
+13 plus(x,y) = star(star(x) * star(y)).  [assumption].
+15 star(ev) = ew.  [copy(14),flip(a)].
+17 star(eo) = ep.  [copy(16),flip(a)].
+19 star(star(x) v star(x v y)) = x.  [copy(18),rewrite([12(2)])].
+21 x v star(star(x) v star(y)) = x.  [copy(20),rewrite([12(1)])].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.00 seconds.
+
+given #1 (I,wt=5): 2 x v x = x.  [assumption].
+
+given #2 (I,wt=11): 3 (x v y) v z = x v (y v z).  [assumption].
+
+given #3 (I,wt=7): 4 x v y = y v x.  [assumption].
+
+% Operation v is associative-commutative; CAC redundancy checks enabled.
+
+given #4 (I,wt=5): 5 x v ev = x.  [assumption].
+
+given #5 (I,wt=11): 6 (x * y) * z = x * (y * z).  [assumption].
+
+given #6 (I,wt=7): 7 x * y = y * x.  [assumption].
+
+% Operation * is associative-commutative; CAC redundancy checks enabled.
+
+given #7 (I,wt=5): 8 x * eo = x.  [assumption].
+
+given #8 (I,wt=13): 9 x * y v z = (x * y) v (x * z).  [assumption].
+
+given #9 (I,wt=5): 10 x * ev = ev.  [assumption].
+
+given #10 (I,wt=5): 11 star(star(x)) = x.  [assumption].
+
+given #11 (I,wt=10): 12 meet(x,y) = star(star(x) v star(y)).  [assumption].
+
+given #12 (I,wt=10): 13 plus(x,y) = star(star(x) * star(y)).  [assumption].
+
+given #13 (I,wt=4): 15 star(ev) = ew.  [copy(14),flip(a)].
+
+given #14 (I,wt=4): 17 star(eo) = ep.  [copy(16),flip(a)].
+
+given #15 (I,wt=10): 19 star(star(x) v star(x v y)) = x.  [copy(18),rewrite([12(2)])].
+
+given #16 (I,wt=10): 21 x v star(star(x) v star(y)) = x.  [copy(20),rewrite([12(1)])].
+
+given #17 (I,wt=13): 23 c1 v c2 = c2 | star(c1) v star(c2) = star(c1).  [copy(22),rewrite([4(12)]),flip(b)].
+
+given #18 (I,wt=13): 25 c1 v c2 != c2 | star(c1) v star(c2) != star(c1).  [copy(24),rewrite([4(12)]),flip(b)].
+
+given #19 (A,wt=9): 27 x v (x v y) = x v y.  [para(2(a,1),3(a,1,1)),flip(a)].
+
+given #20 (T,wt=4): 42 star(ew) = ev.  [para(15(a,1),11(a,1,1))].
+
+given #21 (T,wt=4): 43 star(ep) = eo.  [para(17(a,1),11(a,1,1))].
+
+given #22 (T,wt=5): 32 ev v x = x.  [para(5(a,1),4(a,1)),flip(a)].
+
+given #23 (T,wt=5): 36 eo * x = x.  [para(8(a,1),7(a,1)),flip(a)].
+
+given #24 (A,wt=9): 28 x v (y v x) = y v x.  [para(2(a,1),3(a,2,2)),rewrite([4(2)])].
+
+given #25 (T,wt=5): 41 ev * x = ev.  [para(10(a,1),7(a,1)),flip(a)].
+
+given #26 (T,wt=7): 48 star(ew v star(x)) = ev.  [para(15(a,1),19(a,1,1,1)),rewrite([32(3)])].
+
+given #27 (T,wt=6): 65 ew v star(x) = ew.  [para(48(a,1),11(a,1,1)),rewrite([15(2)]),flip(a)].
+
+given #28 (T,wt=5): 71 ew v x = ew.  [para(11(a,1),65(a,1,2))].
+
+given #29 (A,wt=11): 29 x v (y v z) = y v (x v z).  [para(4(a,1),3(a,1,1)),rewrite([3(2)])].
+
+given #30 (T,wt=5): 74 x v ew = ew.  [para(71(a,1),4(a,1)),flip(a)].
+
+given #31 (T,wt=9): 49 star(ep v star(eo v x)) = eo.  [para(17(a,1),19(a,1,1,1))].
+
+given #32 (T,wt=8): 79 ep v star(eo v x) = ep.  [para(49(a,1),11(a,1,1)),rewrite([17(2)]),flip(a)].
+
+given #33 (T,wt=8): 82 ep v star(x v eo) = ep.  [para(4(a,1),79(a,1,2,1))].
+
+given #34 (A,wt=11): 33 x * (y * z) = y * (x * z).  [para(7(a,1),6(a,1,1)),rewrite([6(2)])].
+
+given #35 (T,wt=9): 54 x v star(star(x) v y) = x.  [para(11(a,1),21(a,1,2,1,2))].
+
+given #36 (T,wt=8): 94 eo v star(ep v x) = eo.  [para(17(a,1),54(a,1,2,1,1))].
+
+given #37 (T,wt=8): 98 eo v star(x v ep) = eo.  [para(4(a,1),94(a,1,2,1))].
+
+given #38 (T,wt=9): 92 x v star(y v star(x)) = x.  [para(4(a,1),54(a,1,2,1))].
+
+given #39 (A,wt=17): 37 (x * y) v (x * z) * u = x * (y v z * u).  [para(9(a,1),6(a,1,1))].
+
+given #40 (F,wt=8): 113 star(c1) v star(c2) != star(c1).  [back_rewrite(25),rewrite([111(3)]),xx(a)].
+
+given #41 (T,wt=5): 111 c1 v c2 = c2.  [para(23(b,1),92(a,1,2,1)),rewrite([11(9),4(8)]),merge(b)].
+
+given #42 (T,wt=9): 122 c1 v (c2 v x) = c2 v x.  [para(111(a,1),3(a,1,1)),flip(a)].
+
+given #43 (T,wt=9): 123 c2 v (x v c1) = x v c2.  [para(111(a,1),3(a,2,2)),rewrite([4(4)])].
+
+given #44 (T,wt=9): 125 c1 v (x v c2) = x v c2.  [para(111(a,1),29(a,1,2)),flip(a)].
+
+given #45 (A,wt=13): 38 (x * y) v (x * z) = y v z * x.  [para(9(a,1),7(a,1))].
+
+given #46 (T,wt=9): 132 c2 v (x v c1) = c2 v x.  [para(123(a,2),4(a,1))].
+
+given #47 (T,wt=10): 46 star(x) v star(x v y) = star(x).  [para(19(a,1),11(a,1,1)),flip(a)].
+-------- Proof 1 -------- 
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.00) seconds.
+% Length of proof is 18.
+% Level of proof is 6.
+% Maximum clause weight is 13.000.
+% Given clauses 47 (7.833 givens/level).
+
+1 x v y = y <-> star(y) v star(x) = star(x) # label(non_clause) # label(goal).  [goal].
+4 x v y = y v x.  [assumption].
+11 star(star(x)) = x.  [assumption].
+12 meet(x,y) = star(star(x) v star(y)).  [assumption].
+18 meet(x,x v y) = x.  [assumption].
+19 star(star(x) v star(x v y)) = x.  [copy(18),rewrite([12(2)])].
+20 x v meet(x,y) = x.  [assumption].
+21 x v star(star(x) v star(y)) = x.  [copy(20),rewrite([12(1)])].
+22 c1 v c2 = c2 | star(c1) = star(c2) v star(c1).  [deny(1)].
+23 c1 v c2 = c2 | star(c1) v star(c2) = star(c1).  [copy(22),rewrite([4(12)]),flip(b)].
+24 c1 v c2 != c2 | star(c1) != star(c2) v star(c1).  [deny(1)].
+25 c1 v c2 != c2 | star(c1) v star(c2) != star(c1).  [copy(24),rewrite([4(12)]),flip(b)].
+46 star(x) v star(x v y) = star(x).  [para(19(a,1),11(a,1,1)),flip(a)].
+54 x v star(star(x) v y) = x.  [para(11(a,1),21(a,1,2,1,2))].
+92 x v star(y v star(x)) = x.  [para(4(a,1),54(a,1,2,1))].
+111 c1 v c2 = c2.  [para(23(b,1),92(a,1,2,1)),rewrite([11(9),4(8)]),merge(b)].
+113 star(c1) v star(c2) != star(c1).  [back_rewrite(25),rewrite([111(3)]),xx(a)].
+166 $F.  [para(111(a,1),46(a,1,2,1)),unit_del(a,113)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=47. Generated=952. Kept=158. proofs=1.
+Usable=39. Sos=70. Demods=92. Limbo=5, Disabled=62. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=793. Back_subsumed=20.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=123 (6 lex), Back_demodulated=24. Back_unit_deleted=0.
+Demod_attempts=8900. Demod_rewrites=1641.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=15. Nonunit_bsub_feature_tests=20.
+Megabytes=0.31.
+User_CPU=0.01, System_CPU=0.00, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+------ process 1807 exit (max_proofs) ------
+
+Process 1807 exit (max_proofs) Fri Jul 24 16:20:23 2026
