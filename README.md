@@ -67,6 +67,25 @@ The bridge being built runs **Geometry → Analysis** (regepis reproduce $\Gamma
   <img src="https://github.com/Tran-Thu-Le/convexity-algebra-logic/blob/main/data/images/distribution-profile.png?raw=true" width="80%">
 </p>
 
+
+- **Physics.** From physics, we observe that preepis admits a natural analogy with the duality between Lagrangian and Hamiltonian mechanics. Motivated by this correspondence, we propose the terminology **E-field** for a preepi and **energon** for an element $(s,w)$.
+
+    The Legendre--Fenchel transform relates the Lagrangian and Hamiltonian by
+
+    $$
+    H(p)=\sup_v\{\langle p,v\rangle-L(q,v)\},
+    $$
+
+where the generalized position $q$ is treated as a fixed parameter.
+
+| Lagrangian | Meaning | Hamiltonian | Meaning | E-field | Meaning |
+|------------|---------|-------------|---------|---------|---------|
+| $q$ | Position | $q$ | Position | — | — |
+| $v$ | State (velocity) | $p$ | Dual state (momentum) | $s$ | State |
+| $L(q,v)$ | Lagrangian energy | $H(q,p)$ | Hamiltonian energy | $w$ | Energy |
+| $(v,L(q,v))$ | Lagrangian state | $(p,H(q,p))$ | Hamiltonian state | $(s,w)$ | Energon |
+
+
 ### 2.2 Representation layer — pulling the abstraction back down
 
 **Remark: kernels and the $c$-transform.** The polar $(\cdot)^\ast$ above is one instance of a more general *kernel* construction $E^{\ast_c}$, built from an arbitrary $c:X\times X\to\overline{\mathbb R}$ in place of $\langle x,y\rangle$. Under this lens, linear logic's residual $A\multimap B$ (Girard negation via a dualizing element) and the **$c$-transform** $\varphi^c(y)=\sup_x(c(x,y)-\varphi(x))$ of Kantorovich duality in optimal transport are the *same* nucleus/Galois mechanism as Fenchel polarity, just instantiated at different kernels. Both are the residual of the same adjunction, one written multiplicatively, one written analytically:
