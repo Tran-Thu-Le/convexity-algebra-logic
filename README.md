@@ -84,16 +84,31 @@ To be checked against the residual/kernel machinery above before stating as a th
 
 ## Part 3 — Structure
 
-### 3.1 Repository structure
+
+### 3.1 Log
+
+#### 3.1.1 Publications
+
+#### 3.1.2 Preprints
+
+- **2026-07-12** — Research program formalized and shared publicly (see ResearchGate link in Part 1).
+
+
+#### 3.1.3 Preparing
+
+- (try7) The **Polar Semiring** axiomatization (Part 2.1) is under active refinement — expect the axiom set and the "what's forced vs. what needs extra hypotheses" analysis to keep tightening.
+
+#### 3.1.4 Ideas 
+
+- Algebra of 4 operators (try8)
+- Preepis as interval functions (try9)
+- Convex models of polar semiring (try10)
+
+
+
+### 3.2 Repository structure
 
 - **`data/`** — the correspondence table and images used across the documents.
 - **`code/`** — computational side of the project: Mace4 / Prover9 model-checking scripts and Python utilities. Not yet stable — expect breaking changes.
 - **`ideas/`** — the working drafts, in Markdown, under continuous and unstable development. This is where new arguments are tried, revised, and sometimes abandoned; not meant to be read as a finished text.
 - **`publish/`** — the polished, shareable side of the project. This is where to look for the newest ideas in a readable form — visitors and collaborators are invited to start here.
-
-### 3.2 Log
-
-*Most recent first.*
-
-- **2026-07-12** — Research program formalized and shared publicly (see ResearchGate link in Part 1).
-- The **Polar Semiring** axiomatization (Part 2.1) is under active refinement — expect the axiom set and the "what's forced vs. what needs extra hypotheses" analysis to keep tightening.
